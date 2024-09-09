@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURIDAL S.L.</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>¿Quiénes somos? - AURIDAL S.L.</title>
+    <link rel="stylesheet" href="../styles.css">
+    <!-- Link to 'Playfair Display' font -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-
 </head>
 <body>
     <header>
@@ -14,7 +14,7 @@
             <div class="logo">AURIDAL S.L.</div>
             <div class="menu-container">
                 <ul class="menu">
-                    <li><a href="#">Inicio</a></li>
+                    <li><a href="../index.html">Inicio</a></li>
                     <li class="dropdown"> 
                         <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true"> 
                             Nuestra empresa
@@ -23,8 +23,8 @@
                             </svg>
                         </a>
                         <div class="dropdown-content">
-                            <a href="nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
-                            <a href="#">¿Quiénes somos?</a>
+                            <a href="queOfrecemos.html">¿Qué ofrecemos?</a>
+                            <a href="quienesSomos.html">¿Quiénes somos?</a>
                         </div>
                     </li>
                     <li class="dropdown"> 
@@ -35,10 +35,10 @@
                             </svg>
                         </a>
                         <div class="dropdown-content">
-                            <a href="#">Colores</a>
-                            <a href="#">Clásico</a>
-                            <a href="#">Natural</a>
-                            <a href="#">Moderno</a>
+                            <a href="../index.html">Colores</a>
+                            <a href="../index.html">Clásico</a>
+                            <a href="../index.html">Natural</a>
+                            <a href="../index.html">Moderno</a>
                         </div>
                     </li>
                     <li><a href="#">Contacto</a></li>
@@ -47,7 +47,7 @@
                 <div class="search-container">
                     <input type="text" placeholder="Search..." id="searchInput" class="hidden">
                     <button id="searchButton">
-                        <img src="img/search-icon.png" alt="Search" class="search-icon"> 
+                        <img src="../img/search-icon.png" alt="Search" class="search-icon"> 
                     </button>
                 </div>
             </div>
@@ -55,10 +55,29 @@
     </header>
     
     <main>
-        <div class="hero">
-            <h1>AURIDAL S.L.</h1>
-        </div>
+        <section class="hero">
+            <h1>¿Quiénes somos?</h1>
+        </section>
+
+        <section class="content-section">
+            <div class="team">
+                <div class="team-member">
+                    <h3>Giacinto Auriemma</h3>
+                    <p>Manager</p>
+                </div>
+                <div class="team-member">
+                    <h3>Giuseppe Auriemma</h3>
+                    <p>Assistant Manager</p>
+                </div>
+            </div>
+
+            <h2 class="section-heading">De padres a hijos</h2>
+            <p>Empezamos nuestra andadura en 1994, abriendo una tienda de enmarcación en Madrid.</p>
+            <p>Nuestra pasión por esta actividad nos llevó a establecernos en 2001 como una empresa que se dedica a la venta al por mayor de molduras italianas, clásicas, barrocas y modernas importadas de los mejores fabricantes de Italia. Nuestro mercado se ha extendido a toda España gracias a la fidelidad y confianza de nuestros clientes.</p>
+        </section>
     </main>
+
+    <script src="../script.js"></script>
 
     <footer class="site-footer">
         <div class="footer-content">
@@ -70,8 +89,5 @@
             </ul>
         </div>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
-

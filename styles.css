@@ -1,4 +1,3 @@
-/* Reset y estilo base */
 * {
   margin: 0;
   padding: 0;
@@ -6,165 +5,144 @@
 }
 
 body {
-  font-family: 'Playfair Display', serif;
-  background-color: #f9f9f9;
-  color: #333;
+  font-family: 'Playfair Display', 'serif';
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-h1, h2, h3 {
-  font-family: 'Poppins', sans-serif;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Barra de navegación lateral */
-.sidebar {
-  width: 250px;
-  background-color: #333;
-  position: fixed;
-  height: 100%;
+header {
+  position: absolute;
+  width: 100%;
   top: 0;
-  left: 0;
-  padding: 20px 0;
+  z-index: 1000;
 }
 
-.sidebar .logo img {
-  max-width: 150px;
-  margin: 0 auto;
-  display: block;
+.top-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: transparent; /* Make the background transparent */
+  color: black;
 }
 
-.sidebar nav ul {
+.menu-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.menu {
   list-style: none;
-  margin-top: 40px;
+  display: flex;
+  gap: 20px;
 }
 
-.sidebar nav ul li {
-  margin-bottom: 20px;
+.menu li a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease;
 }
 
-.sidebar nav ul li a {
-  display: block;
-  color: #fff;
-  padding: 10px 20px;
-  font-weight: 600;
+.menu li a:hover {
+  color: #555;
 }
 
-.sidebar nav ul li:hover {
-  background-color: #444;
+.top-menu .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: black; /* Adjust color as needed */
 }
 
-.sidebar .dropdown-content {
-  display: none;
+.top-menu .menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
-.sidebar nav ul li:hover .dropdown-content {
-  display: block;
+.top-menu .menu li a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease;
 }
 
-.sidebar .dropdown-content a {
-  padding: 10px;
-  color: #fff;
-  background-color: #444;
+.top-menu .menu li a:hover {
+  color: #555; /* Add hover effect */
 }
 
-/* Portada */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+/* Styling for the navigation menu remains the same */
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.search-container input[type="text"] {
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+  transition: width 0.3s ease;
+  width: 0; /* Hidden by default */
+  visibility: hidden; /* Hidden by default */
+}
+
+.search-container input[type="text"].visible {
+  width: 150px; /* Width when visible */
+  visibility: visible;
+}
+
+.search-container button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.search-container .search-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .hero {
-  background: url('img/hero-image.jpg') no-repeat center center/cover;
+  background-image: url('img/hero-image.png'); /* Replace with the actual image */
+  background-size: cover;
+  background-position: center;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  color: #fff;
 }
 
 .hero h1 {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
-.hero p {
-  font-size: 1.2rem;
-}
-
-.btn-primary {
-  background-color: #ff6f61;
-  color: white;
-  padding: 12px 30px;
-  border-radius: 5px;
-  font-weight: 600;
-}
-
-/* Productos en mosaico */
-.featured {
-  padding: 40px 20px;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.product-item {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.product-item img {
-  max-width: 100%;
-  border-radius: 8px;
-}
-
-/* Pie de página */
-footer {
-  background-color: #333;
-  color: #fff;
-  padding: 40px 20px;
-}
-
-footer .footer-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-footer .footer-links ul {
-  list-style: none;
-}
-
-footer .footer-links ul li {
-  margin-bottom: 10px;
-}
-
-footer .footer-links ul li a {
-  color: #fff;
-}
-
-footer .social-icons {
-  display: flex;
-  justify-content: flex-start;
-}
-
-footer .social-icons li {
-  margin-right: 10px;
-}
-
-.footer-bottom {
-  text-align: center;
-  padding-top: 20px;
-  border-top: 1px solid #444;
+  font-family: 'Playfair Display', 'serif';
+  font-size: 54pt;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.33;
+  color: black;
+  background-color: transparent;
+  padding: 20px 40px 20px 40px;
+  border: 8px solid black;
 }

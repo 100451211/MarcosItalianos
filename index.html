@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marcos Italianos</title>
+  <!-- Fuente moderna y elegante -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Barra de navegación lateral -->
+  <aside class="sidebar">
+    <div class="logo">
+      <a href="#"><img src="img/logo.png" alt="Marcos Italianos"></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home">Inicio</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Marcos</a>
+          <div class="dropdown-content">
+            <a href="#clasic">Clásicos</a>
+            <a href="#modern">Modernos</a>
+            <a href="#vintage">Vintage</a>
+            <a href="#luxury">De Lujo</a>
+          </div>
+        </li>
+        <li><a href="#about">Sobre Nosotros</a></li>
+        <li><a href="#contact">Contacto</a></li>
+        <li><a href="cart.html">Cesta</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Portada con imagen y mensaje central -->
+  <section id="home" class="hero">
+    <div class="hero-text">
+      <h2>Marcos Excepcionales Importados de Italia</h2>
+      <p>Transforma tus espacios con nuestras colecciones exclusivas</p>
+      <a href="#products" class="btn-primary">Descubrir Marcos</a>
+    </div>
+  </section>
+
+  <!-- Filtros de productos -->
+  <section id="filters" class="filters">
+    <div class="container">
+      <h3>Filtrar por:</h3>
+      <div class="filter-options">
+        <select id="style-filter">
+          <option value="">Estilo</option>
+          <option value="clasic">Clásico</option>
+          <option value="modern">Moderno</option>
+          <option value="vintage">Vintage</option>
+          <option value="luxury">De Lujo</option>
+        </select>
+
+        <select id="material-filter">
+          <option value="">Material</option>
+          <option value="wood">Madera</option>
+          <option value="metal">Metal</option>
+          <option value="plastic">Plástico</option>
+        </select>
+
+        <select id="color-filter">
+          <option value="">Color</option>
+          <option value="brown">Marrón</option>
+          <option value="black">Negro</option>
+          <option value="gold">Dorado</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vista en mosaico de productos -->
+  <section id="products" class="featured">
+    <div class="container">
+      <h2>Marcos Destacados</h2>
+      <div class="product-grid">
+        <div class="product-item" data-style="clasic" data-material="wood" data-color="brown">
+          <img src="img/marco1.jpg" alt="Marco Clásico">
+          <h3>Marco Clásico</h3>
+          <p>€100</p>
+          <a href="#clasic" class="btn-secondary">Ver Detalles</a>
+        </div>
+        <div class="product-item" data-style="modern" data-material="metal" data-color="black">
+          <img src="img/marco2.jpg" alt="Marco Moderno">
+          <h3>Marco Moderno</h3>
+          <p>€120</p>
+          <a href="#modern" class="btn-secondary">Ver Detalles</a>
+        </div>
+        <div class="product-item" data-style="vintage" data-material="wood" data-color="gold">
+          <img src="img/marco3.jpg" alt="Marco Vintage">
+          <h3>Marco Vintage</h3>
+          <p>€130</p>
+          <a href="#vintage" class="btn-secondary">Ver Detalles</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pie de página mejorado -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-about">
+        <h3>Sobre Marcos Italianos</h3>
+        <p>Marcos Italianos es una tienda que ofrece marcos exclusivos importados directamente desde Italia, garantizando calidad y estilo.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Enlaces Útiles</h3>
+        <ul>
+          <li><a href="#home">Inicio</a></li>
+          <li><a href="#products">Marcos</a></li>
+          <li><a href="#about">Sobre Nosotros</a></li>
+          <li><a href="#contact">Contacto</a></li>
+          <li><a href="cart.html">Cesta</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h3>Síguenos</h3>
+        <ul class="social-icons">
+          <li><a href="#"><img src="img/facebook-icon.png" alt="Facebook"></a></li>
+          <li><a href="#"><img src="img/instagram-icon.png" alt="Instagram"></a></li>
+          <li><a href="#"><img src="img/twitter-icon.png" alt="Twitter"></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Marcos Italianos. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

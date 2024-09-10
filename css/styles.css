@@ -141,7 +141,7 @@ nav ul li a:hover {
 /* Sección principal */
 /* Hero Section */
 .hero {
-    background-image: url('img/hero-image.png'); /* Replace with actual image */
+    background-image: url('../images/hero-image.png');
     background-size: cover;
     background-position: center;
     height: 100vh;

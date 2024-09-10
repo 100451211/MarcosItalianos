@@ -138,6 +138,228 @@ nav ul li a:hover {
 }
 
 
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar */
+header {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.top-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: transparent;
+    color: black;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
+
+.menu-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    gap: 20px;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.menu li a:hover {
+    color: #555;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Search Bar */
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.search-container input[type="text"] {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+    transition: width 0.3s ease;
+    width: 0;
+    visibility: hidden;
+}
+
+.search-container input[type="text"].visible {
+    width: 150px;
+    visibility: visible;
+}
+
+.search-container button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container .search-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Side Menu */
+
+.menu-icon{
+    display: none;
+}
+.side-menu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    z-index: 2000;
+}
+
+.side-menu li a {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #f1f1f1;
+    display: block;
+    transition: 0.3s;
+}
+
+.side-menu a:hover {
+    background-color: #575757;
+}
+
+.side-menu .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    color: #f1f1f1;
+}
+
+/* Dropdown for Side Menu */
+.side-menu .dropdown-content {
+    display: none;
+    background-color: #333;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.side-menu .dropdown-content a {
+    color: white;
+    padding: 10px 20px;
+    display: block;
+    text-decoration: none;
+}
+
+.side-menu .dropdown-content a:hover {
+    background-color: #575757;
+}
+
+/* Show dropdown content when dropdown is active */
+.dropdown.active .dropdown-content {
+    display: block;
+}
+
+/* Adjust the dropdown arrow */
+.side-menu .dropbtn svg {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown.active .dropbtn svg {
+    transform: rotate(180deg); /* Rotate arrow when open */
+}
+
+
+/* Mobile View */
+@media (max-width: 768px) {
+    .menu {
+        display: none; /* Hide the main menu */
+    }
+
+    .menu-icon {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .menu-icon-image {
+        width: 30px;
+        height: 30px;
+    }
+}
+
 /* Sección principal */
 /* Hero Section */
 .hero {

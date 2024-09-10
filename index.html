@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURIDAL S.L.</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-
 </head>
 <body>
     <header>
         <nav class="top-menu">
+            <div class="menu-icon" id="menuIcon">
+                <img src="images/menu.png" alt="Menu Icon" class="menu-icon-image">
+            </div>
             <div class="logo">AURIDAL S.L.</div>
             <div class="menu-container">
                 <ul class="menu">
                     <li><a href="#">Inicio</a></li>
-                    <li class="dropdown"> 
-                        <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true"> 
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
                             Nuestra empresa
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
                                 <path fill="black" d="M7 10l5 5 5-5z"/>
@@ -27,7 +28,7 @@
                             <a href="#">¿Quiénes somos?</a>
                         </div>
                     </li>
-                    <li class="dropdown"> 
+                    <li class="dropdown">
                         <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
                             Producto
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
@@ -43,7 +44,6 @@
                     </li>
                     <li><a href="#">Contacto</a></li>
                 </ul>
-            <!-- Search Form -->
                 <div class="search-container">
                     <input type="text" placeholder="Search..." id="searchInput" class="hidden">
                     <button id="searchButton">
@@ -53,48 +53,82 @@
             </div>
         </nav>
     </header>
-    
+
+    <!-- Side Navigation Menu for Mobile (hidden by default) -->
+    <div id="sideMenu" class="side-menu">
+        <div class="logo" style="color:white;padding:20px;">AURIDAL S.L.</div>
+        <a href="#" class="closebtn" id="closeBtn">&times;</a>
+        <li><a href="#">Inicio</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Nuestra empresa
+              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="12" height="12">
+                  <path fill="black" d="M7 10l5 5 5-5z"/>
+              </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
+              <a href="nuestraEmpresa/quienesSomos.html">¿Quiénes somos?</a>
+          </div>
+      </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Producto
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                  <path fill="black" d="M7 10l5 5 5-5z"/>
+              </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="#">Colores</a>
+              <a href="#">Clásico</a>
+              <a href="#">Natural</a>
+              <a href="#">Moderno</a>
+          </div>
+      </li>
+      <li><a href="#">Contacto</a></li>
+    </div>
+
     <main>
-        <!-- Hero Section -->
-        <div class="hero">
-            <h1>AURIDAL S.L.</h1>
-        </div>
+      <!-- Hero Section -->
+      <div class="hero">
+          <h1>AURIDAL S.L.</h1>
+      </div>
 
-        <!-- Parallax Section 1 -->
-        <p>Scroll Up and Down this page to see the parallax scrolling effect.</p>
+      <!-- Parallax Section 1 -->
+      <p>Scroll Up and Down this page to see the parallax scrolling effect.</p>
 
-        <div class="parallax" style="border:5px;background-image: url('images/image1.jpg');"></div>
+      <div class="parallax" style="border:5px;background-image: url('images/image1.jpg');"></div>
 
-        <div class="small-height" style="border:5px;background-image: url('images/image2.jpg'); font-size:36px;">
-        Scroll Up and Down this page to see the parallax scrolling effect.
-        </div>
+      <div class="small-height" style="border:5px;background-image: url('images/image2.jpg'); font-size:36px;">
+      Scroll Up and Down this page to see the parallax scrolling effect.
+      </div>
 
-        <!-- Fix this section by applying background-image consistently -->
-        <div class="parallax large-height" style="border:5px;background-image: url('images/image4.jpg');"></div>
+      <!-- Fix this section by applying background-image consistently -->
+      <div class="parallax large-height" style="border:5px;background-image: url('images/image4.jpg');"></div>
 
-        <div class="large-height" style="border:5px;background-image: url('images/image4.jpg'); font-size:36px;">
-        Tip: Try to remove the background-attachment property to remove the scrolling effect.
-        </div>
+      <div class="large-height" style="border:5px;background-image: url('images/image4.jpg'); font-size:36px;">
+      Tip: Try to remove the background-attachment property to remove the scrolling effect.
+      </div>
 
-        <div class="parallax" style="border:5px;background-image: url('images/image1.jpg');"></div>
+      <div class="parallax" style="border:5px;background-image: url('images/image1.jpg');"></div>
 
-        <div class="small-height" style="border:5px;background-image: url('images/image2.jpg'); font-size:36px;">
-        Scroll Up and Down this page to see the parallax scrolling effect.
-        </div>
-    </main>
+      <div class="small-height" style="border:5px;background-image: url('images/image2.jpg'); font-size:36px;">
+      Scroll Up and Down this page to see the parallax scrolling effect.
+      </div>
+  </main>
 
-    <footer class="site-footer">
-        <div class="footer-content">
-            <p>© 2024 AURIDAL S.L. | Todos los derechos reservados</p>
-            <ul class="footer-menu">
-                <li><a href="#">Política de privacidad</a></li>
-                <li><a href="#">Términos de servicio</a></li>
-                <li><a href="#">Contacto</a></li>
-            </ul>
-        </div>
-    </footer>
+  <footer class="site-footer">
+      <div class="footer-content">
+          <p>© 2024 AURIDAL S.L. | Todos los derechos reservados</p>
+          <ul class="footer-menu">
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Términos de servicio</a></li>
+              <li><a href="#">Contacto</a></li>
+          </ul>
+      </div>
+  </footer>
 
-    <script src="js/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
 

@@ -38,3 +38,37 @@ document.getElementById('searchButton').addEventListener('click', function(e) {
 
 // Event listener to hide search bar when clicking outside
 document.addEventListener('click', hideSearchBarIfClickedOutside);
+
+// Get elements
+const menuIcon = document.getElementById('menuIcon');
+const sideMenu = document.getElementById('sideMenu');
+const closeBtn = document.getElementById('closeBtn');
+
+// Open the side menu when the menu icon is clicked
+menuIcon.onclick = function () {
+    sideMenu.style.width = '290px'; // Show the side menu
+}
+
+// Close the side menu when the close button is clicked
+closeBtn.onclick = function () {
+    sideMenu.style.width = '0'; // Hide the side menu
+}
+
+// Get all dropdowns in the side menu
+const dropdowns = document.querySelectorAll('.side-menu .dropdown');
+
+// Loop through each dropdown
+dropdowns.forEach(dropdown => {
+    dropdown.addEventListener('click', function() {
+        // Toggle 'active' class on the clicked dropdown
+        this.classList.toggle('active');
+        
+        // Toggle the dropdown content visibility
+        const dropdownContent = this.querySelector('.dropdown-content');
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+        } else {
+            dropdownContent.style.display = 'block';
+        }
+    });
+});

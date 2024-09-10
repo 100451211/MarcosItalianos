@@ -283,14 +283,13 @@ header {
     background-color: grey;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
     z-index: 2000;
 }
 
 /* Side Menu Header with Logo and Close Button */
 .side-menu .logo {
     color: white;
-    padding: 20px;
+    padding: 2px;
     font-size: 24px;
 }
 

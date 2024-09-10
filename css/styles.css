@@ -552,3 +552,65 @@ p {
     margin-bottom: 10px;
     line-height: 1.5;
 }
+
+
+/* Productos - Colores */
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Playfair Display', serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+
+/* Title Section */
+.product-title {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.product-title h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+/* Product Mosaic */
+.product-mosaic {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 products in one row */
+    gap: 20px;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.product-item {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+}
+
+.product-item img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.product-item h2 {
+    font-size: 20px;
+    color: #333;
+    margin-top: 10px;
+}
+

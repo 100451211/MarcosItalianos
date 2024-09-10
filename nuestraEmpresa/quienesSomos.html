@@ -11,6 +11,9 @@
 <body>
     <header>
         <nav class="top-menu">
+            <div class="menu-icon" id="menuIcon">
+                <img src="../images/menu.png" alt="Menu Icon" class="menu-icon-image">
+            </div>
             <div class="logo">AURIDAL S.L.</div>
             <div class="menu-container">
                 <ul class="menu">
@@ -53,6 +56,42 @@
             </div>
         </nav>
     </header>
+
+     <!-- Side Navigation Menu for Mobile (hidden by default) -->
+     <div id="sideMenu" class="side-menu">
+        <div class="sideMenuHeader">
+            <div class="logo" style="color:white;padding:20px;">AURIDAL S.L.</div>
+            <a href="#" class="closebtn" id="closeBtn">&times;</a>
+        </div>
+        <ul><a href="#">Inicio</a></ul>
+        <ul class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Nuestra empresa
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="white" d="M7 10l5 5 5-5z"/>
+            </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="queOfrecemos.html">¿Qué ofrecemos?</a>
+              <a href="quienesSomos.html">¿Quiénes somos?</a>
+          </div>
+        </ul>
+        <ul class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Producto
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="white" d="M7 10l5 5 5-5z"/>
+            </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="#">Colores</a>
+              <a href="#">Clásico</a>
+              <a href="#">Natural</a>
+              <a href="#">Moderno</a>
+          </div>
+        </ul>
+      <ul><a href="#">Contacto</a></ul>
+    </div>
     
     <main>
         <section class="hero">

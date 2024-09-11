@@ -12,7 +12,12 @@
     <!-- Header -->
     <header>
         <nav class="top-menu">
-            <div class="logo">AURIDAL S.L.</div>
+            <div class="menu-icon" id="menuIcon">
+                <img src="../images/menu.png" alt="Menu Icon" class="menu-icon-image">
+            </div>
+            <div class="logo">
+                <a href="../index.html">AURIDAL S.L.</a>
+            </div>
             <ul class="menu">
                 <li><a href="../index.html">Inicio</a></li>
                 <li class="dropdown">
@@ -46,71 +51,111 @@
         </nav>
     </header>
 
+    <!-- Side Navigation Menu for Mobile (hidden by default) -->
+    <div id="sideMenu" class="side-menu">
+        <div class="sideMenuHeader">
+            <div class="logo" style="color:white;padding:20px;">AURIDAL S.L.</div>
+            <a href="#" class="closebtn" id="closeBtn">&times;</a>
+        </div>
+        <ul><a href="#">Inicio</a></ul>
+        <ul class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Nuestra empresa
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="white" d="M7 10l5 5 5-5z"/>
+            </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="queOfrecemos.html">¿Qué ofrecemos?</a>
+              <a href="quienesSomos.html">¿Quiénes somos?</a>
+          </div>
+        </ul>
+        <ul class="dropdown">
+            <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Producto
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="white" d="M7 10l5 5 5-5z"/>
+                </svg>
+            </a>
+            <div class="dropdown-content">
+                <a href="../producto/colores.html">Colores</a>
+                <a href="../producto/clasico.html">Clásico</a>
+                <a href="../producto/natural.html">Natural</a>
+                <a href="../producto/moderno.html">Moderno</a>
+            </div>
+        </ul>
+      <ul><a href="#">Contacto</a></ul>
+    </div>
+
     <!-- Main content -->
     <main>
         <!-- Title -->
-        <section class="product-title">
-            <h1>Colores</h1>
-        </section>
+        <div style="background-color:aquamarine;">
+            <section class="product-title">
+                <h1>Colores</h1>
+            </section>
+        </div>
 
-       <!-- Mosaic of Products -->
-       <section class="product-mosaic">
-        <div class="product-grid">
-            <a href="../images/image3.jpg">
-                <div class="product-item">
-                    <img src="../images/image3.jpg" alt="Product 1">
-                    <h2>Producto 1</h2>
-                </div>
-            </a>
-            <a href="../images/image4.jpg">
-                <div class="product-item">
-                    <img src="../images/image4.jpg" alt="Product 2">
-                    <h2>Producto 2</h2>
-                </div>
-            </a>
-            <a href="../images/image3.jpg">
-                <div class="product-item">
-                    <img src="../images/image3.jpg" alt="Product 3">
-                    <h2>Producto 3</h2>
-                </div>
-            </a>
-            <a href="../images/image4.jpg">
-                <div class="product-item">
-                    <img src="../images/image4.jpg" alt="Product 4">
-                    <h2>Producto 4</h2>
-                </div>
-            </a>
-        </div>
-    </section>
-    <section class="product-mosaic">
-        <div class="product-grid">
-            <a href="../images/image3.jpg">
-                <div class="product-item">
-                    <img src="../images/image3.jpg" alt="Product 1">
-                    <h2>Producto 5</h2>
-                </div>
-            </a>
-            <a href="../images/image4.jpg">
-                <div class="product-item">
-                    <img src="../images/image4.jpg" alt="Product 2">
-                    <h2>Producto 6 </h2>
-                </div>
-            </a>
-            <a href="../images/image3.jpg">
-                <div class="product-item">
-                    <img src="../images/image3.jpg" alt="Product 3">
-                    <h2>Producto 7</h2>
-                </div>
-            </a>
-            <a href="../images/image4.jpg">
-                <div class="product-item">
-                    <img src="../images/image4.jpg" alt="Product 4">
-                    <h2>Producto 8</h2>
-                </div>
-            </a>
-        </div>
-    </section>
+        <!-- Mosaic of Products -->
+        <section class="product-mosaic">
+            <div class="product-grid">
+                <a href="../images/image3.jpg">
+                    <div class="product-item">
+                        <img src="../images/image3.jpg" alt="Product 1">
+                        <h2>Producto 1</h2>
+                    </div>
+                </a>
+                <a href="../images/image4.jpg">
+                    <div class="product-item">
+                        <img src="../images/image4.jpg" alt="Product 2">
+                        <h2>Producto 2</h2>
+                    </div>
+                </a>
+                <a href="../images/image3.jpg">
+                    <div class="product-item">
+                        <img src="../images/image3.jpg" alt="Product 3">
+                        <h2>Producto 3</h2>
+                    </div>
+                </a>
+                <a href="../images/image4.jpg">
+                    <div class="product-item">
+                        <img src="../images/image4.jpg" alt="Product 4">
+                        <h2>Producto 4</h2>
+                    </div>
+                </a>
+            </div>
+        </section>
+        <section class="product-mosaic">
+            <div class="product-grid">
+                <a href="../images/image3.jpg">
+                    <div class="product-item">
+                        <img src="../images/image3.jpg" alt="Product 1">
+                        <h2>Producto 5</h2>
+                    </div>
+                </a>
+                <a href="../images/image4.jpg">
+                    <div class="product-item">
+                        <img src="../images/image4.jpg" alt="Product 2">
+                        <h2>Producto 6 </h2>
+                    </div>
+                </a>
+                <a href="../images/image3.jpg">
+                    <div class="product-item">
+                        <img src="../images/image3.jpg" alt="Product 3">
+                        <h2>Producto 7</h2>
+                    </div>
+                </a>
+                <a href="../images/image4.jpg">
+                    <div class="product-item">
+                        <img src="../images/image4.jpg" alt="Product 4">
+                        <h2>Producto 8</h2>
+                    </div>
+                </a>
+            </div>
+        </section>
     </main>
+
+    <script src="../js/script.js"></script>
 
     <!-- Footer -->
     <footer class="site-footer">

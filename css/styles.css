@@ -11,6 +11,11 @@ body {
     padding: 0;
 }
 
+a {
+    text-decoration: none !important;
+}
+
+
 /* Barra de navegación */
 header {
     position: absolute;
@@ -270,7 +275,6 @@ header {
 }
 
 /* Side Menu */
-
 .menu-icon{
     display: none;
 }
@@ -571,7 +575,7 @@ body {
 /* Title Section */
 .product-title {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 80px;
     margin-bottom: 20px;
 }
 

@@ -717,12 +717,12 @@ table tr:nth-child(even) {
 
 .contact-info ul {
     list-style-type: none;
-    padding-left: 0;
 }
 
 .contact-info li {
     margin-bottom: 5px;
     font-size: 16px;
+    text-align: center;
 }
 
 .contact-info a {

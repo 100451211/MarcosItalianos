@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - AURIDAL S.L.</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="top-menu">
+            <div class="menu-icon" id="menuIcon">
+                <img src="../images/menu.png" alt="Menu Icon" class="menu-icon-image">
+            </div>
+            <a href="../index.html">
+                <div class="logo">AURIDAL S.L.</div>
+            </a>
+            <div class="menu-container">
+                <ul class="menu">
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li class="dropdown"> 
+                        <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true"> 
+                            Nuestra empresa
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                                <path fill="black" d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="queOfrecemos.html">¿Qué ofrecemos?</a>
+                            <a href="quienesSomos.html">¿Quiénes somos?</a>
+                        </div>
+                    </li>
+                    <li class="dropdown"> 
+                        <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+                            Producto
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
+                                <path fill="black" d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="../producto/colores.html">Colores</a>
+                            <a href="../producto/clasico.html">Clásico</a>
+                            <a href="../producto/natural.html">Natural</a>
+                            <a href="../producto/moderno.html">Moderno</a>
+                        </div>
+                    </li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            <!-- Search Form -->
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." id="searchInput" class="hidden">
+                    <button id="searchButton">
+                        <img src="../images/search-icon.png" alt="Search" class="search-icon"> 
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+     <!-- Side Navigation Menu for Mobile (hidden by default) -->
+     <div id="sideMenu" class="side-menu">
+        <div class="sideMenuHeader">
+            <div class="logo" style="color:white;padding:20px;">AURIDAL S.L.</div>
+            <a href="#" class="closebtn" id="closeBtn">&times;</a>
+        </div>
+        <ul><a href="../index.html">Inicio</a></ul>
+        <ul class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Nuestra empresa
+              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="white" d="M7 10l5 5 5-5z"/>
+              </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="queOfrecemos.html">¿Qué ofrecemos?</a>
+              <a href="quienesSomos.html">¿Quiénes somos?</a>
+          </div>
+        </ul>
+        <ul class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Producto
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="white" d="M7 10l5 5 5-5z"/>
+              </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="../producto/colores.html">Colores</a>
+              <a href="../producto/clasico.html">Clásico</a>
+              <a href="../producto/natural.html">Natural</a>
+              <a href="../producto/moderno.html">Moderno</a>
+          </div>
+        </ul>
+      <ul><a href="contacto.html">Contacto</a></ul>
+    </div>
+    
+    <main>
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Contacto</h1>
+        </div>
+
+        <!-- Parallax Section -->
+        <div class="small-height">
+            <section class="content-section">
+                <div class="flex-container">
+                    <!-- Left Div: Map -->
+                    <div class="left">
+                        <h2 class="section-heading">Mapa</h2>
+                    
+                        <!-- Google Maps Embed -->
+                        <iframe id="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3042.684983399136!2d-3.4618749233031627!3d40.30495297145791!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd423efd9a2bcfcf%3A0x7181ed311064e0cc!2sAv.%20de%20Madrid%2C%2025%2C%20Nave%20C8%2C%2028500%20Arganda%20del%20Rey%2C%20Madrid!5e0!3m2!1ses!2ses!4v1726076141860!5m2!1ses!2ses"
+                            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <p>AURIDAL S.L.</p>
+                    </div>
+        
+                    <!-- Right Div: Horarios -->
+                    <div class="right">
+                        <h2 class="section-heading">Horarios</h2>
+                        <table>
+                            <tr>
+                                <th>Día</th>
+                                <th>Mañana</th>
+                                <th>Tarde</th>
+                            </tr>
+                            <tr>
+                                <td>Lunes - Viernes</td>
+                                <td>8:00 - 14:30</td>
+                                <td>16:00 - 21:00</td>
+                            </tr>
+                            <tr>
+                                <td>Sábados</td>
+                                <td colspan="2">10:00 - 14:00</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        <!-- Fix this section by applying background-image consistently -->
+        <div class="parallax" style="height:250px;"></div>
+
+        <div class="small-height">
+            <h2 class="section-heading">Teléfonos y Correos</h2>
+            <div class="contact-info">
+                <p><strong>Teléfonos:</strong></p>
+                <ul>
+                    <li>+34 608 36 44 00</li>
+                    <li>+34 664 10 31 33</li>
+                </ul>
+                <p><strong>E-mails:</strong></p>
+                <ul>
+                    <li><a href="mailto:marcosauridal@gmail.com">marcosauridal@gmail.com</a></li>
+                    <li><a href="mailto:giacintoauriemma@gmail.com">giacintoauriemma@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        
+    </main>
+
+    <script src="../js/script.js"></script>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2024 AURIDAL S.L. | Todos los derechos reservados</p>
+            <ul class="footer-menu">
+                <li><a href="#">Política de privacidad</a></li>
+                <li><a href="#">Términos de servicio</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>

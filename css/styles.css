@@ -367,7 +367,6 @@ header {
     transform: rotate(180deg); /* Rotate arrow when open */
 }
 
-
 /* Mobile View */
 @media (max-width: 768px) {
     .menu {
@@ -391,6 +390,7 @@ header {
     background-image: url('../images/hero-image.png');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -411,6 +411,7 @@ header {
 
 /* Parallax Effect */
 .parallax {
+    background-image: url('../images/hero-image.png');
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -420,16 +421,27 @@ header {
   }
   
   .small-height {
-    height: 250px;
+    background-color:white; 
+    font-size:36px;
+    text-align: center;
+    vertical-align: middle;
+    height: fit-content;
     background-size: cover;
     background-position: center;
   }
+
+  .parallax-text {
+    padding: 20px;
+    border-radius: 5px;
+    color:black;
+    text-align: center;
+}
+
+.parallax-text h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
   
-  .large-height {
-    height: 1000px;
-    background-size: cover;
-    background-position: center;
-  }
 
 /* Content Sections Between Parallax */
 .content {
@@ -446,13 +458,6 @@ header {
 .content p {
     font-size: 18px;
     line-height: 1.6;
-}
-
-/* For consistent styling in all sections */
-.parallax-text {
-    background-color: rgba(0, 0, 0, 0.5); /* Optional overlay for text readability */
-    padding: 20px;
-    border-radius: 5px;
 }
 
 
@@ -618,3 +623,113 @@ body {
     margin-top: 10px;
 }
 
+
+/* Pie de pagina - Contacto */
+/* Flexbox container to hold left and right sections */
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Aligns content to the top */
+    gap: 20px; /* Adds space between the two columns */
+}
+
+/* Left and Right Div Styling */
+.left, .right {
+    width: 45%; /* Adjust the width of each div */
+    padding: 10px;
+}
+
+/* Ensure iframe (map) and content are responsive */
+#map {
+    width: 100%;
+    height: auto;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .flex-container {
+        flex-direction: column; /* Stack items on small screens */
+        align-items: center;
+    }
+
+    .left, .right {
+        width: 100%; /* Full width on mobile */
+    }
+}
+
+.section-heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Contacto - Horarios*/
+
+.opening-hours {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    margin: 20px auto;
+}
+
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 18px;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+table td {
+    font-size: 16px;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Contacto - telefonos y correos */
+.contact-info {
+    font-family: 'Playfair Display', serif;
+    text-align: left;
+    font-size: 18px;
+    padding: 10px;
+}
+
+.contact-info p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.contact-info ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.contact-info li {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.contact-info a {
+    color: #000; /* Keeps the link color clean and elegant */
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline; /* Adds a subtle effect on hover */
+}

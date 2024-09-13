@@ -4,7 +4,9 @@ const header = document.querySelector('header');
 const logo = document.querySelector('.logo');
 const menuLinks = document.querySelectorAll('.menu a');
 const dropdownIcons = document.querySelectorAll('.menu svg path');
+const searchIcon = document.querySelector('#searchButton svg'); // Target the SVG search icon directly
 let currentIndex = 0;
+let transitioning = false; // Flag to prevent multiple transitions
 
 // Array of background-specific color schemes (one per image)
 const colorSchemes = [
@@ -14,46 +16,66 @@ const colorSchemes = [
     { headerColor: 'white', textColor: 'white' }    // For the fourth image
 ];
 
-// Function to slide the images and change header/nav colors
+// Function to handle sliding of images and change header/nav colors
 function changeHeroBackground() {
+    if (transitioning) return; // Prevent multiple transitions
+    transitioning = true; // Set flag to true during transition
+
     const currentImage = heroImages[currentIndex]; // Current active image
-    const nextIndex = (currentIndex + 1) % heroImages.length;
+    let nextIndex = (currentIndex + 1) % heroImages.length; // Get the next image index
     const nextImage = heroImages[nextIndex]; // Next image to show
 
-    // Remove active class from current image and add 'previous' to slide it out
-    currentImage.classList.remove('active');
-    currentImage.classList.add('previous');
+    // Start sliding the current image out and the next image in
+    currentImage.style.transition = 'left 1s ease-in-out';
+    nextImage.style.transition = 'none'; // Disable transition for the next image initially
+    nextImage.style.left = '100%'; // Position next image off-screen (right side)
 
-    // Add 'active' class to the next image to slide it in
-    nextImage.classList.add('active');
-    nextImage.classList.remove('previous');
+    // Delay to ensure that the style is applied before transitioning
+    setTimeout(() => {
+        nextImage.style.transition = 'left 1s ease-in-out';
+        currentImage.style.left = '-100%'; // Move current image off-screen (left side)
+        nextImage.style.left = '0'; // Move next image into view (from the right)
 
-    // Change the color scheme based on the next image
-    const { headerColor, textColor } = colorSchemes[nextIndex];
-    
-    // Update logo and menu link colors
-    logo.classList.remove('light', 'dark');
-    logo.classList.add(textColor === 'white' ? 'light' : 'dark');
-    
-    menuLinks.forEach(link => {
-        link.classList.remove('light', 'dark');
-        link.classList.add(textColor === 'white' ? 'light' : 'dark');
-    });
+        // After the transition ends
+        setTimeout(() => {
+            // Reset the position of the current image (off-screen on the right) for future transitions
+            currentImage.style.left = '100%';
 
-    // Update dropdown icon colors
-    dropdownIcons.forEach(icon => {
-        icon.setAttribute('fill', textColor === 'white' ? 'white' : 'black');
-    });
+            // Change the color scheme based on the next image
+            const { headerColor, textColor } = colorSchemes[nextIndex];
 
-    // Update the current index
-    currentIndex = nextIndex;
+            // Update logo and menu link colors directly using style
+            logo.style.color = textColor; // Set logo color
+            menuLinks.forEach(link => {
+                link.style.color = textColor; // Set menu link color
+            });
+
+            // Update dropdown icon colors (SVG)
+            dropdownIcons.forEach(icon => {
+                icon.setAttribute('fill', textColor);
+            });
+
+            // Update search icon color (for the SVG icon)
+            searchIcon.setAttribute('stroke', textColor); // Change stroke color of the search icon
+
+            // Update the current index
+            currentIndex = nextIndex;
+            transitioning = false; // Reset the flag to allow the next transition
+        }, 500); // Match the duration of the transition (1s)
+    }, 10); // Short delay to trigger the second transition smoothly
 }
 
 // Initialize the first image as active
-heroImages[currentIndex].classList.add('active');
+heroImages.forEach(image => {
+    image.style.position = 'absolute';
+    image.style.top = '0';
+    image.style.left = '100%'; // Position all images off-screen initially
+});
+heroImages[currentIndex].style.left = '0'; // Set the first image to be visible
 
-// Set an interval to change the background every 2 seconds (2000 milliseconds)
+// Set an interval to change the background every 4 seconds (4000 milliseconds)
 setInterval(changeHeroBackground, 4000);
+
 
 
 // -------------------------------------------------------------------------------------------
@@ -100,6 +122,8 @@ document.getElementById('searchButton').addEventListener('click', function(e) {
 // Event listener to hide search bar when clicking outside
 document.addEventListener('click', hideSearchBarIfClickedOutside);
 
+// -------------------------------------------------------------------------------------------
+
 
 // Side Menu - Get elements
 const menuIcon = document.getElementById('menuIcon');
@@ -135,6 +159,8 @@ dropdowns.forEach(dropdown => {
         }
     });
 });
+
+// -------------------------------------------------------------------------------------------
 
 /* Producto - Navegar por imágenes */
 function handleClick(button, direction) {

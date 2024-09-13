@@ -15,7 +15,6 @@ a {
     text-decoration: none !important;
 }
 
-
 /* Barra de navegación */
 header {
     position: absolute;
@@ -24,20 +23,13 @@ header {
     z-index: 1000;
 }
 
-.top-menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: transparent; /* Transparent background */
-    color: black;
-}
-
 .top-menu .logo, 
 .logo {
     font-size: 24px;
     font-weight: bold;
     color: black;
+    text-align: left;
+    margin-right: auto;
 }
 
 .menu-container, 
@@ -143,66 +135,103 @@ nav ul li a:hover {
 }
 
 
-/* Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Playfair Display', serif;
-    margin: 0;
-    padding: 0;
-}
-
 /* Navigation Bar */
 header {
-    position: absolute;
-    width: 100%;
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
+    padding: 20px;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .top-menu {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
     background-color: transparent;
-    color: black;
+    width: 100%;
+    padding: 0 20px; /* Optional padding for spacing */
+
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
-    color: black;
+    transition: color 0.5s ease; /* Smooth transition when color changes */
+    margin-right: auto; /* Keeps the logo pushed to the left */
+    text-align: left; /* Aligns the text of the logo to the left */
+}
+
+.menu-icon-image {
+    display: none;
+    width: 30px;
+    cursor: pointer;
 }
 
 .menu-container {
     display: flex;
     align-items: center;
-    gap: 20px;
 }
 
 .menu {
+    list-style: none;
     display: flex;
-    align-items: center;
-    list-style-type: none;
     gap: 20px;
 }
 
-.menu li a {
+.menu a {
     text-decoration: none;
-    color: black;
-    font-weight: bold;
-    font-size: 16px;
-    transition: color 0.3s ease;
+    font-size: 1.2rem;
+    transition: color 0.5s ease;
 }
 
-.menu li a:hover {
-    color: #555;
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.search-container {
+    margin-left: 20px;
+}
+
+.search-icon {
+    width: 20px;
+    cursor: pointer;
+}
+
+.menu a.light, .logo.light, .menu svg.light {
+    color: white; /* Light color for dark backgrounds */
+    margin-right: auto; /* Keeps the logo pushed to the left */
+    text-align: left; /* Aligns the text of the logo to the left */
+}
+
+.menu a.dark, .logo.dark, .menu svg.dark {
+    color: black; /* Dark color for light backgrounds */
+    margin-right: auto; /* Keeps the logo pushed to the left */
+    text-align: left; /* Aligns the text of the logo to the left */
+}
+
+.menu svg {
+    transition: fill 0.5s ease;
+}
+
+.menu svg.light path {
+    fill: white;
+}
+
+.menu svg.dark path {
+    fill: black;
+}
+
 
 /* Dropdown Menu */
 .dropdown {
@@ -272,7 +301,7 @@ header {
 .search-container .search-icon {
     width: 20px;
     height: 20px;
-}
+} */
 
 /* Side Menu */
 .menu-icon{
@@ -387,14 +416,17 @@ header {
 /* Sección principal */
 /* Hero Section */
 .hero {
-    background-image: url('../images/hero-image.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    position: relative;
     height: 100vh;
+    width: 100%;
+    overflow: hidden; /* Hide images that slide outside */
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
+    text-align: center;
+    font-size: 3rem;
+    background-color: rgba(0, 0, 0, 0.5); /* optional background color */
 }
 
 .hero h1 {
@@ -407,7 +439,42 @@ header {
     background-color: transparent;
     padding: 20px 40px;
     border: 8px solid black;
+    z-index: 2;
 }
+
+/* Container for all images */
+.hero-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Images are positioned below the h1 */
+}
+
+/* Individual hero images */
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 100%; /* Start each image off-screen to the right */
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: left 1s ease-in-out; /* Slide effect */
+}
+
+/* Active image will move into the screen */
+.hero-image.active {
+    left: 0; /* Moves the active image into view */
+}
+
+/* Previous image will slide out to the left */
+.hero-image.previous {
+    left: -100%; /* Moves the previous image off-screen to the left */
+}
+
+
 
 /* Parallax Effect */
 .parallax {
@@ -421,13 +488,17 @@ header {
   }
   
   .small-height {
-    background-color:white; 
+    height: 200px;
+    padding: 40px;
+    text-align: center;
+    font-size: 2rem;
+    /* background-color:white; 
     font-size:36px;
     text-align: center;
     vertical-align: middle;
     height: fit-content;
     background-size: cover;
-    background-position: center;
+    background-position: center; */
   }
 
   .parallax-text {
@@ -459,8 +530,6 @@ header {
     font-size: 18px;
     line-height: 1.6;
 }
-
-
 
 /* Pie de página */
 /* Footer Section */
@@ -564,19 +633,6 @@ p {
 
 
 /* Productos - Colores */
-/* Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Playfair Display', serif;
-    line-height: 1.6;
-    background-color: #f9f9f9;
-}
-
 /* Title Section */
 .product-title {
     text-align: center;
@@ -589,19 +645,39 @@ body {
     color: #333;
 }
 
+
 /* Product Mosaic */
 .product-mosaic {
     display: flex;
     justify-content: center;
     margin: 40px 0;
 }
+/* Initially hide the arrows */
+.button {
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Smooth transition for when they appear/disappear */
+}
 
+/* When hovering over the list-wrapper (image container), show the arrows */
+.list-wrapper:hover .button {
+    opacity: 1;
+}
+
+/* Wrapping the list for scrolling */
+.list-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Product grid setup */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 products in one row */
+    grid-template-columns: repeat(4, 1fr); /* 4 products in 1 row */
     gap: 20px;
     width: 90%;
     max-width: 1200px;
+    margin: 0 auto;
 }
 
 .product-item {
@@ -610,11 +686,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 20px;
-}
-
-.product-item img {
-    width: 100%;
-    border-radius: 10px;
+    position: relative; /* Ensure proper positioning for arrows */
 }
 
 .product-item h2 {
@@ -622,6 +694,59 @@ body {
     color: #333;
     margin-top: 10px;
 }
+
+/* Carousel inside each product */
+.list-wrapper {
+    position: relative;
+    overflow: hidden; /* Hide overflowing images */
+}
+
+.carousel {
+    display: flex;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+.item {
+    flex: 0 0 100%; /* Each item takes full width for a single image */
+    text-align: center;
+}
+
+.carousel-image {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Arrow button styles */
+.button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+    z-index: 1;
+    opacity: 0; /* Hide by default */
+    transition: opacity 0.3s; /* Smooth fade-in effect */
+}
+
+.button--previous {
+    left: 10px;
+}
+
+.button--next {
+    right: 10px;
+}
+
+/* Show buttons on hover */
+.list-wrapper:hover .button {
+    opacity: 1; /* Show the buttons when hovering on the image container */
+}
+
 
 
 /* Pie de pagina - Contacto */

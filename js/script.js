@@ -1,3 +1,64 @@
+// Carousel functionality and changing color header
+const heroImages = document.querySelectorAll('.hero-image');
+const header = document.querySelector('header');
+const logo = document.querySelector('.logo');
+const menuLinks = document.querySelectorAll('.menu a');
+const dropdownIcons = document.querySelectorAll('.menu svg path');
+let currentIndex = 0;
+
+// Array of background-specific color schemes (one per image)
+const colorSchemes = [
+    { headerColor: 'black', textColor: 'black' },   // For the first image
+    { headerColor: 'white', textColor: 'white' },   // For the second image
+    { headerColor: 'black', textColor: 'black' },   // For the third image
+    { headerColor: 'white', textColor: 'white' }    // For the fourth image
+];
+
+// Function to slide the images and change header/nav colors
+function changeHeroBackground() {
+    const currentImage = heroImages[currentIndex]; // Current active image
+    const nextIndex = (currentIndex + 1) % heroImages.length;
+    const nextImage = heroImages[nextIndex]; // Next image to show
+
+    // Remove active class from current image and add 'previous' to slide it out
+    currentImage.classList.remove('active');
+    currentImage.classList.add('previous');
+
+    // Add 'active' class to the next image to slide it in
+    nextImage.classList.add('active');
+    nextImage.classList.remove('previous');
+
+    // Change the color scheme based on the next image
+    const { headerColor, textColor } = colorSchemes[nextIndex];
+    
+    // Update logo and menu link colors
+    logo.classList.remove('light', 'dark');
+    logo.classList.add(textColor === 'white' ? 'light' : 'dark');
+    
+    menuLinks.forEach(link => {
+        link.classList.remove('light', 'dark');
+        link.classList.add(textColor === 'white' ? 'light' : 'dark');
+    });
+
+    // Update dropdown icon colors
+    dropdownIcons.forEach(icon => {
+        icon.setAttribute('fill', textColor === 'white' ? 'white' : 'black');
+    });
+
+    // Update the current index
+    currentIndex = nextIndex;
+}
+
+// Initialize the first image as active
+heroImages[currentIndex].classList.add('active');
+
+// Set an interval to change the background every 2 seconds (2000 milliseconds)
+setInterval(changeHeroBackground, 4000);
+
+
+// -------------------------------------------------------------------------------------------
+
+
 // Function to handle search bar toggle
 function toggleSearchBar() {
     const searchInput = document.getElementById('searchInput');
@@ -74,3 +135,17 @@ dropdowns.forEach(dropdown => {
         }
     });
 });
+
+/* Producto - Navegar por imágenes */
+function handleClick(button, direction) {
+    const listWrapper = button.closest('.list-wrapper');
+    const list = listWrapper.querySelector('.list');
+    const item = list.querySelector('.item');
+    const itemWidth = item.offsetWidth;
+
+    if (direction === 'previous') {
+        list.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+    } else {
+        list.scrollBy({ left: itemWidth, behavior: 'smooth' });
+    }
+}

@@ -297,6 +297,7 @@ nav ul {
     font-size: 3rem;
 }
 
+/* Hero title styling */
 .hero h1 {
     font-family: 'Playfair Display', serif;
     font-size: 54pt;
@@ -310,7 +311,7 @@ nav ul {
     z-index: 2;
 }
 
-/* Container for all images */
+/* Container for all background images */
 .hero-images {
     position: absolute;
     top: 0;
@@ -320,24 +321,26 @@ nav ul {
     z-index: 1;
 }
 
+/* Hero image base styles */
 .hero-image {
     position: absolute;
     top: 0;
-    left: 100%;
+    left: 0;
     width: 100%;
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: left 1s ease-in-out;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 1s ease-in-out; /* Smooth fading transition */
 }
 
+/* Active image */
 .hero-image.active {
-    left: 0;
+    opacity: 1;
+    z-index: 1; /* Move active image on top */
 }
 
-.hero-image.previous {
-    left: -100%;
-}
 
 /* Parallax Effect */
 .parallax {

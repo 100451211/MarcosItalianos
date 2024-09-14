@@ -1,12 +1,11 @@
 // Carousel functionality and changing color header
-const heroImages = document.querySelectorAll('.hero-image');
-const header = document.querySelector('header');
-const logo = document.querySelector('.logo');
-const menuLinks = document.querySelectorAll('.menu a');
-const dropdownIcons = document.querySelectorAll('.menu svg path');
-const searchIcon = document.querySelector('#searchButton svg'); // Target the SVG search icon directly
-let currentIndex = 0;
-let transitioning = false; // Flag to prevent multiple transitions
+const heroImages = document.querySelectorAll('.hero-image'); // Get all hero images
+const logo = document.querySelector('.logo'); // Get the logo
+const menuLinks = document.querySelectorAll('.menu a'); // Get all menu links
+const dropdownIcons = document.querySelectorAll('.menu svg path'); // Get dropdown icons
+const searchIcon = document.querySelector('#searchButton svg'); // Get search icon
+let currentIndex = 0; // Start with the first image
+let transitioning = false; // To prevent multiple transitions
 
 // Array of background-specific color schemes (one per image)
 const colorSchemes = [
@@ -14,68 +13,54 @@ const colorSchemes = [
     { headerColor: 'white', textColor: 'white', dropdownBgColor: '#333' },   // For the second image
     { headerColor: 'black', textColor: 'black', dropdownBgColor: '#f5f5f5' },   // For the third image
 ];
-// Function to handle sliding of images and change header/nav colors
+
+// Function to change hero background and colors
 function changeHeroBackground() {
-    if (transitioning) return; // Prevent multiple transitions
-    transitioning = true; // Set flag to true during transition
+    // Remove previous flag to prevent multiple transitions
+    if (transitioning) return;
+    transitioning = true; // Set flag to prevent double transitions
 
-    const currentImage = heroImages[currentIndex]; // Current active image
-    let nextIndex = (currentIndex + 1) % heroImages.length; // Get the next image index
-    const nextImage = heroImages[nextIndex]; // Next image to show
+    const currentImage = heroImages[currentIndex]; // Get current image
+    let nextIndex = (currentIndex + 1) % heroImages.length; // Next image index
+    const nextImage = heroImages[nextIndex]; // Next image
 
-    // Start sliding the current image out and the next image in
-    currentImage.style.transition = 'left 1s ease-in-out';
-    nextImage.style.transition = 'none'; // Disable transition for the next image initially
-    nextImage.style.left = '100%'; // Position next image off-screen (right side)
+    // Remove the active class from the current image
+    currentImage.classList.remove('active');
+    
+    // Add the active class to the next image
+    nextImage.classList.add('active');
 
+    // Update colors based on the next image
+    const { headerColor, textColor, dropdownBgColor } = colorSchemes[nextIndex];
+
+    // Update logo and menu link colors
+    logo.style.color = textColor;
+    menuLinks.forEach(link => {
+        link.style.color = textColor;
+    });
+
+    // Update dropdown icon colors
+    dropdownIcons.forEach(icon => {
+        icon.setAttribute('fill', textColor);
+    });
+
+    // Update search icon color
+    searchIcon.setAttribute('stroke', textColor);
+
+    // Wait for the transition to finish before allowing the next one
     setTimeout(() => {
-        nextImage.style.transition = 'left 1s ease-in-out';
-        currentImage.style.left = '-100%'; // Move current image off-screen (left side)
-        nextImage.style.left = '0'; // Move next image into view (from the right)
-
-        setTimeout(() => {
-            currentImage.style.left = '100%'; // Reset position for next transition
-
-            // Update the color scheme based on the next image
-            const { headerColor, textColor, dropdownBgColor } = colorSchemes[nextIndex];
-
-            // Update logo and menu link colors
-            logo.style.color = textColor;
-            menuLinks.forEach(link => {
-                link.style.color = textColor;
-            });
-
-            // Update dropdown icon colors
-            dropdownIcons.forEach(icon => {
-                icon.setAttribute('fill', textColor);
-            });
-
-            // Update search icon color
-            searchIcon.setAttribute('stroke', textColor);
-
-            // Update the dropdown background color
-            const dropdownContents = document.querySelectorAll('.dropdown-content');
-            dropdownContents.forEach(dropdown => {
-                dropdown.style.backgroundColor = dropdownBgColor;
-            });
-
-            // Update current index
-            currentIndex = nextIndex;
-            transitioning = false; // Reset flag to allow the next transition
-        }, 500);
-    }, 10);
+        // Update current index
+        currentIndex = nextIndex;
+        transitioning = false; // Reset the transition flag
+    }, 1000); // Match the duration of the transition (1 second)
 }
 
 // Initialize the first image as active
-heroImages.forEach(image => {
-    image.style.position = 'absolute';
-    image.style.top = '0';
-    image.style.left = '100%'; // Position all images off-screen initially
-});
-heroImages[currentIndex].style.left = '0'; // Set the first image to be visible
+heroImages[currentIndex].classList.add('active'); // Set first image visible
 
 // Set an interval to change the background every 4 seconds
 setInterval(changeHeroBackground, 4000);
+
 
 // -------------------------------------------------------------------------------------------
 

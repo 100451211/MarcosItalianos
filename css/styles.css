@@ -129,7 +129,7 @@ nav ul {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: grey;
+    background-color: rgb(160, 132, 132);
     overflow-x: hidden;
     transition: 0.5s;
     z-index: 2000;
@@ -217,6 +217,7 @@ nav ul {
         cursor: pointer;
         position: relative;
         z-index: 1002;
+        margin-right: 20px;
     }
 
     .menu-icon-image {

@@ -6,7 +6,7 @@
     <title>Clásico - AURIDAL S.L.</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-
+    <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
 </head>
 <body>
     <!-- Header -->
@@ -41,8 +41,18 @@
                         <a href="moderno.html">Moderno</a>
                     </div>
                 </li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="../pie/contacto.html">Contacto</a></li>
             </ul>
+            <div class="search-container">
+                <input type="text" placeholder="Search..." id="searchInput" class="hidden">
+                <button id="searchButton">
+                    <!-- Inline SVG for the search icon -->
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
         </nav>
     </header>
 
@@ -188,9 +198,9 @@
         <div class="footer-content">
             <p>© 2024 AURIDAL S.L. | Todos los derechos reservados</p>
             <ul class="footer-menu">
-                <li><a href="#">Política de privacidad</a></li>
-                <li><a href="#">Términos de servicio</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="../pie/privacidad.html">Política de privacidad</a></li>
+                <li><a href="../pie/servicio.html">Términos de servicio</a></li>
+                <li><a href="../pie/contacto.html">Contacto</a></li>
             </ul>
         </div>
     </footer>

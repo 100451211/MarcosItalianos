@@ -13,6 +13,7 @@ body {
 
 a {
     text-decoration: none !important;
+    color: black;
 }
 
 /* Barra de navegación */
@@ -273,7 +274,6 @@ nav ul {
     color: white;
     text-align: center;
     font-size: 3rem;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .hero h1 {
@@ -330,8 +330,8 @@ nav ul {
 }
 
 .small-height {
-    height: 200px;
-    padding: 40px;
+    height: fit-content;
+    justify-items: auto;
     text-align: center;
     font-size: 2rem;
 }
@@ -373,6 +373,7 @@ nav ul {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     margin-top: 40px;
     position: relative;
+    width:100%;
 }
 
 .site-footer .footer-content {
@@ -403,6 +404,53 @@ nav ul {
 
 .site-footer .footer-menu li a:hover {
     color: black;
+}
+
+/* Nuestra Empresa - ¿Qué ofrecemos? */
+.content-section {
+    font-family: 'Playfair Display', serif;
+    padding: 40px 20px;
+}
+.section-heading {
+    background-color: black;
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    font-size: 20pt;
+    font-weight: 10;
+}
+.content-list {
+    -webkit-text-size-adjust: 100%;
+    list-style: none;
+    margin-left: 20px;
+}
+.content-list li {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+/* Nuestra Empresa - ¿Quiénes somos? */
+.team {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+.team-member {
+    text-align: center;
+}
+.team-member h3 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.team-member p {
+    font-size: 18px;
+    color: gray;
+}
+p {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.5;
 }
 
 /* Productos */
@@ -496,31 +544,6 @@ nav ul {
     margin-bottom: 5px;
 }
 
-/* Product grid
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.product-item {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    padding: 20px;
-    position: relative;
-}
-
-.product-item h2 {
-    font-size: 20px;
-    color: #333;
-    margin-top: 10px;
-} */
-
 .carousel {
     display: flex;
     overflow: hidden;
@@ -592,6 +615,74 @@ nav ul {
 }
 
 /* Contact Info */
+/* Flexbox container to hold left and right sections */
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Aligns content to the top */
+    gap: 20px; /* Adds space between the two columns */
+}
+/* Left and Right Div Styling */
+.left, .right {
+    width: 45%; /* Adjust the width of each div */
+    padding: 10px;
+}
+/* Ensure iframe (map) and content are responsive */
+#map {
+    width: 100%;
+    height: auto;
+}
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .flex-container {
+        flex-direction: column; /* Stack items on small screens */
+        align-items: center;
+    }
+    .left, .right {
+        width: 100%; /* Full width on mobile */
+    }
+}
+.section-heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+    background-color:black;
+    color: white;
+}
+
+p {
+    font-size: 16px;
+    margin: 
+    5px 0;
+}
+/* Contacto - Horarios*/
+.opening-hours {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    margin: 20px auto;
+}
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
+}
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 18px;
+}
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+table td {
+    font-size: 16px;
+}
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Contacto - telefonos y correos */
 .contact-info {
     font-family: 'Playfair Display', serif;
     text-align: left;
@@ -606,6 +697,7 @@ nav ul {
 
 .contact-info ul {
     list-style-type: none;
+    padding-left: 0;
 }
 
 .contact-info li {
@@ -615,9 +707,11 @@ nav ul {
 }
 
 .contact-info a {
-    color: #000;
+    color: #000; /* Keeps the link color clean and elegant */
+    text-decoration: none;
+    
 }
 
 .contact-info a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Adds a subtle effect on hover */
 }

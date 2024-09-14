@@ -10,12 +10,10 @@ let transitioning = false; // Flag to prevent multiple transitions
 
 // Array of background-specific color schemes (one per image)
 const colorSchemes = [
-    { headerColor: 'black', textColor: 'black' },   // For the first image
-    { headerColor: 'white', textColor: 'white' },   // For the second image
-    { headerColor: 'black', textColor: 'black' },   // For the third image
-    { headerColor: 'white', textColor: 'white' }    // For the fourth image
+    { headerColor: 'black', textColor: 'black', dropdownBgColor: '#f5f5f5' },   // For the first image
+    { headerColor: 'white', textColor: 'white', dropdownBgColor: '#333' },   // For the second image
+    { headerColor: 'black', textColor: 'black', dropdownBgColor: '#f5f5f5' },   // For the third image
 ];
-
 // Function to handle sliding of images and change header/nav colors
 function changeHeroBackground() {
     if (transitioning) return; // Prevent multiple transitions
@@ -30,39 +28,42 @@ function changeHeroBackground() {
     nextImage.style.transition = 'none'; // Disable transition for the next image initially
     nextImage.style.left = '100%'; // Position next image off-screen (right side)
 
-    // Delay to ensure that the style is applied before transitioning
     setTimeout(() => {
         nextImage.style.transition = 'left 1s ease-in-out';
         currentImage.style.left = '-100%'; // Move current image off-screen (left side)
         nextImage.style.left = '0'; // Move next image into view (from the right)
 
-        // After the transition ends
         setTimeout(() => {
-            // Reset the position of the current image (off-screen on the right) for future transitions
-            currentImage.style.left = '100%';
+            currentImage.style.left = '100%'; // Reset position for next transition
 
-            // Change the color scheme based on the next image
-            const { headerColor, textColor } = colorSchemes[nextIndex];
+            // Update the color scheme based on the next image
+            const { headerColor, textColor, dropdownBgColor } = colorSchemes[nextIndex];
 
-            // Update logo and menu link colors directly using style
-            logo.style.color = textColor; // Set logo color
+            // Update logo and menu link colors
+            logo.style.color = textColor;
             menuLinks.forEach(link => {
-                link.style.color = textColor; // Set menu link color
+                link.style.color = textColor;
             });
 
-            // Update dropdown icon colors (SVG)
+            // Update dropdown icon colors
             dropdownIcons.forEach(icon => {
                 icon.setAttribute('fill', textColor);
             });
 
-            // Update search icon color (for the SVG icon)
-            searchIcon.setAttribute('stroke', textColor); // Change stroke color of the search icon
+            // Update search icon color
+            searchIcon.setAttribute('stroke', textColor);
 
-            // Update the current index
+            // Update the dropdown background color
+            const dropdownContents = document.querySelectorAll('.dropdown-content');
+            dropdownContents.forEach(dropdown => {
+                dropdown.style.backgroundColor = dropdownBgColor;
+            });
+
+            // Update current index
             currentIndex = nextIndex;
-            transitioning = false; // Reset the flag to allow the next transition
-        }, 500); // Match the duration of the transition (1s)
-    }, 10); // Short delay to trigger the second transition smoothly
+            transitioning = false; // Reset flag to allow the next transition
+        }, 500);
+    }, 10);
 }
 
 // Initialize the first image as active
@@ -73,7 +74,7 @@ heroImages.forEach(image => {
 });
 heroImages[currentIndex].style.left = '0'; // Set the first image to be visible
 
-// Set an interval to change the background every 4 seconds (4000 milliseconds)
+// Set an interval to change the background every 4 seconds
 setInterval(changeHeroBackground, 4000);
 
 

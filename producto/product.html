@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto - AURIDAL S.L.</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.webp">
+</head>
+<body>
+    <header>
+        <nav class="top-menu">
+            <div class="menu-icon" id="menuIcon">
+                <img src="images/menu.png" alt="Menu Icon" class="menu-icon-image">
+            </div>
+            <a href="../index.html">
+                <div class="logo">AURIDAL S.L.</div> 
+            </a>
+            <div class="menu-container">
+                <ul class="menu">
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+                            Nuestra empresa
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="black" d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="../nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
+                            <a href="../nuestraEmpresa/quienesSomos.html">¿Quiénes somos?</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+                            Producto
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="black" d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="colores.html">Colores</a>
+                            <a href="clasico.html">Clásico</a>
+                            <a href="natural.html">Natural</a>
+                            <a href="moderno.html">Moderno</a>
+                        </div>
+                    </li>
+                    <li><a href="../pie/contacto.html">Contacto</a></li>
+                </ul>
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." id="searchInput" class="hidden">
+                    <button id="searchButton">
+                        <!-- Inline SVG for the search icon -->
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Side Navigation Menu for Mobile (hidden by default) -->
+    <div id="sideMenu" class="side-menu">
+        <div class="side-menu-header">
+            <div class="logo">AURIDAL S.L.</div>
+            <a href="#" class="closebtn" id="closeBtn">&times;</a>
+        </div>
+        <ul><a href="../index.html">Inicio</a></ul>
+        <ul class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Nuestra empresa
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="white" d="M7 10l5 5 5-5z"/>
+            </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="../nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
+              <a href="../nuestraEmpresa/quienesSomos.html">¿Quiénes somos?</a>
+          </div>
+        </ul>
+        <ul class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Producto
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="white" d="M7 10l5 5 5-5z"/>
+             </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="colores.html">Colores</a>
+              <a href="clasico.html">Clásico</a>
+              <a href="natural.html">Natural</a>
+              <a href="moderno.html">Moderno</a>
+          </div>
+        </ul>
+      <ul><a href="../pie/contacto.html">Contacto</a></ul>
+    </div>
+
+    <main id="product-container">
+        <!-- Product details will be inserted here -->
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/search-results.js"></script>
+    <script src="../js/product.js"></script>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>© 2024 AURIDAL S.L. | Todos los derechos reservados</p>
+            <ul class="footer-menu">
+                <li><a href="../pie/privacidad.html">Política de privacidad</a></li>
+                <li><a href="../pie/servicio.html">Términos de servicio</a></li>
+                <li><a href="../pie/contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Pantalla completa, vista de productos-->
+    <div id="fullscreen-overlay" class="fullscreen-overlay">
+        <div class="fullscreen-content">
+            <img id="fullscreen-image" src="" alt="Product Image">
+            <button class="fullscreen-prev" onclick="navigateFullscreen('prev')">❮</button>
+            <button class="fullscreen-next" onclick="navigateFullscreen('next')">❯</button>
+            <button class="fullscreen-close" onclick="exitFullScreen()">✖</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -69,7 +69,6 @@ async function displaySearchResults() {
         return;
     }
 
-
     // Fetch products from the appropriate JSON file
     const products = await fetchProducts(category);
 
@@ -85,7 +84,7 @@ async function displaySearchResults() {
                 <div class="product-item">
                     <div class="list-wrapper">
                         <ul class="list carousel">
-                            ${product.imgSrcs.map(imgSrc => `
+                            ${product.images.map(imgSrc => `
                                 <li class="item"><img src="${imgSrc}" alt="${product.name}" class="carousel-image"></li>
                             `).join('')}
                         </ul>
@@ -95,6 +94,7 @@ async function displaySearchResults() {
                     </div>
                     <h2>${product.name}</h2>
                     <p>${product.description}</p>
+                    <p>Precio: ${product.price}</p>
                 </div>
             `;
             searchResultsContainer.innerHTML += productHTML;

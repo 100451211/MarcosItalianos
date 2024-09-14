@@ -117,7 +117,6 @@ document.getElementById('searchInput').addEventListener('keypress', handleSearch
 
 // -------------------------------------------------------------------------------------------
 
-
 // Side Menu - Get elements
 const menuIcon = document.getElementById('menuIcon');
 const sideMenu = document.getElementById('sideMenu');
@@ -126,12 +125,13 @@ const closeBtn = document.getElementById('closeBtn');
 // Open the side menu when the menu icon is clicked
 menuIcon.onclick = function () {
     sideMenu.style.width = '290px'; // Show the side menu
-    menuIcon.display= none;
+    menuIcon.style.display = 'none'; // Hide the menu icon
 }
 
 // Close the side menu when the close button is clicked
 closeBtn.onclick = function () {
     sideMenu.style.width = '0'; // Hide the side menu
+    menuIcon.style.display = 'inline-block'; // Show the menu icon again
 }
 
 // Get all dropdowns in the side menu

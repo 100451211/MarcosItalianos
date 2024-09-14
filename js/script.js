@@ -44,6 +44,12 @@ function changeHeroBackground() {
         icon.setAttribute('fill', textColor);
     });
 
+    // Update the dropdown background color
+    const dropdownContents = document.querySelectorAll('.dropdown-content');
+    dropdownContents.forEach(dropdown => {
+        dropdown.style.backgroundColor = dropdownBgColor;
+    });
+
     // Update search icon color
     searchIcon.setAttribute('stroke', textColor);
 

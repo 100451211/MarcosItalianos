@@ -1,0 +1,15 @@
+[
+    {
+        "id": "6006",
+        "name": "Producto 6006",
+        "imgSrcs": ["../images/image1.jpg", "../images/image3.jpg", "../images/image5.jpg"],
+        "description": "Description for Producto 6006"
+    },
+    {
+        "id": "6007",
+        "name": "Producto 6007",
+        "imgSrcs": ["../images/image1.jpg", "../images/image3.jpg", "../images/image5.jpg"],
+        "description": "Description for Producto 6007"
+    }
+
+]

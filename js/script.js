@@ -77,10 +77,7 @@ heroImages[currentIndex].style.left = '0'; // Set the first image to be visible
 // Set an interval to change the background every 4 seconds
 setInterval(changeHeroBackground, 4000);
 
-
-
 // -------------------------------------------------------------------------------------------
-
 
 // Function to handle search bar toggle
 function toggleSearchBar() {
@@ -88,9 +85,10 @@ function toggleSearchBar() {
 
     if (searchInput.classList.contains('visible')) {
         const searchText = searchInput.value.trim();
+        
         if (searchText) {
-            console.log('Searching for:', searchText);
-            alert('Searching for: ' + searchText); // Placeholder for real search functionality
+            // Redirect to the search results page with the search term in the URL
+            window.location.href = `search-results.html?query=${encodeURIComponent(searchText)}`;
         } else {
             alert('Please enter something to search.');
         }
@@ -122,6 +120,9 @@ document.getElementById('searchButton').addEventListener('click', function(e) {
 
 // Event listener to hide search bar when clicking outside
 document.addEventListener('click', hideSearchBarIfClickedOutside);
+
+// Event listener to trigger search on 'Enter' key press
+document.getElementById('searchInput').addEventListener('keypress', handleSearch);
 
 // -------------------------------------------------------------------------------------------
 

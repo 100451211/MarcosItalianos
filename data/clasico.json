@@ -1,0 +1,14 @@
+[
+    {
+        "id": "6006",
+        "name": "6006",
+        "imgSrcs": ["../images/salvadori/moderno/6006-40.jpg", "../images/salvadori/moderno/6006-41.jpg"],
+        "description": ""
+    },
+    {
+        "id": "6007",
+        "name": "Producto 6007",
+        "imgSrcs": ["../images/image1.jpg", "../images/image3.jpg", "../images/image5.jpg"],
+        "description": "Description for Producto 6007"
+    }
+]

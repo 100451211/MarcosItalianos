@@ -152,6 +152,27 @@ nav ul {
     height: 20px;
 }
 
+/* No hay resultados de búsqueda */
+.no-results-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 90px; /* Adjust this value as needed */
+    text-align: center;
+    
+}
+
+.no-results {
+    width: 100px; /* Adjust the size of the image */
+    margin-bottom: 20px;
+}
+
+.no-results-container p {
+    font-size: 40px;
+    color: #555;
+}
+
 /* Mobile View */
 @media (max-width: 768px) {
     .menu {
@@ -364,6 +385,7 @@ nav ul {
     font-size: 18px;
     line-height: 1.6;
 }
+
 
 /* Pie de página */
 .site-footer {

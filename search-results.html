@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURIDAL S.L.</title>
+    <title>Búsqueda - AURIDAL S.L.</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
@@ -98,31 +98,35 @@
       <ul><a href="pie/contacto.html">Contacto</a></ul>
     </div>
 
+    <!-- Main content -->
     <main>
-        <!-- Hero Section -->
-        <div class="hero">
-            <div class="hero-images">
-                <div class="hero-image" style="background-image: url('../images/hero-image.png');"></div>
-                <div class="hero-image" style="background-image: url('../images/hero2.jpeg');"></div>
-                <div class="hero-image" style="background-image: url('../images/hero3.jpeg');"></div>
-            </div>
-            <h1>AURIDAL S.L.</h1>
+        <!-- Title -->
+        <div>
+            <section class="product-title">
+                <h1>Resultado de búsqueda</h1>
+                <!-- Breadcrumb with Home Icon -->
+                <p>
+                    <!-- Home SVG icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 .134l6.571 5.428c.326.27.429.745.245 1.12a.857.857 0 0 1-.794.48H12.86v5.527a.857.857 0 0 1-.857.857h-1.715a.857.857 0 0 1-.857-.857V9.429H6.571v3.857a.857.857 0 0 1-.857.857H4a.857.857 0 0 1-.857-.857V7.163H2.128a.857.857 0 0 1-.794-.48.857.857 0 0 1 .245-1.12L8 .134z"/>
+                    </svg>
+                    > Home > Search Results
+                </p>
+            </section>
         </div>
+
+        <!-- No results will appear here -->
+        <div id="noResultsContainer"></div>
+
+        <!-- Mosaic of Products with Arrow Navigation -->
+        <section class="product-mosaic">
+            <div class="product-grid" id="searchResultsContainer">
+                <!-- This is where the search results will be inserted dynamically -->
+            </div>
+        </section>
     </main>
 
-  <footer class="site-footer">
-      <div class="footer-content">
-          <p>© 2024 AURIDAL S.L. | Todos los derechos reservados</p>
-          <ul class="footer-menu">
-              <li><a href="pie/privacidad.html">Política de privacidad</a></li>
-              <li><a href="pie/servicio.html">Términos de servicio</a></li>
-              <li><a href="pie/contacto.html">Contacto</a></li>
-          </ul>
-      </div>
-  </footer>
-
-  <script src="js/script.js"></script>
-  <script src="js/search-results.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/search-results.js"></script>
 </body>
 </html>
-

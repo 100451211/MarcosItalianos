@@ -118,32 +118,11 @@ nav ul {
     display: block;
 }
 
-/* General rule to hide the menu icon on large screens */
+/* Side Menu */
 .menu-icon {
     display: none;
 }
 
-/* Ensure the menu icon shows on smaller screens */
-@media (max-width: 768px) {
-    .menu-icon {
-        display: inline-block !important; /* Override with !important to ensure this rule takes effect */
-        cursor: pointer;
-        position: relative;
-        z-index: 1002;
-        border: 2px solid red; /* Temporary border for debugging */
-    }
-
-    .menu-icon-image {
-        width: 30px;
-        height: 30px;
-        display: block;
-    }
-    .menu{
-        display:none;
-    }
-}
-
-/* Side Menu */
 .side-menu {
     height: 100%;
     width: 0;
@@ -229,6 +208,25 @@ nav ul {
 
 .dropdown.active .dropbtn svg {
     transform: rotate(180deg);
+}
+
+/* Ensure the menu icon shows on smaller screens */
+@media (max-width: 768px) {
+    .menu-icon {
+        display: inline-block !important; /* Override with !important to ensure this rule takes effect */
+        cursor: pointer;
+        position: relative;
+        z-index: 1002;
+    }
+
+    .menu-icon-image {
+        width: 30px;
+        height: 30px;
+        display: block;
+    }
+    .menu {
+        display:none;
+    }
 }
 
 /* Barra de búsqueda */

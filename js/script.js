@@ -53,6 +53,9 @@ function changeHeroBackground() {
     // Update search icon color
     searchIcon.setAttribute('stroke', textColor);
 
+    // Update menu icon color too
+    menuSvg.setAttribute('stroke', textColor); // Change the color of the SVG icon
+
     // Wait for the transition to finish before allowing the next one
     setTimeout(() => {
         // Update current index

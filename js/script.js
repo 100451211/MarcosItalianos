@@ -115,46 +115,41 @@ document.getElementById('searchButton').addEventListener('click', function(e) {
 // Event listener to hide search bar when clicking outside
 document.addEventListener('click', hideSearchBarIfClickedOutside);
 
-// Event listener to trigger search on 'Enter' key press
-document.getElementById('searchInput').addEventListener('keypress', handleSearch);
+// // Event listener to trigger search on 'Enter' key press
+// document.getElementById('searchInput').addEventListener('keypress', handleSearch);
 
 // -------------------------------------------------------------------------------------------
 
-// Side Menu - Get elements
-const menuIcon = document.getElementById('menuIcon');
-const sideMenu = document.getElementById('sideMenu');
-const closeBtn = document.getElementById('closeBtn');
+document.addEventListener('DOMContentLoaded', function() {
+    // Side Menu - Get elements
+    const menuIcon = document.getElementById('menuIcon');
+    const sideMenu = document.getElementById('sideMenu');
+    const closeBtn = document.getElementById('closeBtn');
+    const logo = document.querySelector('.logo'); // Select the logo outside the side menu
 
-// Open the side menu when the menu icon is clicked
-menuIcon.onclick = function () {
-    sideMenu.style.width = '290px'; // Show the side menu
-    menuIcon.style.display = 'none'; // Hide the menu icon
-}
+    // Ensure the menuIcon exists
+    if (menuIcon) {
+        // Open the side menu when the menu icon is clicked
+        menuIcon.addEventListener('click', function () {
+            console.log('Menu icon clicked'); // Debugging: Check if the click event fires
+            sideMenu.style.width = '290px'; // Show the side menu
+            menuIcon.style.display = 'none'; // Hide the menu icon
+            logo.style.display = 'none'; // Hide the logo in the main header
+        });
+    }
 
-// Close the side menu when the close button is clicked
-closeBtn.onclick = function () {
-    sideMenu.style.width = '0'; // Hide the side menu
-    menuIcon.style.display = 'inline-block'; // Show the menu icon again
-}
-
-// Get all dropdowns in the side menu
-const dropdowns = document.querySelectorAll('.side-menu .dropdown');
-
-// Loop through each dropdown
-dropdowns.forEach(dropdown => {
-    dropdown.addEventListener('click', function() {
-        // Toggle 'active' class on the clicked dropdown
-        this.classList.toggle('active');
-        
-        // Toggle the dropdown content visibility
-        const dropdownContent = this.querySelector('.dropdown-content');
-        if (dropdownContent.style.display === 'block') {
-            dropdownContent.style.display = 'none';
-        } else {
-            dropdownContent.style.display = 'block';
-        }
-    });
+    // Ensure the closeBtn exists
+    if (closeBtn) {
+        // Close the side menu when the close button is clicked
+        closeBtn.addEventListener('click', function () {
+            sideMenu.style.width = '0'; // Hide the side menu
+            menuIcon.style.display = 'inline-block'; // Show the menu icon again
+            logo.style.display = 'block'; // Show the logo in the main header again
+        });
+    }
 });
+
+
 
 // -------------------------------------------------------------------------------------------
 

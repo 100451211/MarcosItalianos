@@ -89,90 +89,32 @@
             <!-- Mosaic of Products with Arrow Navigation -->
             <section class="product-mosaic">
                 <div class="product-grid">
-                    <div class="product-item">
+                    <div class="product-item" onclick="redirectToProduct('6006', 'moderno')">
                         <div class="list-wrapper">
                             <ul class="list carousel">
-                                <li class="item"><img src="../images/image1.jpg" alt="Producto 1 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image3.jpg" alt="Producto 1 Image 2" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image5.jpg" alt="Producto 1 Image 3" class="carousel-image"></li>
+                                <li class="item"><img src="../images/salvadori/moderno/6006-40.jpg" alt="Producto 1 Image 1" class="carousel-image"></li>
+                                <li class="item"><img src="../images/salvadori/moderno/6006-41.jpg" alt="Producto 1 Image 2" class="carousel-image"></li>
                             </ul>
-                            <!-- Arrow buttons for navigating images of this product -->
-                            <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
+                            <!-- Update the buttons to pass the event object -->
+                            <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
+                            <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
+
                         </div>
-                        <h2>Producto 1</h2>
+                        <h2>6006</h2>
                     </div>
     
-                    <div class="product-item">
+                    <div class="product-item" onclick="redirectToProduct('6007', 'moderno')">
                         <div class="list-wrapper">
                             <ul class="list carousel">
                                 <li class="item"><img src="../images/image1.jpg" alt="Producto 2 Image 1" class="carousel-image"></li>
                                 <li class="item"><img src="../images/image3.jpg" alt="Producto 2 Image 2" class="carousel-image"></li>
                                 <li class="item"><img src="../images/image5.jpg" alt="Producto 2 Image 3" class="carousel-image"></li>
                             </ul>
-                            <!-- Arrow buttons for navigating images of this product -->
-                            <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
+                            <!-- Update the buttons to pass the event object -->
+                            <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
+                            <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
                         </div>
-                        <h2>Producto 2</h2>
-                    </div>
-                    <div class="product-item">
-                        <div class="list-wrapper">
-                            <ul class="list carousel">
-                                <li class="item"><img src="../images/image1.jpg" alt="Producto 3 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image3.jpg" alt="Producto 3 Image 2" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image5.jpg" alt="Producto 3 Image 3" class="carousel-image"></li>
-                            </ul>
-                            <!-- Arrow buttons for navigating images of this product -->
-                            <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
-                        </div>
-                        <h2>Producto 3</h2>
-                    </div>
-                    <div class="product-item">
-                        <div class="list-wrapper">
-                            <ul class="list carousel">
-                                <li class="item"><img src="../images/image1.jpg" alt="Producto 4 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image3.jpg" alt="Producto 4 Image 2" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image5.jpg" alt="Producto 4 Image 3" class="carousel-image"></li>
-                            </ul>
-                            <!-- Arrow buttons for navigating images of this product -->
-                            <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
-                        </div>
-                        <h2>Producto 4</h2>
-                    </div>
-                </div>  
-            </section>
-            <!-- Mosaic of Products with Arrow Navigation -->
-            <section class="product-mosaic">
-                <div class="product-grid">
-                    <div class="product-item">
-                        <div class="list-wrapper">
-                            <ul class="list carousel">
-                                <li class="item"><img src="../images/image1.jpg" alt="Producto 1 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image3.jpg" alt="Producto 1 Image 2" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image5.jpg" alt="Producto 1 Image 3" class="carousel-image"></li>
-                            </ul>
-                            <!-- Arrow buttons for navigating images of this product -->
-                            <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
-                        </div>
-                        <h2>Producto 1</h2>
-                    </div>
-    
-                    <div class="product-item">
-                        <div class="list-wrapper">
-                            <ul class="list carousel">
-                                <li class="item"><img src="../images/image1.jpg" alt="Producto 2 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image3.jpg" alt="Producto 2 Image 2" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image5.jpg" alt="Producto 2 Image 3" class="carousel-image"></li>
-                            </ul>
-                            <!-- Arrow buttons for navigating images of this product -->
-                            <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
-                        </div>
-                        <h2>Producto 2</h2>
+                        <h2>6007</h2>
                     </div>
                     <div class="product-item">
                         <div class="list-wrapper">
@@ -204,9 +146,50 @@
             </section>
         </main>
 
+
     <script src="../js/script.js"></script>
     <script src="../js/search-results.js"></script>
+    <script src="../js/product.js"></script> 
+    
     <script>
+        // Function to handle image navigation
+        function handleClick(event, button, direction) {
+            event.preventDefault(); // Prevent default action (if any)
+            event.stopPropagation(); // Stop the event from bubbling up to the parent div
+
+            const productItem = button.parentElement; // Get the parent container (the product item)
+            const carousel = productItem.querySelector('.carousel'); // Find the carousel within the product item
+            const items = carousel.querySelectorAll('.item'); // Get all images
+            let currentIndex = 0;
+
+            // Find the current visible image
+            items.forEach((item, index) => {
+                if (window.getComputedStyle(item).display !== "none") {
+                    currentIndex = index;
+                }
+            });
+
+            // Determine the next index based on the button clicked
+            if (direction === 'next') {
+                currentIndex = (currentIndex + 1) % items.length; // Move to the next image, loop back if needed
+            } else if (direction === 'previous') {
+                currentIndex = (currentIndex - 1 + items.length) % items.length; // Move to the previous image, loop back if needed
+            }
+
+            // Hide all items
+            items.forEach(item => {
+                item.style.display = 'none';
+            });
+
+            // Show the new current item
+            items[currentIndex].style.display = 'block';
+        }
+
+        function redirectToProduct(productId, category) {
+            window.location.href = `product.html?id=${productId}&category=${category}`;
+        }
+
+
         // Function to get query parameters from the URL
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
@@ -278,6 +261,7 @@
             });
         }
     </script>
+
 
     <!-- Footer -->
     <footer class="site-footer">

@@ -3,7 +3,10 @@
         
         "id": "6006",
         "name": "6006",
-        "price": "",
+        "price": {
+            "madrid": "",
+            "other": ""
+        },
         "description": "Este es un marco de alta calidad con acabado moderno y elegante.",
         "details": {
             "material": "Madera moderno",
@@ -12,7 +15,7 @@
                 "largo": 50,
                 "rebajo": 10
             },
-            "availability": "En stock"
+            "availability": "3"
         },
         "images": [
             "../images/salvadori/moderno/6006-40.jpg",

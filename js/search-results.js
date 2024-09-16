@@ -50,12 +50,27 @@ async function fetchProducts(category) {
 
 // Function to display search results
 async function displaySearchResults() {
+    // const searchTerm = getQueryParams();
+    // const searchResultsContainer = document.getElementById('searchResultsContainer');
+    // const noResultsContainer = document.getElementById('noResultsContainer'); // New container for no results
+
+    // CORRECCIÓN DE ERRORES ---------------------------------------------
     const searchTerm = getQueryParams();
     const searchResultsContainer = document.getElementById('searchResultsContainer');
-    const noResultsContainer = document.getElementById('noResultsContainer'); // New container for no results
+    const noResultsContainer = document.getElementById('noResultsContainer');
 
-    // Clear previous results
-    searchResultsContainer.innerHTML = '';
+    if (searchResultsContainer) {
+        // Clear previous results
+        searchResultsContainer.innerHTML = '';
+    }
+    else{
+        console.log('Element with id "searchResultsContainer" not found');
+    }
+
+    // if (!noResultsContainer) {
+    //     console.error('Element with id "noResultsContainer" not found');
+    //     return;
+    // }
 
     // Determine the category based on the search term
     const category = getCategory(searchTerm);

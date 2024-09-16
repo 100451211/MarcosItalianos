@@ -1,6 +1,19 @@
 // Fetch product data from the correct JSON file based on the category
 async function loadProductPage() {
-    // Get the product ID and category from the URL
+    // // Get the product ID and category from the URL
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const productId = urlParams.get('id');
+    // const category = urlParams.get('category');
+
+    // CORRECCIÓN DE ERRORES ---------------------------------------------
+    const container = document.getElementById('product-container');
+    
+    if (!container) {
+        console.error('Element with id "product-container" not found');
+        return;
+    }
+
+    // Existing logic to get the product ID and category
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
     const category = urlParams.get('category');

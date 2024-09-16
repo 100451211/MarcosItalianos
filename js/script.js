@@ -127,7 +127,7 @@ document.getElementById('searchInput').addEventListener('keydown', function(e) {
 
         const searchText = e.target.value.trim();
         if (searchText) {
-            window.location.href = `search-results.html?query=${encodeURIComponent(searchText)}`;
+            window.location.href = `http://localhost:8000/search-results.html?query=${encodeURIComponent(searchText)}`;
         }
     }
 });

@@ -129,7 +129,7 @@
                 const searchText = searchInput.value.trim();
                 if (searchText) {
                     // Perform the search if there's a query, redirecting to the search-results page
-                    window.location.href = `/search-results.html?query=${encodeURIComponent(searchText)}`;
+                    window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
                 } else {
                     // Close the search bar if it's open and no search text is entered
                     searchInput.classList.remove('visible'); // Hide the input field
@@ -177,7 +177,7 @@
                     e.preventDefault(); // Prevent default form behavior
                     const searchText = e.target.value.trim();
                     if (searchText) {
-                        window.location.href = `search-results.html?query=${encodeURIComponent(searchText)}`;
+                        window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
                     }
                 }
             });

@@ -538,7 +538,6 @@ p {
 /* Product Item Styling */
 .product-item {
     background-color: #fff; /* Clean white background */
-    border-radius: 15px; /* Softer, rounded corners */
     text-align: center;
     overflow: hidden; /* Ensure images don’t overflow the container */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover animation */
@@ -594,7 +593,6 @@ p {
     top: 50%;
     transform: translateY(-50%);
     color: black;
-    /* border: 2px solid white; Border to keep the arrows visible */
     background-color: transparent; /* Remove background color */
     cursor: pointer;
     padding: 10px;
@@ -606,10 +604,12 @@ p {
 }
 
 .button--previous {
+    background-color: white;
     left: 10px;
 }
 
 .button--next {
+    background-color: white;
     right: 10px;
 }
 

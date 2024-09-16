@@ -1,8 +1,8 @@
 [
     {
         
-        "id": "6006",
-        "name": "6006",
+        "id": "6006-40",
+        "name": "6006-40",
         "price": {
             "madrid": "",
             "other": ""
@@ -15,7 +15,7 @@
                 "largo": 50,
                 "rebajo": 10
             },
-            "availability": "3"
+            "availability": 3
         },
         "images": [
             "../images/salvadori/moderno/6006-40.jpg",
@@ -24,18 +24,25 @@
     },
     {
         
-        "id": "6007",
-        "name": "6007",
-        "price": "",
-        "description": "Alta calidad con acabado mate.",
+        "id": "6006-41",
+        "name": "6006-41",
+        "price": {
+            "madrid": "",
+            "other": ""
+        },
+        "description": "Este es un marco de alta calidad con acabado moderno y elegante.",
         "details": {
-            "material": "Roble moderno",
-            "dimensions": ["30cm", "20cm", "10cm"],
-            "availability": "En stock"
+            "material": "Madera moderno",
+            "dimensions": {
+                "ancho": 40,
+                "largo": 50,
+                "rebajo": 10
+            },
+            "availability": 3
         },
         "images": [
-            "../images/salvadori/moderno/6006-40.jpg",
-            "../images/salvadori/moderno/6006-40.jpg"
+            "../images/image1.jpg",
+            "../images/image3.jpg"
         ]
     }
 ]

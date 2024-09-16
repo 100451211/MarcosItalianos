@@ -16,33 +16,13 @@ const colorSchemes = [
 
 // Function to change hero background and colors
 function changeHeroBackground() {
-    // // Remove previous flag to prevent multiple transitions
-    // if (transitioning) return;
-    // transitioning = true; // Set flag to prevent double transitions
-
-    // const currentImage = heroImages[currentIndex]; // Get current image
-    // let nextIndex = (currentIndex + 1) % heroImages.length; // Next image index
-    // const nextImage = heroImages[nextIndex]; // Next image
-
-    // CORRECCIÓN DE ERRORES ---------------------------------------------
     // Remove previous flag to prevent multiple transitions
     if (transitioning) return;
     transitioning = true; // Set flag to prevent double transitions
 
-    // Ensure currentIndex is valid and the element exists
-    if (!heroImages[currentIndex]) {
-        console.error('No image found for currentIndex: ' + currentIndex);
-        return;
-    }
-
     const currentImage = heroImages[currentIndex]; // Get current image
     let nextIndex = (currentIndex + 1) % heroImages.length; // Next image index
-    const nextImage = heroImages[nextIndex];
-
-    if (!nextImage) {
-        console.error('No next image found for index: ' + nextIndex);
-        return;
-    }
+    const nextImage = heroImages[nextIndex]; // Next image
 
     // Remove the active class from the current image
     currentImage.classList.remove('active');
@@ -100,9 +80,11 @@ function toggleSearchBar() {
     if (searchInput.classList.contains('visible')) {
         const searchText = searchInput.value.trim();
 
-        if (searchText) {
-            // Redirect to the search results page with the search term in the URL
-            window.location.href = `search-results.html?query=${encodeURIComponent(searchText)}`;
+        console.log("Search icon clicked!");
+        event.preventDefault();
+        const searchTerm = document.getElementById('searchInput').value;
+        if (searchTerm) {
+            window.location.href = `search-results.html?query=${encodeURIComponent(searchTerm)}`;
         } else {
             // Close the search bar if it's already open
             searchInput.classList.remove('visible'); // Hide the input field

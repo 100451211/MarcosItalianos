@@ -1,15 +1,48 @@
 [
     {
-        "id": "6006",
-        "name": "Producto 6006",
-        "imgSrcs": ["../images/image1.jpg", "../images/image3.jpg", "../images/image5.jpg"],
-        "description": "Description for Producto 6006"
+        
+        "id": "2006",
+        "name": "2006",
+        "price": {
+            "madrid": "",
+            "other": ""
+        },
+        "description": "Este es un marco de alta calidad con acabado moderno y elegante.",
+        "details": {
+            "material": "Madera moderno",
+            "dimensions": {
+                "ancho": 40,
+                "largo": 50,
+                "rebajo": 10
+            },
+            "availability": 3
+        },
+        "images": [
+            "../images/image1.jpg",
+            "../images/image3.jpg"
+        ]
     },
     {
-        "id": "6007",
-        "name": "Producto 6007",
-        "imgSrcs": ["../images/image1.jpg", "../images/image3.jpg", "../images/image5.jpg"],
-        "description": "Description for Producto 6007"
+        
+        "id": "2007",
+        "name": "2007",
+        "price": {
+            "madrid": "",
+            "other": ""
+        },
+        "description": "Este es un marco de alta calidad con acabado moderno y elegante.",
+        "details": {
+            "material": "Madera moderno",
+            "dimensions": {
+                "ancho": 40,
+                "largo": 50,
+                "rebajo": 10
+            },
+            "availability": 3
+        },
+        "images": [
+            "../images/image1.jpg",
+            "../images/image3.jpg"
+        ]
     }
-
 ]

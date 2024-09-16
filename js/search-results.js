@@ -17,82 +17,53 @@ function handleEnterKeyPress(event) {
 // Function to get query parameters from the URL
 function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('query');
+    const query = params.get('query');
+    return query; // This will return '6006' or any search term
 }
 
-// Function to determine the category based on the search term
-function getCategory(searchTerm) {
-    // Adjust this to match how you categorize products
-    if (searchTerm.toLowerCase().includes('color')) {
-        return 'colores';
-    } else if (searchTerm.toLowerCase().includes('clasico')) {
-        return 'clasico';
-    } else if (searchTerm.toLowerCase().includes('moderno')) {
-        return 'moderno';
-    } else if (searchTerm.toLowerCase().includes('natural')) {
-        return 'natural';
-    } else {
-        return null; // If no category is found
-    }
-}
+// Function to fetch products from all categories
+async function fetchAllProducts() {
+    const categories = ['colores', 'clasico', 'moderno', 'natural'];
+    let allProducts = [];
 
-// Function to fetch products from the corresponding category JSON file
-async function fetchProducts(category) {
-    try {
-        const response = await fetch(`../data/${category}.json`);
-        const products = await response.json();
-        return products;
-    } catch (error) {
-        console.error("Error fetching products:", error);
-        return [];
+    for (let category of categories) {
+        try {
+            const response = await fetch(`../data/${category}.json`);
+            const products = await response.json();
+            allProducts = allProducts.concat(products); // Add products to the list
+        } catch (error) {
+            console.error(`Error fetching ${category} products:`, error);
+        }
     }
+
+    return allProducts;
 }
 
 // Function to display search results
 async function displaySearchResults() {
-    // const searchTerm = getQueryParams();
-    // const searchResultsContainer = document.getElementById('searchResultsContainer');
-    // const noResultsContainer = document.getElementById('noResultsContainer'); // New container for no results
-
-    // CORRECCIÓN DE ERRORES ---------------------------------------------
-    const searchTerm = getQueryParams();
+    const searchTerm = getQueryParams(); // Get the query, e.g., '6006'
     const searchResultsContainer = document.getElementById('searchResultsContainer');
     const noResultsContainer = document.getElementById('noResultsContainer');
 
-    if (searchResultsContainer) {
-        // Clear previous results
-        searchResultsContainer.innerHTML = '';
-    }
-    else{
-        console.log('Element with id "searchResultsContainer" not found');
-    }
-
-    // if (!noResultsContainer) {
-    //     console.error('Element with id "noResultsContainer" not found');
-    //     return;
-    // }
-
-    // Determine the category based on the search term
-    const category = getCategory(searchTerm);
-    if (!category) {
-        const dizzyFaceImg = '<img src="../images/noResults.jpg" alt="No Results" class="no-results">';
-        noResultsContainer.innerHTML = `
-            <div class="no-results-container">
-                ${dizzyFaceImg}
-                <p>No hemos encontrado productos con la referencia "${searchTerm}".</p>
-            </div>`;
+    // If no search term is found, do not proceed
+    if (!searchTerm) {
+        console.log("No search term found."); // Debugging
         return;
     }
 
-    // Fetch products from the appropriate JSON file
-    const products = await fetchProducts(category);
+    // Fetch products from all categories
+    const allProducts = await fetchAllProducts();
 
-    // Filter the products based on the search term
-    const filteredProducts = products.filter(product => 
-        product.id.includes(searchTerm) || product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    // Modify the filtering logic to match any part of the product ID
+    const filteredProducts = allProducts.filter(product =>
+        product.id.toLowerCase().includes(searchTerm.toLowerCase()) || // Match part of the ID
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())  // Match part of the name
     );
 
     if (filteredProducts.length > 0) {
+        // Clear previous search results
+        searchResultsContainer.innerHTML = '';
+
         // Display the filtered products with carousel and buttons
         filteredProducts.forEach(product => {
             const productHTML = `
@@ -108,17 +79,30 @@ async function displaySearchResults() {
                         <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
                     </div>
                     <h2>${product.name}</h2>
-                    <p>${product.description}</p>
-                    <p>Precio: ${product.price}</p>
                 </div>
             `;
             searchResultsContainer.innerHTML += productHTML;
         });
     } else {
-        // Display message if no products are found
-        searchResultsContainer.innerHTML = `<p>No results found for "${searchTerm}".</p>`;
+        // Display a message if no products are found
+        const dizzyFaceImg = '<img src="../images/noResults.jpg" alt="No Results" class="no-results">';
+        noResultsContainer.innerHTML = `
+            <div class="no-results-container">
+                ${dizzyFaceImg}
+                <p>No hemos encontrado productos con la referencia "${searchTerm}".</p>
+            </div>`;
     }
 }
+
+// Conditionally initialize search results if a query is present
+const searchTerm = getQueryParams();
+if (searchTerm) {
+    displaySearchResults();
+} else {
+    console.log("No query parameter detected, skipping search.");
+}
+
+
 
 // Function to handle carousel navigation
 function handleClick(button, direction) {

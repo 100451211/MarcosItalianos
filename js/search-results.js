@@ -17,8 +17,22 @@ function handleEnterKeyPress(event) {
 // Function to get query parameters from the URL
 function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
-    const query = params.get('query');
-    return query; // This will return '6006' or any search term
+    return params.get('query');
+}
+
+// Function to update the breadcrumb with the search term
+function updateBreadcrumbWithSearchTerm(searchTerm) {
+    const breadcrumbSearchTerm = document.getElementById('breadcrumb-search-term');
+    if (breadcrumbSearchTerm && searchTerm) {
+        // Insert the search term into the breadcrumb
+        breadcrumbSearchTerm.textContent = `"${searchTerm}"`;
+    }
+}
+
+// Get the search term and update the breadcrumb
+const searching = getQueryParams();
+if (searching) {
+    updateBreadcrumbWithSearchTerm(searching);
 }
 
 // Function to fetch products from all categories
@@ -39,11 +53,13 @@ async function fetchAllProducts() {
     return allProducts;
 }
 
-// Function to display search results
-async function displaySearchResults() {
-    const searchTerm = getQueryParams(); // Get the query, e.g., '6006'
+// Function to display search results (with optional search term)
+async function displaySearchResults(searchTerm) {
     const searchResultsContainer = document.getElementById('searchResultsContainer');
     const noResultsContainer = document.getElementById('noResultsContainer');
+
+    // Use the passed search term or get it from the URL
+    searchTerm = searchTerm || getQueryParams(); // Fallback to URL if no param provided
 
     // If no search term is found, do not proceed
     if (!searchTerm) {
@@ -64,7 +80,7 @@ async function displaySearchResults() {
         // Clear previous search results
         searchResultsContainer.innerHTML = '';
 
-        // Display the filtered products with carousel and buttons
+        // Display the filtered products
         filteredProducts.forEach(product => {
             const productHTML = `
                 <div class="product-item">
@@ -85,23 +101,19 @@ async function displaySearchResults() {
         });
     } else {
         // Display a message if no products are found
-        const dizzyFaceImg = '<img src="../images/noResults.jpg" alt="No Results" class="no-results">';
         noResultsContainer.innerHTML = `
             <div class="no-results-container">
-                ${dizzyFaceImg}
+                <img src="../images/noResults.jpg" alt="No Results" class="no-results">
                 <p>No hemos encontrado productos con la referencia "${searchTerm}".</p>
             </div>`;
     }
 }
 
-// Conditionally initialize search results if a query is present
+// Initialize search results on page load if a query is present
 const searchTerm = getQueryParams();
 if (searchTerm) {
-    displaySearchResults();
-} else {
-    console.log("No query parameter detected, skipping search.");
+    displaySearchResults(searchTerm);
 }
-
 
 
 // Function to handle carousel navigation

@@ -264,6 +264,14 @@ nav ul {
     height: 20px;
 }
 
+#searchInput.hidden {
+    display: none;
+}
+
+#searchInput.visible {
+    display: inline-block; /* Or whatever makes sense for your layout */
+}
+
 /* No hay resultados de búsqueda */
 .no-results-container {
     display: flex;

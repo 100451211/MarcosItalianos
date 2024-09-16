@@ -74,24 +74,25 @@ setInterval(changeHeroBackground, 4000);
 // -------------------------------------------------------------------------------------------
 
 // Function to handle search bar toggle
-function toggleSearchBar() {
+function toggleSearchBar(event) {
     const searchInput = document.getElementById('searchInput');
 
     if (searchInput.classList.contains('visible')) {
         const searchText = searchInput.value.trim();
 
-        console.log("Search icon clicked!");
-        event.preventDefault();
-        const searchTerm = document.getElementById('searchInput').value;
-        if (searchTerm) {
-            window.location.href = `search-results.html?query=${encodeURIComponent(searchTerm)}`;
+        event.preventDefault(); // Prevent form submit if search input is visible
+
+        if (searchText) {
+            // Perform the search if there's a query, redirecting to the search-results page
+            window.location.href = `/search-results.html?query=${encodeURIComponent(searchText)}`;
         } else {
-            // Close the search bar if it's already open
+            // Close the search bar if it's open and no search text is entered
             searchInput.classList.remove('visible'); // Hide the input field
             searchInput.value = ''; // Optionally clear the search bar input
         }
     } else {
-        searchInput.classList.add('visible'); // Show the input field
+        // Show the search bar and focus the input
+        searchInput.classList.add('visible');
         searchInput.focus(); // Focus the input for typing
     }
 }
@@ -113,14 +114,23 @@ function hideSearchBarIfClickedOutside(event) {
 // Event listener to toggle search bar visibility on button click
 document.getElementById('searchButton').addEventListener('click', function(e) {
     e.preventDefault(); // Prevent default behavior if inside a form
-    toggleSearchBar();
+    toggleSearchBar(e); // Pass the event to toggleSearchBar
 });
 
 // Event listener to hide search bar when clicking outside
 document.addEventListener('click', hideSearchBarIfClickedOutside);
 
-// // Event listener to trigger search on 'Enter' key press
-// document.getElementById('searchInput').addEventListener('keypress', handleSearch);
+// Optional: Trigger search on 'Enter' key press in the search input field
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent default form behavior
+
+        const searchText = e.target.value.trim();
+        if (searchText) {
+            window.location.href = `search-results.html?query=${encodeURIComponent(searchText)}`;
+        }
+    }
+});
 
 // -------------------------------------------------------------------------------------------
 

@@ -70,11 +70,14 @@ async function displaySearchResults(searchTerm) {
     // Fetch products from all categories
     const allProducts = await fetchAllProducts();
 
+    console.log("Search Term: "+ searchTerm+ " Type: "+ typeof searchTerm);
+
     // Modify the filtering logic to match any part of the product ID
-    const filteredProducts = allProducts.filter(product =>
-        product.id.toLowerCase().includes(searchTerm.toLowerCase()) || // Match part of the ID
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())  // Match part of the name
-    );
+    const filteredProducts = allProducts.filter(product => {
+        console.log("Product ID: " + product.id); // Logging product ID
+        return product.id.toLowerCase().includes(String(searchTerm).toLowerCase()) || // Match part of the ID
+               product.name.toLowerCase().includes(String(searchTerm).toLowerCase());  // Match part of the name
+    });
 
     if (filteredProducts.length > 0) {
         // Clear previous search results

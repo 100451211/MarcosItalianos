@@ -17,8 +17,15 @@ async function loadProductPage() {
     } else if (category === 'natural') {
         jsonFile = '../data/natural.json';
     } else {
-        // If no valid category is found, show an error message
-        document.getElementById('product-container').innerHTML = `<h1>Categoría no válida</h1>`;
+        document.addEventListener('DOMContentLoaded', function() {
+            // If no valid category is found, show an error message
+            const productContainer = document.getElementById('product-container');
+            if (productContainer) {
+                productContainer.innerHTML = `<h1>Categoría no válida</h1>`;
+            } else {
+                console.warn('Element #product-container not found.');
+            }
+        });
         return;
     }
 

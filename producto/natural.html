@@ -66,85 +66,121 @@
         </nav>
     </header>
 
-        <!-- Main content -->
-        <main>
-            <!-- Title -->
-            <div>
-                <section class="product-title">
-                    <h1>Natural</h1>
-                    <!-- Breadcrumb with Home Icon -->
-                    <p>
-                        <!-- Home SVG icon -->
-                        <a href="../index.html" style="text-decoration: none; color: inherit;">
-                            <svg href="../index.html" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 .134l6.571 5.428c.326.27.429.745.245 1.12a.857.857 0 0 1-.794.48H12.86v5.527a.857.857 0 0 1-.857.857h-1.715a.857.857 0 0 1-.857-.857V9.429H6.571v3.857a.857.857 0 0 1-.857.857H4a.857.857 0 0 1-.857-.857V7.163H2.128a.857.857 0 0 1-.794-.48.857.857 0 0 1 .245-1.12L8 .134z"/>
-                            </svg>
-                        </a>
-                            > Producto > 
-                        <a href="natural.html" style="text-decoration: none; color: inherit;"> Natural
-                    </p>
-                </section>
+    <!-- Side Navigation Menu for Mobile (hidden by default) -->
+    <div id="sideMenu" class="side-menu">
+        <div class="sideMenuHeader">
+            <div class="logo" style="color:white;padding:20px;">AURIDAL S.L.</div>
+            <a href="#" class="closebtn" id="closeBtn">&times;</a>
+        </div>
+        <ul><a href="../index.html">Inicio</a></ul>
+        <ul class="dropdown">
+          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Nuestra empresa
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="white" d="M7 10l5 5 5-5z"/>
+            </svg>
+          </a>
+          <div class="dropdown-content">
+              <a href="../nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
+              <a href="../nuestraEmpresa/quienesSomos.html">¿Quiénes somos?</a>
+          </div>
+        </ul>
+        <ul class="dropdown">
+            <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+              Producto
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="white" d="M7 10l5 5 5-5z"/>
+                </svg>
+            </a>
+            <div class="dropdown-content">
+                <a href="colores.html">Colores</a>
+                <a href="clasico.html">Clásico</a>
+                <a href="natural.html">Natural</a>
+                <a href="moderno.html">Moderno</a>
             </div>
+        </ul>
+      <ul><a href="../pie/contacto.html">Contacto</a></ul>
+    </div>
     
-            <!-- Mosaic of Products with Arrow Navigation -->
-            <section class="product-mosaic">
-                <div class="product-grid">
-                    <div class="product-item" onclick="redirectToProduct('6006', 'moderno')">
-                        <div class="list-wrapper">
-                            <ul class="list carousel">
-                                <li class="item"><img src="../images/salvadori/moderno/6006-40.jpg" alt="Producto 1 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/salvadori/moderno/6006-41.jpg" alt="Producto 1 Image 2" class="carousel-image"></li>
-                            </ul>
-                            <!-- Update the buttons to pass the event object -->
-                            <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
-
-                        </div>
-                        <h2>6006</h2>
-                    </div>
-    
-                    <div class="product-item" onclick="redirectToProduct('6007', 'moderno')">
-                        <div class="list-wrapper">
-                            <ul class="list carousel">
-                                <li class="item"><img src="../images/image1.jpg" alt="Producto 2 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image3.jpg" alt="Producto 2 Image 2" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image5.jpg" alt="Producto 2 Image 3" class="carousel-image"></li>
-                            </ul>
-                            <!-- Update the buttons to pass the event object -->
-                            <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
-                        </div>
-                        <h2>6007</h2>
-                    </div>
-                    <div class="product-item">
-                        <div class="list-wrapper">
-                            <ul class="list carousel">
-                                <li class="item"><img src="../images/image1.jpg" alt="Producto 3 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image3.jpg" alt="Producto 3 Image 2" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image5.jpg" alt="Producto 3 Image 3" class="carousel-image"></li>
-                            </ul>
-                            <!-- Arrow buttons for navigating images of this product -->
-                            <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
-                        </div>
-                        <h2>Producto 3</h2>
-                    </div>
-                    <div class="product-item">
-                        <div class="list-wrapper">
-                            <ul class="list carousel">
-                                <li class="item"><img src="../images/image1.jpg" alt="Producto 4 Image 1" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image3.jpg" alt="Producto 4 Image 2" class="carousel-image"></li>
-                                <li class="item"><img src="../images/image5.jpg" alt="Producto 4 Image 3" class="carousel-image"></li>
-                            </ul>
-                            <!-- Arrow buttons for navigating images of this product -->
-                            <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                            <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
-                        </div>
-                        <h2>Producto 4</h2>
-                    </div>
-                </div>  
+    <!-- Main content -->
+    <main>
+        <!-- Title -->
+        <div>
+            <section class="product-title">
+                <h1>Natural</h1>
+                <!-- Breadcrumb with Home Icon -->
+                <p>
+                    <!-- Home SVG icon -->
+                    <a href="../index.html" style="text-decoration: none; color: inherit;">
+                        <svg href="../index.html" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 .134l6.571 5.428c.326.27.429.745.245 1.12a.857.857 0 0 1-.794.48H12.86v5.527a.857.857 0 0 1-.857.857h-1.715a.857.857 0 0 1-.857-.857V9.429H6.571v3.857a.857.857 0 0 1-.857.857H4a.857.857 0 0 1-.857-.857V7.163H2.128a.857.857 0 0 1-.794-.48.857.857 0 0 1 .245-1.12L8 .134z"/>
+                        </svg>
+                    </a>
+                        > Producto > 
+                    <a href="natural.html" style="text-decoration: none; color: inherit;"> Natural
+                </p>
             </section>
-        </main>
+        </div>
+
+        <!-- Mosaic of Products with Arrow Navigation -->
+        <section class="product-mosaic">
+            <div class="product-grid">
+                <div class="product-item" onclick="redirectToProduct('6006', 'moderno')">
+                    <div class="list-wrapper">
+                        <ul class="list carousel">
+                            <li class="item"><img src="../images/salvadori/moderno/6006-40.jpg" alt="Producto 1 Image 1" class="carousel-image"></li>
+                            <li class="item"><img src="../images/salvadori/moderno/6006-41.jpg" alt="Producto 1 Image 2" class="carousel-image"></li>
+                        </ul>
+                        <!-- Update the buttons to pass the event object -->
+                        <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
+                        <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
+
+                    </div>
+                    <h2>6006</h2>
+                </div>
+
+                <div class="product-item" onclick="redirectToProduct('6007', 'moderno')">
+                    <div class="list-wrapper">
+                        <ul class="list carousel">
+                            <li class="item"><img src="../images/image1.jpg" alt="Producto 2 Image 1" class="carousel-image"></li>
+                            <li class="item"><img src="../images/image3.jpg" alt="Producto 2 Image 2" class="carousel-image"></li>
+                            <li class="item"><img src="../images/image5.jpg" alt="Producto 2 Image 3" class="carousel-image"></li>
+                        </ul>
+                        <!-- Update the buttons to pass the event object -->
+                        <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
+                        <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
+                    </div>
+                    <h2>6007</h2>
+                </div>
+                <div class="product-item">
+                    <div class="list-wrapper">
+                        <ul class="list carousel">
+                            <li class="item"><img src="../images/image1.jpg" alt="Producto 3 Image 1" class="carousel-image"></li>
+                            <li class="item"><img src="../images/image3.jpg" alt="Producto 3 Image 2" class="carousel-image"></li>
+                            <li class="item"><img src="../images/image5.jpg" alt="Producto 3 Image 3" class="carousel-image"></li>
+                        </ul>
+                        <!-- Arrow buttons for navigating images of this product -->
+                        <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
+                        <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
+                    </div>
+                    <h2>Producto 3</h2>
+                </div>
+                <div class="product-item">
+                    <div class="list-wrapper">
+                        <ul class="list carousel">
+                            <li class="item"><img src="../images/image1.jpg" alt="Producto 4 Image 1" class="carousel-image"></li>
+                            <li class="item"><img src="../images/image3.jpg" alt="Producto 4 Image 2" class="carousel-image"></li>
+                            <li class="item"><img src="../images/image5.jpg" alt="Producto 4 Image 3" class="carousel-image"></li>
+                        </ul>
+                        <!-- Arrow buttons for navigating images of this product -->
+                        <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
+                        <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
+                    </div>
+                    <h2>Producto 4</h2>
+                </div>
+            </div>  
+        </section>
+    </main>
 
 
     <script src="../js/script.js"></script>

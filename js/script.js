@@ -1,3 +1,12 @@
+/* General - Fondo con imagenes en bucle y ajuste de colores */
+/* General - Ajusta color barra de navegación en scroll */
+/* General - Barra de búsqueda */
+/* Producto - Navegacion por imagenes */
+
+// -------------------------------------------------------------------------------------------
+
+/* General - Fondo con imagenes en bucle y ajuste de colores */
+
 // Carousel functionality and changing color header
 const heroImages = document.querySelectorAll('.hero-image'); // Get all hero images
 const logo = document.querySelector('.logo'); // Get the logo
@@ -25,7 +34,13 @@ function changeHeroBackground() {
     const nextImage = heroImages[nextIndex]; // Next image
 
     // Remove the active class from the current image
-    currentImage.classList.remove('active');
+    // Check if the current image exists before removing the class
+    if (currentImage) {
+        // Remove the active class from the current image
+        currentImage.classList.remove('active');
+    } else {
+        console.log("No active image found.");
+    }
     
     // Add the active class to the next image
     nextImage.classList.add('active');
@@ -65,14 +80,40 @@ function changeHeroBackground() {
 }
 
 // Initialize the first image as active
-heroImages[currentIndex].classList.add('active'); // Set first image visible
+document.addEventListener('DOMContentLoaded', function() {
+    let currentIndex = 0;
+
+    // Ensure there are images to work with
+    if (heroImages.length > 0) {
+        // Initialize the first image as active
+        heroImages[currentIndex].classList.add('active'); // Set first image visible
+    } else {
+        console.warn('No images found!');
+    }
+});
+// heroImages[currentIndex].classList.add('active'); // Set first image visible
 
 // Set an interval to change the background every 4 seconds
 setInterval(changeHeroBackground, 4000);
 
+// -------------------------------------------------------------------------------------------
+
+/* General - Ajusta color barra de navegación en scroll */
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('header'); // Select the header element
+    const heroSection = document.querySelector('.hero'); // Select the hero section or the top section
+    const heroHeight = heroSection.offsetHeight; // Get the height of the hero section
+    
+    if (window.scrollY > heroHeight) {
+        header.style.backgroundColor = 'white'; // Change the header background to white
+    } else {
+        header.style.backgroundColor = 'transparent'; // Reset header background when not scrolling over an image
+    }
+});
 
 // -------------------------------------------------------------------------------------------
 
+/* General - Barra de búsqueda */
 // Function to handle search bar toggle
 function toggleSearchBar(event) {
     const searchInput = document.getElementById('searchInput');
@@ -111,16 +152,16 @@ function hideSearchBarIfClickedOutside(event) {
     }
 }
 
-// Event listener to toggle search bar visibility on button click
+// Permite aparicion de barra de busqueda click en icono
 document.getElementById('searchButton').addEventListener('click', function(e) {
     e.preventDefault(); // Prevent default behavior if inside a form
     toggleSearchBar(e); // Pass the event to toggleSearchBar
 });
 
-// Event listener to hide search bar when clicking outside
+// Cierra barra de busqueda cuando click fuera 
 document.addEventListener('click', hideSearchBarIfClickedOutside);
 
-// Optional: Trigger search on 'Enter' key press in the search input field
+// Permite busqueda con darle a "Enter"
 document.getElementById('searchInput').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
         e.preventDefault(); // Prevent default form behavior
@@ -133,7 +174,8 @@ document.getElementById('searchInput').addEventListener('keydown', function(e) {
 });
 
 // -------------------------------------------------------------------------------------------
-
+ 
+/* General -  Barra de navegacion lateral */
 document.addEventListener('DOMContentLoaded', function() {
     // Side Menu - Get elements
     const menuIcon = document.getElementById('menuIcon');
@@ -163,12 +205,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
-
 // -------------------------------------------------------------------------------------------
 
 /* Producto - Navegar por imágenes */
-function handleClick(button, direction) {
+function handleClick(event, button, direction) {
     const listWrapper = button.closest('.list-wrapper');
     const list = listWrapper.querySelector('.list');
     const item = list.querySelector('.item');
@@ -180,3 +220,44 @@ function handleClick(button, direction) {
         list.scrollBy({ left: itemWidth, behavior: 'smooth' });
     }
 }
+
+/* Producto - [Móvil] Navegacion por imagenes */
+// Add swipe functionality
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.list-wrapper').forEach(wrapper => {
+        console.log('Event listeners attached to', wrapper);
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        wrapper.addEventListener('touchstart', (e) => {
+            console.log("Touch started:", e.touches[0].clientX);
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+
+        wrapper.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+            console.log("Touch moved:", currentX);
+        });
+
+        wrapper.addEventListener('touchend', () => {
+            console.log("Touch ended. StartX:", startX, " CurrentX:", currentX);
+            if (!isDragging) return;
+            isDragging = false;
+
+            const list = wrapper.querySelector('.list');
+            const item = list.querySelector('.item');
+            const itemWidth = item.offsetWidth;
+
+            if (startX - currentX > 50) {
+                // Swiped left, show next image
+                list.scrollBy({ left: itemWidth, behavior: 'smooth' });
+            } else if (currentX - startX > 50) {
+                // Swiped right, show previous image
+                list.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+            }
+        });
+    });
+});

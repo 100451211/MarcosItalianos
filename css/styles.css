@@ -447,6 +447,12 @@ nav ul {
     font-family: 'Playfair Display', serif;
     padding: 40px 20px;
 }
+
+.content-section p {
+    text-align: left;
+    padding: 4px 20px;
+}
+
 .section-heading {
     background-color: black;
     color: white;
@@ -678,8 +684,7 @@ p {
 
 p {
     font-size: 16px;
-    margin: 
-    5px 0;
+    margin: 5px 0;
 }
 
 /* Contacto - Horarios*/

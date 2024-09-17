@@ -130,7 +130,7 @@ nav ul {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgb(160, 132, 132);
+    background-color: rgb(186, 183, 183);
     overflow-x: hidden;
     transition: 0.5s;
     z-index: 2000;
@@ -516,6 +516,9 @@ nav ul {
 .team-member {
     text-align: center;
 }
+.team-member p{
+    text-align: center;
+}
 .team-member h3 {
     font-size: 24px;
     margin-bottom: 5px;
@@ -524,6 +527,14 @@ nav ul {
     font-size: 18px;
     color: gray;
 }
+
+.team-image {
+    width: 150px; /* Set width of the image */
+    height: 150px; /* Set height of the image */
+    object-fit: cover; /* Ensures the image fits well inside the container */
+    margin-bottom: 10px; /* Adds spacing between image and text */
+}
+
 p {
     text-align: center;
     font-size: 18px;

@@ -610,6 +610,7 @@ p {
 }
 
 .product-item:hover {
+    
     transform: translateY(-10px); /* Adds a hover effect to lift the product */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
 }
@@ -694,6 +695,11 @@ p {
     width: 45%;
     padding: 10px;
 }
+
+.left p{
+    text-align: center;
+}
+
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {

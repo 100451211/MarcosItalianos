@@ -180,7 +180,7 @@ nav ul {
 /* Dropdown for Side Menu */
 .side-menu .dropdown-content {
     display: none;
-    background-color: #333;
+    background-color: rgb(51, 51, 51);
     padding-left: 20px;
     margin-top: 10px;
     position: relative;
@@ -704,12 +704,16 @@ p {
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     .flex-container {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column !important; /* Stack items vertically */
+        justify-content: center !important; /* Center items */
+        align-items: center !important; /* Center horizontally */
+        text-align: center !important;
+        gap: 0px !important; /* Remove extra spacing on mobile */
     }
 
     .left, .right {
-        width: 100%;
+        width: 100% !important; /* Make each div full width on mobile */
+        margin-bottom: 20px !important; /* Add spacing between sections */
     }
 }
 

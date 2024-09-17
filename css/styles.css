@@ -124,6 +124,7 @@ nav ul {
 }
 
 .side-menu {
+    display:none;
     height: 100%;
     width: 0;
     position: fixed;
@@ -172,7 +173,7 @@ nav ul {
     position: absolute;
     top: 10px;
     right: 20px;
-    font-size: 24px;
+    font-size: 36px;
     color: #f1f1f1;
 }
 
@@ -197,7 +198,7 @@ nav ul {
 }
 
 .side-menu .dropdown-content a:hover {
-    background-color: #575757;
+    background-color: #beacac;
 }
 
 /* Adjust the dropdown arrow */
@@ -212,6 +213,9 @@ nav ul {
 
 /* Ensure the menu icon shows on smaller screens */
 @media (max-width: 768px) {
+    .side-menu{
+        display:inline-block;
+    }
     .menu-icon {
         display: inline-block !important; /* Override with !important to ensure this rule takes effect */
         cursor: pointer;
@@ -228,6 +232,29 @@ nav ul {
     .menu {
         display:none;
     }
+
+    .dropdown-content {
+        background-color: #ffffff; /* Default background color */
+        width: 100%; /* Full width dropdown */
+        padding: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Styling the dropdown items */
+    .dropdown-content a {
+        display: block;
+        padding: 12px 20px;
+        color: #333; /* Default text color */
+        text-align: left;
+        text-decoration: none;
+    }
+
+    /* Adjust dropdown icon */
+    .dropdown-icon {
+        fill: #333; /* Default color for mobile dropdown icon */
+    }
+
+    
 }
 
 /* Barra de búsqueda */

@@ -321,6 +321,15 @@ nav ul {
     border: 8px solid black;
     z-index: 2;
 }
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 34pt;
+        font-weight: 400;
+        letter-spacing: -0.1px;
+        padding: 20px 40px;
+    }
+}
 
 /* Container for all background images */
 .hero-images {

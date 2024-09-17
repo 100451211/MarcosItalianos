@@ -501,7 +501,7 @@ p {
     font-size: 24px; /* Size of the product title */
     color: #333;
     text-align: center; /* Center the product title */
-    margin-top: 70px; /* Add a small padding to separate from header */
+    margin-top: 90px; /* Add a small padding to separate from header */
 }
 
 /* Breadcrumb styling */
@@ -555,7 +555,11 @@ p {
     text-align: center;
     overflow: hidden; /* Ensure images don’t overflow the container */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover animation */
-    cursor: pointer; /* Makes the items more interactive */
+    cursor: pointer;  /* Makes the items more interactive */
+}
+
+.product-item li{
+    list-style-type: none; /* This removes the bullet points */
 }
 
 .product-item:hover {

@@ -125,7 +125,7 @@
         <!-- Mosaic of Products with Arrow Navigation -->
         <section class="product-mosaic">
             <div class="product-grid">
-                <div class="product-item" onclick="redirectToProduct('6006', 'moderno')">
+                <div class="product-item" onclick="redirectToProduct('6006-40', 'moderno')">
                     <div class="list-wrapper">
                         <ul class="list carousel">
                             <li class="item"><img src="../images/salvadori/moderno/6006-40.jpg" alt="Producto 1 Image 1" class="carousel-image"></li>
@@ -134,7 +134,6 @@
                         <!-- Update the buttons to pass the event object -->
                         <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
                         <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
-
                     </div>
                     <h2>6006</h2>
                 </div>
@@ -185,11 +184,8 @@
 
     <script src="../js/main.js"></script>
  
-    <!-- COMPROBAR FUNCIONAMIENTO DE FLECHAS !!!!-->
+    <!-- COMPROBAR FUNCIONAMIENTO DE FLECHAS Y VISTA INDIVIDUAL PRODUCTO !!!!-->
     <script>
-        function redirectToProduct(productId, category) {
-            window.location.href = `product.html?id=${productId}&category=${category}`;
-        }
     </script>
 
 

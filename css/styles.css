@@ -648,6 +648,11 @@ p {
     color: #333; /* Neutral dark color */
     margin-top: 15px;
     margin-bottom: 5px;
+    text-align: center;
+}
+
+.product-item #searchHead{
+    color:orange;
 }
 
 .carousel {

@@ -3,6 +3,7 @@
         
         "id": "2006",
         "name": "2006",
+        "category": "colores",
         "price": {
             "madrid": "",
             "other": ""
@@ -26,6 +27,7 @@
         
         "id": "2007",
         "name": "2007",
+        "category": "colores",
         "price": {
             "madrid": "",
             "other": ""

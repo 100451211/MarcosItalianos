@@ -77,6 +77,12 @@ if (searchButton && searchInput) {
 }
 
 // ---- natural.html script content ----
+
+// Individual view of product 
+function redirectToProduct(productId, category) {
+    window.location.href = `product.html?id=${productId}&category=${category}`;
+}
+
 // Function to handle image navigation
 function handleClick(event, button, direction) {
     event.preventDefault(); // Prevent default action (if any)
@@ -286,20 +292,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // -------------------------------------------------------------------------------------------
 
-/* Producto - Navegar por imágenes */
-function handleClick(event, button, direction) {
-    const listWrapper = button.closest('.list-wrapper');
-    const list = listWrapper.querySelector('.list');
-    const item = list.querySelector('.item');
-    const itemWidth = item.offsetWidth;
-
-    if (direction === 'previous') {
-        list.scrollBy({ left: -itemWidth, behavior: 'smooth' });
-    } else {
-        list.scrollBy({ left: itemWidth, behavior: 'smooth' });
-    }
-}
-
 /* Producto - [Móvil] Navegacion por imagenes */
 // Add swipe functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -362,8 +354,6 @@ function handleEnterKeyPress(event) {
     }
 }
 
-
-
 // Function to update the breadcrumb with the search term
 function updateBreadcrumbWithSearchTerm(searchTerm) {
     const breadcrumbSearchTerm = document.getElementById('breadcrumb-search-term');
@@ -403,7 +393,7 @@ async function displaySearchResults(searchTerm) {
     const noResultsContainer = document.getElementById('noResultsContainer');
 
     // Use the passed search term or get it from the URL
-    searchTerm = searchTerm || getQueryParams(); // Fallback to URL if no param provided
+    searchTerm = (typeof searchTerm === 'string') ? searchTerm : getQueryParams(); // Fallback to URL if no param provided
 
     // If no search term is found, do not proceed
     if (!searchTerm) {
@@ -414,9 +404,9 @@ async function displaySearchResults(searchTerm) {
     // Fetch products from all categories
     const allProducts = await fetchAllProducts();
 
-    console.log("Search Term: "+ searchTerm+ " Type: "+ typeof searchTerm);
+    console.log("Search Term: "+ searchTerm + " Type: "+ typeof searchTerm);
 
-    // Modify the filtering logic to match any part of the product ID
+    // Modify the filtering logic to match any part of the product ID or name
     const filteredProducts = allProducts.filter(product => {
         console.log("Product ID: " + product.id); // Logging product ID
         return product.id.toLowerCase().includes(String(searchTerm).toLowerCase()) || // Match part of the ID
@@ -424,23 +414,24 @@ async function displaySearchResults(searchTerm) {
     });
 
     if (filteredProducts.length > 0) {
-        console.log("filteredProd: "+filteredProducts.length)
+        console.log("filteredProd: "+filteredProducts.length);
         // Clear previous search results
         searchResultsContainer.innerHTML = '';
 
         // Display the filtered products
         filteredProducts.forEach(product => {
-            const productHTML = `
-                <div class="product-item">
+            // Corregiir onclick="redirectToProduct('6006', 'moderno')>
+            const productHTML = ` 
+                <div class="product-item" onclick="redirectToProduct('${product.id}', '${product.category}')>
                     <div class="list-wrapper">
                         <ul class="list carousel">
                             ${product.images.map(imgSrc => `
                                 <li class="item"><img src="${imgSrc}" alt="${product.name}" class="carousel-image"></li>
                             `).join('')}
                         </ul>
-                        <!-- Arrow buttons for navigating images of this product -->
-                        <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                        <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
+                        <!-- Update the buttons to pass the event object -->
+                        <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
+                        <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
                     </div>
                     <h2>${product.name}</h2>
                 </div>
@@ -461,24 +452,11 @@ async function displaySearchResults(searchTerm) {
     }
 }
 
+
 // Initialize search results on page load if a query is present
 const searchTerm = getQueryParams();
 if (searchTerm) {
     displaySearchResults(searchTerm);
-}
-
-
-// Function to handle carousel navigation
-function handleClick(button, direction) {
-    const list = button.parentElement.querySelector('.list');
-    const items = list.querySelectorAll('.item');
-    const currentItem = list.querySelector('.item:first-child');
-
-    if (direction === 'previous') {
-        list.insertBefore(items[items.length - 1], currentItem);
-    } else {
-        list.appendChild(currentItem);
-    }
 }
 
 // Add an event listener to detect the Enter key press on the search input

@@ -584,7 +584,7 @@ p {
 .product-mosaic {
     display: flex;
     justify-content: center;
-    margin: 40px 0;
+    margin: 40px 40px 0px 40px;
 }
 
 .product-grid {
@@ -611,6 +611,12 @@ p {
 
 /* Product Item Styling */
 .product-item {
+    display: flex;
+    flex-direction: column; /* Stack image and text vertically */
+    justify-content: space-between; /* Space between image and text */
+    align-items: center; /* Horizontally center items */
+    height: 100%; /* Ensure product item takes full height of container */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: #fff; /* Clean white background */
     text-align: center;
     overflow: hidden; /* Ensure images don’t overflow the container */
@@ -642,19 +648,6 @@ p {
 }
 
 /* Product Title Styling */
-.product-item h2 {
-    font-size: 22px; /* Slightly larger font size */
-    font-weight: 400; /* Lighter font for a modern look */
-    color: #333; /* Neutral dark color */
-    margin-top: 15px;
-    margin-bottom: 5px;
-    text-align: center;
-}
-
-.product-item #searchHead{
-    color:orange;
-}
-
 .carousel {
     display: flex;
     overflow: hidden;
@@ -699,6 +692,19 @@ p {
 
 .list-wrapper:hover .button {
     opacity: 1;
+}
+
+/* Reset any excessive margins on h2 */
+.product-item h2 {
+    margin: 10px 0; /* Minimal margin */
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    flex-grow: 1; /* Allow h2 to grow and take available space */
+    display: flex;
+    align-items: center; /* Vertically center the text */
+    justify-content: center; /* Horizontally center the text */
+    width: 100%;
 }
 
 /* Pie de página - Contacto */

@@ -3,6 +3,7 @@
         
         "id": "1006",
         "name": "1006",
+        "category": "clasico",
         "price": {
             "madrid": "",
             "other": ""
@@ -26,6 +27,7 @@
         
         "id": "1007",
         "name": "1007",
+        "category": "clasico",
         "price": {
             "madrid": "",
             "other": ""

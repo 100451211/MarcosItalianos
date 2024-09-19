@@ -141,7 +141,6 @@ const colorSchemes = [
 
 // Function to change hero background and colors
 function changeHeroBackground() {
-    console.log("heroImages: "+heroImages);
     if (heroImages > 0){
         // Remove previous flag to prevent multiple transitions
         if (transitioning) return;
@@ -213,7 +212,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn('No images found!');
     }
 });
-// heroImages[currentIndex].classList.add('active'); // Set first image visible
 
 // Set an interval to change the background every 4 seconds
 setInterval(changeHeroBackground, 4000);
@@ -259,7 +257,6 @@ document.getElementById('searchInput').addEventListener('keydown', function(e) {
 });
 
 // -------------------------------------------------------------------------------------------
- 
 /* General -  Barra de navegacion lateral */
 document.addEventListener('DOMContentLoaded', function() {
     // Side Menu - Get elements

@@ -111,63 +111,59 @@ const colorSchemes = [
 // Function to change hero background and colors
 function changeHeroBackground() {
     console.log("changeHeroBackground images:", heroImages.length);
-    if (heroImages.length > 0){
-        // Remove previous flag to prevent multiple transitions
-        if (transitioning) return;
-        transitioning = true; // Set flag to prevent double transitions
+    // Remove previous flag to prevent multiple transitions
+    if (transitioning) return;
+    transitioning = true; // Set flag to prevent double transitions
 
-        const currentImage = heroImages[currentIndex]; // Get current image
-        let nextIndex = (currentIndex + 1) % heroImages.length; // Next image index
-        const nextImage = heroImages[nextIndex]; // Next image
+    const currentImage = heroImages[currentIndex]; // Get current image
+    let nextIndex = (currentIndex + 1) % heroImages.length; // Next image index
+    const nextImage = heroImages[nextIndex]; // Next image
 
+    // Remove the active class from the current image
+    // Check if the current image exists before removing the class
+    if (currentImage) {
         // Remove the active class from the current image
-        // Check if the current image exists before removing the class
-        if (currentImage) {
-            // Remove the active class from the current image
-            currentImage.classList.remove('active');
-        } else {
-            console.log(currentImage.classList)
-            console.log("No active image found.");
-        }
-        
-        // Add the active class to the next image
-        nextImage.classList.add('active');
-
-        // Update colors based on the next image
-        const { headerColor, textColor, dropdownBgColor } = colorSchemes[nextIndex];
-
-        // Update logo and menu link colors
-        logo.style.color = textColor;
-        menuLinks.forEach(link => {
-            link.style.color = textColor;
-        });
-
-        // Update dropdown icon colors
-        dropdownIcons.forEach(icon => {
-            icon.setAttribute('fill', textColor);
-        });
-
-        // Update the dropdown background color
-        const dropdownContents = document.querySelectorAll('.dropdown-content');
-        dropdownContents.forEach(dropdown => {
-            dropdown.style.backgroundColor = dropdownBgColor;
-        });
-
-        // Update search icon color
-        searchIcon.setAttribute('stroke', textColor);
-
-        // Update menu icon color too
-        menuSvg.setAttribute('stroke', textColor); // Change the color of the SVG icon
-
-        // Wait for the transition to finish before allowing the next one
-        setTimeout(() => {
-            // Update current index
-            currentIndex = nextIndex;
-            transitioning = false; // Reset the transition flag
-        }, 1000); // Match the duration of the transition (1 second)
-    }else{
-        console.log("No hero-images element found!");
+        currentImage.classList.remove('active');
+    } else {
+        console.log(currentImage.classList)
+        console.log("No active image found.");
     }
+    
+    // Add the active class to the next image
+    nextImage.classList.add('active');
+
+    // Update colors based on the next image
+    const { headerColor, textColor, dropdownBgColor } = colorSchemes[nextIndex];
+
+    // Update logo and menu link colors
+    logo.style.color = textColor;
+    menuLinks.forEach(link => {
+        link.style.color = textColor;
+    });
+
+    // Update dropdown icon colors
+    dropdownIcons.forEach(icon => {
+        icon.setAttribute('fill', textColor);
+    });
+
+    // Update the dropdown background color
+    const dropdownContents = document.querySelectorAll('.dropdown-content');
+    dropdownContents.forEach(dropdown => {
+        dropdown.style.backgroundColor = dropdownBgColor;
+    });
+
+    // Update search icon color
+    searchIcon.setAttribute('stroke', textColor);
+
+    // Update menu icon color too
+    menuSvg.setAttribute('stroke', textColor); // Change the color of the SVG icon
+
+    // Wait for the transition to finish before allowing the next one
+    setTimeout(() => {
+        // Update current index
+        currentIndex = nextIndex;
+        transitioning = false; // Reset the transition flag
+    }, 1000); // Match the duration of the transition (1 second)
 }
 
 // Initialize the first image as active
@@ -184,7 +180,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Set an interval to change the background every 4 seconds
-setInterval(changeHeroBackground, 4000);
+if (heroImages.length > 0){
+    setInterval(changeHeroBackground, 4000);
+}else{
+    console.log("No hero-images element found!");
+}
 
 // -------------------------------------------------------------------------------------------
 
@@ -220,17 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// -------------------------------------------------------------------------------------------
-
-
-
-// -------------------------------------------------------------------------------------------
-
-
-// -------------------------------------------------------------------------------------------
-
 /* Producto - [Móvil] Navegacion por imagenes */
-
 // Function to handle image navigation
 function handleClick(event, button, direction) {
     event.preventDefault(); // Prevent default action (if any)
@@ -442,65 +432,154 @@ if (searchTerm) {
 
 /* ============= LOGICA PARA VISTA INDIVIDUAL PRODUCTOS ========================== */
 
+function redirectToProduct(productId, productCategory) {
+    console.log("productId:", productId , "- productCategory:", productCategory);
+    // Create the redirection URL with both productId and category
+    const redirectUrl = `${window.location.origin}/producto/${productCategory}-details.html?productId=${productId}&category=${productCategory}`;
+    console.log("Redirecting to:", redirectUrl);  // Debugging message
+    debugger;
+    window.location.assign = redirectUrl;  // Use `href` instead of `replace`
+}
+
+document.querySelectorAll('.product-item').forEach(productItem => {
+    productItem.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');  // Adjust to your structure
+        const category = this.getAttribute('data-category');  // Adjust to your structure
+        
+        redirectToProduct(productId, category);  // Call the function on click
+    });
+});
+
+// Function to be triggered once the user lands on the product details page
+function loadProductDetails() {
+    console.log("Window location search:", window.location.search);
+    console.log("loadProductDetails function triggered");
+
+    // Parse URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log("urlParams:", urlParams);
+    const productId = urlParams.get('productId');
+    const productCategory = urlParams.get('category'); // Get category from the URL
+
+    if (!productId || !productCategory) {
+        alert("Product ID or Category is missing!");
+        return;
+    }
+
+    console.log("loadProductDetails! :)  - Product ID:", productId, "Category:", productCategory);
+
+    // Determine the correct JSON file based on the product category
+    let jsonFilePath = '';
+    switch (productCategory) {
+        case 'moderno':
+            jsonFilePath = '../data/moderno.json';
+            break;
+        case 'clasico':
+            jsonFilePath = '../data/clasico.json';
+            break;
+        case 'colores':
+            jsonFilePath = '../data/colores.json';
+            break;
+        case 'natural':
+            jsonFilePath = '../data/natural.json';
+            break;
+        default:
+            alert('Invalid category! ('+productCategory+')');
+            return;
+    }
+
+    // Fetch product details from the appropriate JSON file
+    fetch(jsonFilePath)
+        .then(response => response.json())
+        .then(data => {
+            const product = data.find(item => item.id === productId);
+            if (product) {
+                // Populate product details
+                document.querySelector('.product-name').textContent = product.name;
+                document.querySelector('.product-description').textContent = product.description;
+                document.querySelector('.product-price').textContent = product.price.madrid;
+
+                // Populate product gallery
+                const galleryContainer = document.querySelector('.product-gallery');
+                galleryContainer.innerHTML = '';  // Clear any existing gallery
+                product.images.forEach((imageSrc, index) => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = imageSrc;
+                    imgElement.dataset.index = index;  // Store index for fullscreen navigation
+                    imgElement.style.cursor = 'pointer';
+                    imgElement.style.width = '100px'; // Set thumbnail size
+                    imgElement.addEventListener('click', () => enterFullScreen(imgElement));
+                    galleryContainer.appendChild(imgElement);
+                });
+
+                // Save references to images for fullscreen navigation
+                images = product.images.map((src, index) => ({
+                    src,
+                    index
+                }));
+            } else {
+                alert("Product not found!");
+            }
+        })
+        .catch(error => console.error('Error fetching product details:', error));
+}
+
+// Ensure that the loadProductDetails function is triggered when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    try{
-        // Handle product item click
-        const productItems = document.querySelectorAll('.product-item');
-        console.log("ProductItems", productItems.length);
+    console.log("DOM fully loaded and parsed");
+    loadProductDetails();  // Call the function when the DOM is loaded
+});
+    
+// Enter full-screen mode and display the clicked image
+function enterFullScreen(image) {
+    currentFullscreenIndex = parseInt(image.dataset.index, 10); // Get the current image index
+    const fullscreenImage = document.getElementById('fullscreen-image');
+    fullscreenImage.src = image.src; // Set the full-screen image source
 
+    const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+    fullscreenOverlay.style.display = 'flex'; // Show the full-screen overlay
+}
 
-        productItems.forEach(product => {
-            product.addEventListener('click', function(event) {
-                console.log("ForEach entered!")
+// Navigate through the full-screen images
+function navigateFullscreen(direction) {
+    if (direction === 'next') {
+        currentFullscreenIndex = (currentFullscreenIndex + 1) % images.length;
+    } else if (direction === 'prev') {
+        currentFullscreenIndex = (currentFullscreenIndex - 1 + images.length) % images.length;
+    }
+    const fullscreenImage = document.getElementById('fullscreen-image');
+    fullscreenImage.src = images[currentFullscreenIndex].src; // Update the image in full screen
+}
 
-                // Exclude clicks on navigation buttons
-                if (event.target.classList.contains('button')) {
-                    console.log("No redirection, button clicked!");
-                    return; // Do not redirect if a button was clicked
-                }
+// Exit full-screen mode
+function exitFullScreen() {
+    const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+    fullscreenOverlay.style.display = 'none'; // Hide the full-screen overlay
+}
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we are on a product details page (e.g., *-details.html)
+    if (window.location.pathname.includes('-details.html')) {
+        // Add event listeners for full-screen controls
+        const nextFull = document.getElementById('next-image');
+        const prevFull = document.getElementById('prev-image');
+        const exitFull = document.getElementById('exit-fullscreen');
+        if (nextFull){
+            nextFull.addEventListener('click', () => navigateFullscreen('next'));
+        }else{
+            console.log("No element NEXT-FULL found!");
+        }
 
-                const productId = product.getAttribute('data-product-id');
-                const productCategory = product.getAttribute('data-category');
-                console.log("Gotten product-details\n ID:", productId, "\n Category:", productCategory);
-                const url = `http://localhost:8000/producto/${productCategory}-details.html?productId=${productId}`;
-                console.log("Redirecting to...", url);
-
-                // Delay the redirection slightly
-                setTimeout(() => {
-                    window.location.href = redirectUrl;
-                }, 4000);  // 100 milliseconds delay
-            });
-        });
-    }catch (error) {
-        console.error("Error during redirection:", error);
-
+        if (prevFull) {
+            prevFull.addEventListener('click', () => navigateFullscreen('prev'));
+        }else{
+            console.log("No element PREV-FULL found!");
+        }
+        if (exitFull) {
+            exitFull.addEventListener('click', exitFullScreen);
+        }else{
+            console.log("No element EXIT-FULL found!");
+        }
     }
 });
 
 
-// Enter full-screen mode and display the clicked image
-// function enterFullScreen(image) {
-//     currentFullscreenIndex = parseInt(image.dataset.index, 10); // Get the current image index
-//     const fullscreenImage = document.getElementById('fullscreen-image');
-//     fullscreenImage.src = image.src; // Set the full-screen image source
-
-//     const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-//     fullscreenOverlay.style.display = 'flex'; // Show the full-screen overlay
-// }
-
-// // Navigate through the full-screen images
-// function navigateFullscreen(direction) {
-//     if (direction === 'next') {
-//         currentFullscreenIndex = (currentFullscreenIndex + 1) % images.length;
-//     } else if (direction === 'prev') {
-//         currentFullscreenIndex = (currentFullscreenIndex - 1 + images.length) % images.length;
-//     }
-//     const fullscreenImage = document.getElementById('fullscreen-image');
-//     fullscreenImage.src = images[currentFullscreenIndex].src; // Update the image in full screen
-// }
-
-// // Exit full-screen mode
-// function exitFullScreen() {
-//     const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-//     fullscreenOverlay.style.display = 'none'; // Hide the full-screen overlay
-// }

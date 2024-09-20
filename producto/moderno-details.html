@@ -103,15 +103,17 @@
         <ul><a href="../pie/contacto.html">Contacto</a></ul>
     </div>
 
-    <div class="product-details">
-        <h1 class="product-name"></h1>
-        <div class="product-gallery">
-            <!-- This will be populated with images dynamically -->
+    <main>
+        <div class="product-details">
+            <h1 class="product-name"></h1>
+            <div class="product-gallery">
+                <!-- This will be populated with images dynamically -->
+            </div>
+            <p class="product-description"></p>
+            <p class="product-price"></p>
+            <!-- Other product details -->
         </div>
-        <p class="product-description"></p>
-        <p class="product-price"></p>
-        <!-- Other product details -->
-    </div>
+    </main>
 
     <!-- Fullscreen overlay -->
     <div id="fullscreen-overlay">
@@ -126,82 +128,6 @@
 
     <script src="../js/main.js"></script>
 
-    <script>
-        let images = []; // This will hold references to product images
-        let currentFullscreenIndex = 0;
-    
-        // Fetch product details and render gallery
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("EventListener on details.html");
-            const urlParams = new URLSearchParams(window.location.search);
-            console.log("urlParms:", urlParams);
-            const productId = urlParams.get('productId');
-            
-            // Fetch product details from JSON file (adjust path if necessary)
-            fetch('/data/moderno.json')
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Data: item-");
-                    const product = data.find(item => item.id === productId);
-                    if (product) {
-                        document.querySelector('.product-name').textContent = product.name;
-                        document.querySelector('.product-description').textContent = product.description;
-                        document.querySelector('.product-price').textContent = product.price.madrid;
-    
-                        // Populate product gallery
-                        const galleryContainer = document.querySelector('.product-gallery');
-                        product.images.forEach((imageSrc, index) => {
-                            const imgElement = document.createElement('img');
-                            imgElement.src = imageSrc;
-                            imgElement.dataset.index = index;  // Store index for fullscreen navigation
-                            imgElement.style.cursor = 'pointer';
-                            imgElement.style.width = '100px'; // Set thumbnail size
-                            imgElement.addEventListener('click', () => enterFullScreen(imgElement));
-                            galleryContainer.appendChild(imgElement);
-                        });
-    
-                        // Save references to images for fullscreen navigation
-                        images = product.images.map((src, index) => ({
-                            src,
-                            index
-                        }));
-                    }
-                });
-        });
-    
-        // Enter full-screen mode and display the clicked image
-        function enterFullScreen(image) {
-            currentFullscreenIndex = parseInt(image.dataset.index, 10); // Get the current image index
-            const fullscreenImage = document.getElementById('fullscreen-image');
-            fullscreenImage.src = image.src; // Set the full-screen image source
-    
-            const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-            fullscreenOverlay.style.display = 'flex'; // Show the full-screen overlay
-        }
-    
-        // Navigate through the full-screen images
-        function navigateFullscreen(direction) {
-            if (direction === 'next') {
-                currentFullscreenIndex = (currentFullscreenIndex + 1) % images.length;
-            } else if (direction === 'prev') {
-                currentFullscreenIndex = (currentFullscreenIndex - 1 + images.length) % images.length;
-            }
-            const fullscreenImage = document.getElementById('fullscreen-image');
-            fullscreenImage.src = images[currentFullscreenIndex].src; // Update the image in full screen
-        }
-    
-        // Exit full-screen mode
-        function exitFullScreen() {
-            const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-            fullscreenOverlay.style.display = 'none'; // Hide the full-screen overlay
-        }
-    
-        // Add event listeners for full-screen controls
-        document.getElementById('next-image').addEventListener('click', () => navigateFullscreen('next'));
-        document.getElementById('prev-image').addEventListener('click', () => navigateFullscreen('prev'));
-        document.getElementById('exit-fullscreen').addEventListener('click', exitFullScreen);
-    
-    </script>
 
     <footer class="site-footer">
         <div class="footer-content">
@@ -213,15 +139,5 @@
             </ul>
         </div>
     </footer>
-
-    <!-- Pantalla completa, vista de productos-->
-    <div id="fullscreen-overlay" class="fullscreen-overlay">
-        <div class="fullscreen-content">
-            <img id="fullscreen-image" src="" alt="Product Image">
-            <button class="fullscreen-prev" onclick="navigateFullscreen('prev')">❮</button>
-            <button class="fullscreen-next" onclick="navigateFullscreen('next')">❯</button>
-            <button class="fullscreen-close" onclick="exitFullScreen()">✖</button>
-        </div>
-    </div>
 </body>
 </html>

@@ -135,12 +135,10 @@
                         <!-- Update the buttons to pass the event object -->
                         <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
                         <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
-
                     </div>
                     <h2>6006-40</h2>
                 </div>
-
-                <div class="product-item" data-product-id="6007" data-category="moderno">
+                <div class="product-item" data-product-id="6006-40" data-category="moderno">
                     <div class="list-wrapper">
                         <ul class="list carousel">
                             <li class="item"><img src="../images/image1.jpg" alt="Producto 2 Image 1" class="carousel-image"></li>
@@ -153,7 +151,7 @@
                     </div>
                     <h2>6006-41</h2>
                 </div>
-                <div class="product-item">
+                <div class="product-item" data-product-id="6006-41" data-category="moderno">
                     <div class="list-wrapper">
                         <ul class="list carousel">
                             <li class="item"><img src="../images/image1.jpg" alt="Producto 3 Image 1" class="carousel-image"></li>
@@ -161,12 +159,12 @@
                             <li class="item"><img src="../images/image5.jpg" alt="Producto 3 Image 3" class="carousel-image"></li>
                         </ul>
                         <!-- Arrow buttons for navigating images of this product -->
-                        <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                        <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
+                        <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
+                        <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>
                     </div>
-                    <h2>Producto 3</h2>
+                    <h2>6006-40</h2>
                 </div>
-                <div class="product-item">
+                <div class="product-item" onclick="redirectToProduct('6006-41', 'moderno')">
                     <div class="list-wrapper">
                         <ul class="list carousel">
                             <li class="item"><img src="../images/image1.jpg" alt="Producto 4 Image 1" class="carousel-image"></li>
@@ -174,15 +172,13 @@
                             <li class="item"><img src="../images/image5.jpg" alt="Producto 4 Image 3" class="carousel-image"></li>
                         </ul>
                         <!-- Arrow buttons for navigating images of this product -->
-                        <button onclick="handleClick(this, 'previous')" class="button button--previous" type="button">❮</button>
-                        <button onclick="handleClick(this, 'next')" class="button button--next" type="button">❯</button>
-                    </div>
-                    <h2>Producto 4</h2>
+                        <button onclick="handleClick(event, this, 'previous')" class="button button--previous" type="button">❮</button>
+                        <button onclick="handleClick(event, this, 'next')" class="button button--next" type="button">❯</button>                    </div>
+                    <h2>6006-41</h2>
                 </div>
             </div>  
         </section>
     </main>
-
 
     <script src="../js/main.js"></script>
 

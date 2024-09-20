@@ -77,12 +77,6 @@ if (searchButton && searchInput) {
 }
 
 // ---- natural.html script content ----
-
-// Individual view of product 
-function redirectToProduct(productId, category) {
-    window.location.href = `product.html?id=${productId}&category=${category}`;
-}
-
 // Function to handle image navigation
 function handleClick(event, button, direction) {
     event.preventDefault(); // Prevent default action (if any)
@@ -234,7 +228,6 @@ window.addEventListener('scroll', function() {
 // -------------------------------------------------------------------------------------------
 
 /* General - Barra de búsqueda */
-
 // Permite aparicion de barra de busqueda click en icono
 document.getElementById('searchButton').addEventListener('click', function(e) {
     e.preventDefault(); // Prevent default behavior if inside a form
@@ -251,7 +244,7 @@ document.getElementById('searchInput').addEventListener('keydown', function(e) {
 
         const searchText = e.target.value.trim();
         if (searchText) {
-            window.location.href = `http://localhost:8000/search-results.html?query=${encodeURIComponent(searchText)}`;
+            window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
         }
     }
 });
@@ -292,44 +285,72 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Producto - [Móvil] Navegacion por imagenes */
 // Add swipe functionality
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.list-wrapper').forEach(wrapper => {
-        console.log('Event listeners attached to', wrapper);
-        let startX = 0;
-        let currentX = 0;
-        let isDragging = false;
+    // Check if the screen is mobile-sized
+    if (window.innerWidth <= 768) {  // 768px is a common breakpoint for mobile devices
+        document.querySelectorAll('.product-item').forEach(productItem => {
+            let startX = 0;
+            let currentX = 0;
+            let isDragging = false;
+            let isSwiping = false;
 
-        wrapper.addEventListener('touchstart', (e) => {
-            console.log("Touch started:", e.touches[0].clientX);
-            startX = e.touches[0].clientX;
-            isDragging = true;
+            const wrapper = productItem.querySelector('.list-wrapper');
+
+            // Touch start event - start tracking swipe
+            wrapper.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+                isSwiping = false;  // Reset swiping flag
+            });
+
+            // Touch move event - detect swiping gesture
+            wrapper.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                currentX = e.touches[0].clientX;
+
+                if (Math.abs(startX - currentX) > 10) {  // Consider a swipe if movement > 10px
+                    isSwiping = true;
+                }
+            });
+
+            // Touch end event - process swipe or tap
+            wrapper.addEventListener('touchend', () => {
+                isDragging = false;
+
+                const list = wrapper.querySelector('.list');
+                const item = list.querySelector('.item');
+                const itemWidth = item.offsetWidth;
+
+                if (startX - currentX > 50) {
+                    // Swiped left, show next image
+                    list.scrollBy({ left: itemWidth, behavior: 'smooth' });
+                } else if (currentX - startX > 50) {
+                    // Swiped right, show previous image
+                    list.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+                }
+            });
         });
-
-        wrapper.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            currentX = e.touches[0].clientX;
-            console.log("Touch moved:", currentX);
-        });
-
-        wrapper.addEventListener('touchend', () => {
-            console.log("Touch ended. StartX:", startX, " CurrentX:", currentX);
-            if (!isDragging) return;
-            isDragging = false;
-
-            const list = wrapper.querySelector('.list');
-            const item = list.querySelector('.item');
-            const itemWidth = item.offsetWidth;
-
-            if (startX - currentX > 50) {
-                // Swiped left, show next image
-                list.scrollBy({ left: itemWidth, behavior: 'smooth' });
-            } else if (currentX - startX > 50) {
-                // Swiped right, show previous image
-                list.scrollBy({ left: -itemWidth, behavior: 'smooth' });
-            }
-        });
-    });
+    }
 });
 
+
+let isTouchMoving = false;
+
+window.addEventListener('touchmove', () => {
+    isTouchMoving = true;
+});
+
+window.addEventListener('touchend', () => {
+    setTimeout(() => {
+        isTouchMoving = false;
+    }, 100); // Delay to ensure swipe completes
+});
+
+document.addEventListener('click', (e) => {
+    if (isTouchMoving) {
+        e.preventDefault(); // Stop clicks after swiping
+        console.log("Click prevented due to touchmove");
+    }
+});
 
 /* =======================================
    Search Results Script (From search-results.js)
@@ -344,7 +365,7 @@ function handleEnterKeyPress(event) {
 
         if (searchText) {
             // Redirect to the search results page with the search term in the URL
-            window.location.href = `search-results.html?query=${encodeURIComponent(searchText)}`;
+            window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
         } else {
             alert('Please enter something to search.');
         }
@@ -466,122 +487,77 @@ window.onload = displaySearchResults;
 /* =======================================
    Product Script (From product.js)
 ======================================= */
+// Redirect to product page when clicked on div
+function redirectToProduct(productId, category) {
+    const url = `http://localhost:8000/producto/product-detail.html?id=${productId}&category=${category}`;
+    console.log('Redirecting to:', url); // Log the URL
+    window.location.href = url;
+}
+
 // Fetch product data from the correct JSON file based on the category
 async function loadProductPage() {
+    console.log("Entered loadProductPage");
     // Get the product ID and category from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
     const category = urlParams.get('category');
-    console.log("urlParams: "+productId+" "+category)
 
-    // Determine which JSON file to fetch based on the category
-    let jsonFile;
-    if (category === 'colores') {
-        jsonFile = '../data/colores.json';
-    } else if (category === 'clasico') {
-        jsonFile = '../data/clasico.json';
-    } else if (category === 'moderno') {
-        jsonFile = '../data/moderno.json';
-    } else if (category === 'natural') {
-        jsonFile = '../data/natural.json';
-    } else {
-        document.addEventListener('DOMContentLoaded', function() {
-            // If no valid category is found, show an error message
-            const productContainer = document.getElementById('product-container');
-            if (productContainer) {
-                productContainer.innerHTML = `<h1>Categoría no válida</h1>`;
-            } else {
-                console.warn('Element #product-container not found.');
-            }
-        });
+    if (!productId || !category) {
+        console.error("Product ID or category missing in the URL");
         return;
     }
 
-    // Fetch the product data from the appropriate JSON file
     try {
-        const response = await fetch(jsonFile);
-        const products = await response.json();
+        // Fetch the product data from the correct category
+        const productData = await fetchProductFromCategory(productId, category);
 
-        // Find the product that matches the product ID
-        const product = products.find(p => p.id === productId);
-
-        // If the product is found, display it
-        if (product) {
-            const productContainer = document.getElementById('product-container');
-            productContainer.innerHTML = `
-                <!-- Breadcrumb Navigation -->
-                <div class="breadcrumb">
-                    <p>
-                        <a href="../index.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 .134l6.571 5.428c.326.27.429.745.245 1.12a.857.857 0 0 1-.794.48H12.86v5.527a.857.857 0 0 1-.857.857h-1.715a.857.857 0 0 1-.857-.857V9.429H6.571v3.857a.857.857 0 0 1-.857.857H4a.857.857 0 0 1-.857-.857V7.163H2.128a.857.857 0 0 1-.794-.48.857.857 0 0 1 .245-1.12L8 .134z"/>
-                            </svg>
-                        </a>
-                        <a href="../product.html"> > Producto</a>
-                        <span> > </span>
-                        <a href="../${category}.html"> ${category.charAt(0).toUpperCase() + category.slice(1)}</a>
-                    </p>
-                </div>
-
-                <section class="product-detail">
-                    <div class="product-gallery">
-                        <div class="carousel">
-                            ${product.images.map((img, index) => `<img src="${img}" alt="${product.name}" class="${index === 0 ? 'active' : ''}" data-index="${index}">`).join('')}
-                        </div>
-                        <div class="thumbnails">
-                            ${product.images.map((img, index) => `<img src="${img}" alt="Thumbnail" class="thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}">`).join('')}
-                        </div>
-                    </div>
-                    
-                    <div class="product-info">
-                        <h1 class="product-name">${product.name}</h1>
-                        <p class="product-price">${product.price}</p>
-                        <p class="product-description">${product.description}</p>
-                        <ul class="product-details">
-                            <li>Material: ${product.details.material}</li>
-                            <li>Dimensiones: Ancho: ${product.details.dimensions.width} cm, Largo: ${product.details.dimensions.length} cm, Altura: ${product.details.dimensions.height} cm</li>
-                            <li>Disponibilidad: ${product.details.availability}</li>
-                        </ul>
-                        <button class="add-to-cart">Añadir al carrito</button>
-                    </div>
-                </section>
-            `;
-
-            // After the product details are loaded, apply thumbnail click functionality
-            images = document.querySelectorAll('.carousel img'); // Store all images
-            const thumbnails = document.querySelectorAll('.thumbnail');
-
-            // Image click handler for full-screen functionality
-            images.forEach(image => {
-                image.addEventListener('click', () => enterFullScreen(image));
-            });
-
-            thumbnails.forEach((thumbnail, index) => {
-                thumbnail.addEventListener('click', () => {
-                    // Remove active class from all images and thumbnails
-                    images.forEach(image => image.classList.remove('active'));
-                    thumbnails.forEach(thumb => thumb.classList.remove('active'));
-
-                    // Add active class to the clicked thumbnail and corresponding image
-                    images[index].classList.add('active');
-                    thumbnail.classList.add('active');
-                });
-            });
-
+        // If product is found, display it
+        if (productData) {
+            displayProductDetails(productData);
         } else {
-            // If product is not found, show an error message
             document.getElementById('product-container').innerHTML = `<h1>Producto no encontrado</h1>`;
         }
     } catch (error) {
-        console.error('Error fetching product data:', error);
+        console.error('Error loading product data:', error);
         document.getElementById('product-container').innerHTML = `<h1>Error al cargar los datos del producto</h1>`;
     }
 }
 
-// Initialize the product page
-loadProductPage();
+// Function to fetch a product from a specific category
+async function fetchProductFromCategory(productId, category) {
+    const response = await fetch(`../data/${category}.json`);
+    
+    // Check if the response is OK before parsing JSON
+    if (!response.ok) {
+        console.error(`Failed to fetch ${category} products. Status: ${response.status}`);
+        return null;
+    }
 
+    const products = await response.json();
 
+    // Find and return the product by ID
+    return products.find(p => p.id === productId);
+}
+
+// Function to display product details (you can modify this as needed)
+function displayProductDetails(product) {
+    const productContainer = document.getElementById('product-container');
+    
+    // Create HTML structure for the product details
+    productContainer.innerHTML = `
+        <h1 class="product-name">${product.name}</h1>
+        <p class="product-description">${product.description}</p>
+        <p class="product-price">Precio (Madrid): ${product.price.madrid || 'N/A'} €, Otros: ${product.price.other || 'N/A'} €</p>
+        <ul class="product-details">
+            <li>Material: ${product.details.material}</li>
+            <li>Dimensiones: Ancho: ${product.details.dimensions.ancho} cm, Largo: ${product.details.dimensions.largo} cm, Rebajo: ${product.details.dimensions.rebajo} cm</li>
+            <li>Disponibilidad: ${product.details.availability}</li>
+        </ul>
+        <div class="product-gallery">
+            ${product.images.map(img => `<img src="${img}" alt="${product.name}" />`).join('')}
+        </div>
+    `;
+}
 
 // Enter full-screen mode and display the clicked image
 function enterFullScreen(image) {

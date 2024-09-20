@@ -185,17 +185,6 @@
 
 
     <script src="../js/main.js"></script>
-    <script>
-        document.querySelectorAll('.product-item').forEach(productItem => {
-            productItem.addEventListener('click', () => {
-                const productId = productItem.getAttribute('data-product-id');
-                const category = productItem.getAttribute('data-category');
-                
-                // Call the redirect function
-                redirectToProduct(productId, category);
-            });
-        });
-    </script>
 
 
     <!-- Footer -->

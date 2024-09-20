@@ -1,10 +1,26 @@
+/* ================ GENERALES - USADAS MUCHO ======================= */
+
 // Function to get query parameters from the URL
 function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
     return params.get('query'); // This will return the search query, or null if not present
 }
 
-// ---- search-results.html script content ----
+/* General - Ajusta color barra de navegación en scroll */
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('header'); // Select the header element
+    const heroSection = document.querySelector('.hero'); // Select the hero section or the top section
+    const heroHeight = heroSection.offsetHeight; // Get the height of the hero section
+    
+    if (window.scrollY > heroHeight) {
+        header.style.backgroundColor = 'white'; // Change the header background to white
+    } else {
+        header.style.backgroundColor = 'transparent'; // Reset header background when not scrolling over an image
+    }
+});
+
+/* ================ LÓGICA PARA BARRA DE BÚSQUEDA ======================= */
+
 // Function to handle search bar toggle
 function toggleSearchBar(event) {
     event.preventDefault(); // Prevent default behavior on button click
@@ -49,82 +65,41 @@ function hideSearchBarIfClickedOutside(event) {
         }
     }
 }
-// Lógica para abrir, cerrar barra de búsqueda y obtener resultados.
-const searchButton = document.getElementById('searchButton');
-const searchInput = document.getElementById('searchInput');
 
-if (searchButton && searchInput) {
-    // Event listener to toggle search bar visibility on button click
-    searchButton.addEventListener('click', function(e) {
-        searchInput.classList.add('visible');
-        console.log("Search button clicked!");
-        toggleSearchBar(e); // Pass the event to toggleSearchBar
-    });
+// Permite aparicion de barra de busqueda click en icono
+document.getElementById('searchButton').addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent default behavior if inside a form
+    toggleSearchBar(e); // Pass the event to toggleSearchBar
+});
 
-    // Event listener to hide search bar when clicking outside
-    document.addEventListener('click', hideSearchBarIfClickedOutside);
+// Cierra barra de busqueda cuando click fuera 
+document.addEventListener('click', hideSearchBarIfClickedOutside);
 
-    // Optional: Trigger search on 'Enter' key press in the search input field
-    searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault(); // Prevent default form behavior
-            const searchText = e.target.value.trim();
-            if (searchText) {
-                window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
-            }
+// Permite busqueda con darle a "Enter"
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent default form behavior
+
+        const searchText = e.target.value.trim();
+        if (searchText) {
+            window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
         }
-    });
-}
-
-// ---- natural.html script content ----
-// Function to handle image navigation
-function handleClick(event, button, direction) {
-    event.preventDefault(); // Prevent default action (if any)
-    event.stopPropagation(); // Stop the event from bubbling up to the parent div
-
-    const productItem = button.parentElement; // Get the parent container (the product item)
-    const carousel = productItem.querySelector('.carousel'); // Find the carousel within the product item
-    const items = carousel.querySelectorAll('.item'); // Get all images
-    let currentIndex = 0;
-
-    // Find the current visible image
-    items.forEach((item, index) => {
-        if (window.getComputedStyle(item).display !== "none") {
-            currentIndex = index;
-        }
-    });
-
-    // Determine the next index based on the button clicked
-    if (direction === 'next') {
-        currentIndex = (currentIndex + 1) % items.length; // Move to the next image, loop back if needed
-    } else if (direction === 'previous') {
-        currentIndex = (currentIndex - 1 + items.length) % items.length; // Move to the previous image, loop back if needed
     }
+});
 
-    // Hide all items
-    items.forEach(item => {
-        item.style.display = 'none';
-    });
-
-    // Show the new current item
-    items[currentIndex].style.display = 'block';
-}
-
-
-/* =======================================
-   General Script (From script.js)
-======================================= */
 // -------------------------------------------------------------------------------------------
+
+/* ========== LÓGICA PARA FONDO CAMBIANTE Y AJUSTE DE COLORES  ================= */
 
 /* General - Fondo con imagenes en bucle y ajuste de colores */
 // Carousel functionality and changing color header
-const heroImages = document.querySelectorAll('.hero-image'); // Get all hero images
-const logo = document.querySelector('.logo'); // Get the logo
-const menuLinks = document.querySelectorAll('.menu a'); // Get all menu links
-const dropdownIcons = document.querySelectorAll('.menu svg path'); // Get dropdown icons
-const searchIcon = document.querySelector('#searchButton svg'); // Get search icon
-let currentIndex = 0; // Start with the first image
-let transitioning = false; // To prevent multiple transitions
+const heroImages = document.querySelectorAll('.hero-image');
+const logo = document.querySelector('.logo');
+const menuLinks = document.querySelectorAll('.menu a');
+const dropdownIcons = document.querySelectorAll('.menu svg path');
+const searchIcon = document.querySelector('#searchButton svg');
+let currentIndex = 0;
+let transitioning = false;
 
 // Array of background-specific color schemes (one per image)
 const colorSchemes = [
@@ -135,7 +110,8 @@ const colorSchemes = [
 
 // Function to change hero background and colors
 function changeHeroBackground() {
-    if (heroImages > 0){
+    console.log("changeHeroBackground images:", heroImages.length);
+    if (heroImages.length > 0){
         // Remove previous flag to prevent multiple transitions
         if (transitioning) return;
         transitioning = true; // Set flag to prevent double transitions
@@ -212,45 +188,9 @@ setInterval(changeHeroBackground, 4000);
 
 // -------------------------------------------------------------------------------------------
 
-/* General - Ajusta color barra de navegación en scroll */
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('header'); // Select the header element
-    const heroSection = document.querySelector('.hero'); // Select the hero section or the top section
-    const heroHeight = heroSection.offsetHeight; // Get the height of the hero section
-    
-    if (window.scrollY > heroHeight) {
-        header.style.backgroundColor = 'white'; // Change the header background to white
-    } else {
-        header.style.backgroundColor = 'transparent'; // Reset header background when not scrolling over an image
-    }
-});
+/* ========== LÓGICA PARA MÓVIL ========== */ 
 
-// -------------------------------------------------------------------------------------------
-
-/* General - Barra de búsqueda */
-// Permite aparicion de barra de busqueda click en icono
-document.getElementById('searchButton').addEventListener('click', function(e) {
-    e.preventDefault(); // Prevent default behavior if inside a form
-    toggleSearchBar(e); // Pass the event to toggleSearchBar
-});
-
-// Cierra barra de busqueda cuando click fuera 
-document.addEventListener('click', hideSearchBarIfClickedOutside);
-
-// Permite busqueda con darle a "Enter"
-document.getElementById('searchInput').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault(); // Prevent default form behavior
-
-        const searchText = e.target.value.trim();
-        if (searchText) {
-            window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
-        }
-    }
-});
-
-// -------------------------------------------------------------------------------------------
-/* General -  Barra de navegacion lateral */
+/* Barra de navegacion lateral */
 document.addEventListener('DOMContentLoaded', function() {
     // Side Menu - Get elements
     const menuIcon = document.getElementById('menuIcon');
@@ -282,7 +222,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // -------------------------------------------------------------------------------------------
 
+
+
+// -------------------------------------------------------------------------------------------
+
+
+// -------------------------------------------------------------------------------------------
+
 /* Producto - [Móvil] Navegacion por imagenes */
+
+// Function to handle image navigation
+function handleClick(event, button, direction) {
+    event.preventDefault(); // Prevent default action (if any)
+    event.stopPropagation(); // Stop the event from bubbling up to the parent div
+
+    const productItem = button.parentElement; // Get the parent container (the product item)
+    const carousel = productItem.querySelector('.carousel'); // Find the carousel within the product item
+    const items = carousel.querySelectorAll('.item'); // Get all images
+    let thisIndex = 0;
+
+    // Find the current visible image
+    items.forEach((item, index) => {
+        if (window.getComputedStyle(item).display !== "none") {
+            thisIndex = index;
+        }
+    });
+
+    // Determine the next index based on the button clicked
+    if (direction === 'next') {
+        thisIndex = (thisIndex + 1) % items.length; // Move to the next image, loop back if needed
+    } else if (direction === 'previous') {
+        thisIndex = (thisIndex - 1 + items.length) % items.length; // Move to the previous image, loop back if needed
+    }
+
+    // Hide all items
+    items.forEach(item => {
+        item.style.display = 'none';
+    });
+
+    // Show the new current item
+    items[thisIndex].style.display = 'block';
+}
 // Add swipe functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Check if the screen is mobile-sized
@@ -332,7 +312,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
 let isTouchMoving = false;
 
 window.addEventListener('touchmove', () => {
@@ -355,22 +334,6 @@ document.addEventListener('click', (e) => {
 /* =======================================
    Search Results Script (From search-results.js)
 ======================================= */
-
-// Function to handle the Enter key press
-function handleEnterKeyPress(event) {
-    if (event.key === 'Enter') { // Check if the Enter key is pressed
-        event.preventDefault(); // Prevent the default form submission behavior
-        const searchInput = document.getElementById('searchInput');
-        const searchText = searchInput.value.trim();
-
-        if (searchText) {
-            // Redirect to the search results page with the search term in the URL
-            window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
-        } else {
-            alert('Please enter something to search.');
-        }
-    }
-}
 
 // Function to update the breadcrumb with the search term
 function updateBreadcrumbWithSearchTerm(searchTerm) {
@@ -470,118 +433,74 @@ async function displaySearchResults(searchTerm) {
     }
 }
 
-
 // Initialize search results on page load if a query is present
 const searchTerm = getQueryParams();
 if (searchTerm) {
     displaySearchResults(searchTerm);
 }
 
-// Add an event listener to detect the Enter key press on the search input
-document.getElementById('searchInput').addEventListener('keypress', handleEnterKeyPress);
 
-// Call the function when the page loads
-window.onload = displaySearchResults;
+/* ============= LOGICA PARA VISTA INDIVIDUAL PRODUCTOS ========================== */
+
+document.addEventListener('DOMContentLoaded', function() {
+    try{
+        // Handle product item click
+        const productItems = document.querySelectorAll('.product-item');
+        console.log("ProductItems", productItems.length);
 
 
-/* =======================================
-   Product Script (From product.js)
-======================================= */
-// Redirect to product page when clicked on div
-function redirectToProduct(productId, category) {
-    const url = `http://localhost:8000/producto/product-detail.html?id=${productId}&category=${category}`;
-    console.log('Redirecting to:', url); // Log the URL
-    window.location.href = url;
-}
+        productItems.forEach(product => {
+            product.addEventListener('click', function(event) {
+                console.log("ForEach entered!")
 
-// Fetch product data from the correct JSON file based on the category
-async function loadProductPage() {
-    console.log("Entered loadProductPage");
-    // Get the product ID and category from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-    const category = urlParams.get('category');
+                // Exclude clicks on navigation buttons
+                if (event.target.classList.contains('button')) {
+                    console.log("No redirection, button clicked!");
+                    return; // Do not redirect if a button was clicked
+                }
 
-    if (!productId || !category) {
-        console.error("Product ID or category missing in the URL");
-        return;
+                const productId = product.getAttribute('data-product-id');
+                const productCategory = product.getAttribute('data-category');
+                console.log("Gotten product-details\n ID:", productId, "\n Category:", productCategory);
+                const url = `http://localhost:8000/producto/${productCategory}-details.html?productId=${productId}`;
+                console.log("Redirecting to...", url);
+
+                // Delay the redirection slightly
+                setTimeout(() => {
+                    window.location.href = redirectUrl;
+                }, 4000);  // 100 milliseconds delay
+            });
+        });
+    }catch (error) {
+        console.error("Error during redirection:", error);
+
     }
+});
 
-    try {
-        // Fetch the product data from the correct category
-        const productData = await fetchProductFromCategory(productId, category);
-
-        // If product is found, display it
-        if (productData) {
-            displayProductDetails(productData);
-        } else {
-            document.getElementById('product-container').innerHTML = `<h1>Producto no encontrado</h1>`;
-        }
-    } catch (error) {
-        console.error('Error loading product data:', error);
-        document.getElementById('product-container').innerHTML = `<h1>Error al cargar los datos del producto</h1>`;
-    }
-}
-
-// Function to fetch a product from a specific category
-async function fetchProductFromCategory(productId, category) {
-    const response = await fetch(`../data/${category}.json`);
-    
-    // Check if the response is OK before parsing JSON
-    if (!response.ok) {
-        console.error(`Failed to fetch ${category} products. Status: ${response.status}`);
-        return null;
-    }
-
-    const products = await response.json();
-
-    // Find and return the product by ID
-    return products.find(p => p.id === productId);
-}
-
-// Function to display product details (you can modify this as needed)
-function displayProductDetails(product) {
-    const productContainer = document.getElementById('product-container');
-    
-    // Create HTML structure for the product details
-    productContainer.innerHTML = `
-        <h1 class="product-name">${product.name}</h1>
-        <p class="product-description">${product.description}</p>
-        <p class="product-price">Precio (Madrid): ${product.price.madrid || 'N/A'} €, Otros: ${product.price.other || 'N/A'} €</p>
-        <ul class="product-details">
-            <li>Material: ${product.details.material}</li>
-            <li>Dimensiones: Ancho: ${product.details.dimensions.ancho} cm, Largo: ${product.details.dimensions.largo} cm, Rebajo: ${product.details.dimensions.rebajo} cm</li>
-            <li>Disponibilidad: ${product.details.availability}</li>
-        </ul>
-        <div class="product-gallery">
-            ${product.images.map(img => `<img src="${img}" alt="${product.name}" />`).join('')}
-        </div>
-    `;
-}
 
 // Enter full-screen mode and display the clicked image
-function enterFullScreen(image) {
-    currentFullscreenIndex = parseInt(image.dataset.index, 10); // Get the current image index
-    const fullscreenImage = document.getElementById('fullscreen-image');
-    fullscreenImage.src = image.src; // Set the full-screen image source
+// function enterFullScreen(image) {
+//     currentFullscreenIndex = parseInt(image.dataset.index, 10); // Get the current image index
+//     const fullscreenImage = document.getElementById('fullscreen-image');
+//     fullscreenImage.src = image.src; // Set the full-screen image source
 
-    const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-    fullscreenOverlay.style.display = 'flex'; // Show the full-screen overlay
-}
+//     const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+//     fullscreenOverlay.style.display = 'flex'; // Show the full-screen overlay
+// }
 
-// Navigate through the full-screen images
-function navigateFullscreen(direction) {
-    if (direction === 'next') {
-        currentFullscreenIndex = (currentFullscreenIndex + 1) % images.length;
-    } else if (direction === 'prev') {
-        currentFullscreenIndex = (currentFullscreenIndex - 1 + images.length) % images.length;
-    }
-    const fullscreenImage = document.getElementById('fullscreen-image');
-    fullscreenImage.src = images[currentFullscreenIndex].src; // Update the image in full screen
-}
+// // Navigate through the full-screen images
+// function navigateFullscreen(direction) {
+//     if (direction === 'next') {
+//         currentFullscreenIndex = (currentFullscreenIndex + 1) % images.length;
+//     } else if (direction === 'prev') {
+//         currentFullscreenIndex = (currentFullscreenIndex - 1 + images.length) % images.length;
+//     }
+//     const fullscreenImage = document.getElementById('fullscreen-image');
+//     fullscreenImage.src = images[currentFullscreenIndex].src; // Update the image in full screen
+// }
 
-// Exit full-screen mode
-function exitFullScreen() {
-    const fullscreenOverlay = document.getElementById('fullscreen-overlay');
-    fullscreenOverlay.style.display = 'none'; // Hide the full-screen overlay
-}
+// // Exit full-screen mode
+// function exitFullScreen() {
+//     const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+//     fullscreenOverlay.style.display = 'none'; // Hide the full-screen overlay
+// }

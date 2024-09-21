@@ -94,9 +94,29 @@ if (heroImages.length > 0){
     console.log("No hero-images element found!");
 }
 
+
+/* ================================================== */
+/* =========== SCROLL BARRA NAVEGACIÓN ============== */
+/* ================================================== */
+
+// Ajuste color barra de navegación en scroll
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('header'); // Select the header element
+    const heroSection = document.querySelector('.hero'); // Select the hero section or the top section
+    const heroHeight = heroSection.offsetHeight; // Get the height of the hero section
+    
+    if (window.scrollY > heroHeight) {
+        header.style.backgroundColor = 'white'; // Change the header background to white
+    } else {
+        header.style.backgroundColor = 'transparent'; // Reset header background when not scrolling over an image
+    }
+});
+
+
 /* ================================================== */
 /* ========= MANEJAR BARRA DE BUSQUEDA ============== */
 /* ================================================== */
+
 // Function to handle search bar toggle
 function toggleSearchBar(event) {
     const searchInput = document.getElementById('searchInput');
@@ -160,5 +180,40 @@ document.getElementById('searchInput').addEventListener('keydown', function(e) {
         if (searchText) {
             window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
         }
+    }
+});
+
+
+/* ================================================== */
+/* ========= MANEJAR BARRA LATERAL [MOVIL] ========== */
+/* ================================================== */
+
+/* Barra de navegacion lateral */
+document.addEventListener('DOMContentLoaded', function() {
+    // Side Menu - Get elements
+    const menuIcon = document.getElementById('menuIcon');
+    const sideMenu = document.getElementById('sideMenu');
+    const closeBtn = document.getElementById('closeBtn');
+    const logo = document.querySelector('.logo'); // Select the logo outside the side menu
+
+    // Ensure the menuIcon exists
+    if (menuIcon) {
+        // Open the side menu when the menu icon is clicked
+        menuIcon.addEventListener('click', function () {
+            console.log('Menu icon clicked'); // Debugging: Check if the click event fires
+            sideMenu.style.width = '290px'; // Show the side menu
+            menuIcon.style.display = 'none'; // Hide the menu icon
+            logo.style.display = 'none'; // Hide the logo in the main header
+        });
+    }
+
+    // Ensure the closeBtn exists
+    if (closeBtn) {
+        // Close the side menu when the close button is clicked
+        closeBtn.addEventListener('click', function () {
+            sideMenu.style.width = '0'; // Hide the side menu
+            menuIcon.style.display = 'inline-block'; // Show the menu icon again
+            logo.style.display = 'block'; // Show the logo in the main header again
+        });
     }
 });

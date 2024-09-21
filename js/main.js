@@ -435,7 +435,7 @@ if (searchTerm) {
 function redirectToProduct(productId, productCategory) {
     console.log("productId:", productId , "- productCategory:", productCategory);
     // Create the redirection URL with both productId and category
-    const redirectUrl = `${window.location.origin}/producto/${productCategory}-details.html?productId=${productId}&category=${productCategory}`;
+    const redirectUrl = `${window.location.origin}/producto/moderno-details.html`;
     console.log("Redirecting to:", redirectUrl);  // Debugging message
     debugger;
     window.location.assign = redirectUrl;  // Use `href` instead of `replace`
@@ -524,11 +524,11 @@ function loadProductDetails() {
         .catch(error => console.error('Error fetching product details:', error));
 }
 
-// Ensure that the loadProductDetails function is triggered when DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed");
-    loadProductDetails();  // Call the function when the DOM is loaded
-});
+// // Ensure that the loadProductDetails function is triggered when DOM is fully loaded
+// document.addEventListener('DOMContentLoaded', function() {
+//     console.log("DOM fully loaded and parsed");
+//     loadProductDetails();  // Call the function when the DOM is loaded
+// });
     
 // Enter full-screen mode and display the clicked image
 function enterFullScreen(image) {

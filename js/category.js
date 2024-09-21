@@ -113,6 +113,4 @@ function handleClick(event, buttonElement, direction) {
     items[currentIndex].style.display = 'block';
 }
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+

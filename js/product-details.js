@@ -30,7 +30,7 @@ function displayProduct(product, category) {
 
     // Update the breadcrumb navigation
     document.getElementById('breadcrumb-category').textContent = capitalizeFirstLetter(category);
-    document.getElementById('breadcrumb-category').href = `../categories/${category}.html`;
+    document.getElementById('breadcrumb-category').href = `../producto/${category}.html`;
     document.getElementById('breadcrumb-product').textContent = product.name;
 
     // Update the product name and description

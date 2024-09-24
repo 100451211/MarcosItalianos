@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURIDAL S.L.</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/product.css">    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/product.css">    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
 </head>
 <body>
@@ -127,12 +128,18 @@
         <section class="product-details" id="product-details">
             <div class="product-image-container">
                 <div class="product-image-carousel">
-                    <img src="images/hero-image.png" alt="Producto Imagen" id="main-product-image">
+                    <div class="main-image-wrapper" style="position: relative;">
+                        <img id="main-product-image" src="../images/hero-image.png" alt="Producto Imagen" class="product-image">
+                        <span class="fullscreen-icon" style="position: absolute; top: 10px; right: 10px; cursor: pointer;" onclick="toggleFullScreen()">&#x26F6;</span>
+                    </div>
+            
+                    <!-- Thumbnails container: Ensure this div is present -->
                     <div class="thumbnail-container">
                         <!-- Thumbnails will be dynamically inserted here -->
                     </div>
                 </div>
             </div>
+            
     
             <div class="product-info">
                 <h2 id="product-name">Nombre del Producto</h2>
@@ -142,6 +149,16 @@
             </div>
         </section>
     </main>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/product-details.js"></script>
+    <script src="/js/cart.js"></script>
+
+    <script>
+        // Load the product details when the page is ready
+        loadProduct();
+    </script>
+
 
     <!-- Footer -->
     <footer class="site-footer">
@@ -154,13 +171,5 @@
             </ul>
         </div>
     </footer>
-
-    <script src="/js/utils.js"></script>
-    <script src="/js/product-details.js"></script>
-    <script src="/js/cart.js"></script>
-    <script>
-        // Load the product details when the page is ready
-        loadProduct();
-    </script>
 </body>
 </html>

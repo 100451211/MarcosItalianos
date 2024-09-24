@@ -7,7 +7,7 @@
             "madrid": 3.047,
             "other": 2.047
         },
-        "max_meters": 150,
+        "max_meters": 600,
         "min_meters": 6,
         "jump": 6,
         "description": "Este es un marco de alta calidad con acabado moderno y elegante.",
@@ -18,7 +18,7 @@
                 "largo": 50,
                 "rebajo": 10
             },
-            "availability": 7
+            "availability": 600
         },
         "images": [
             "../images/salvadori/moderno/6006-40.jpg",
@@ -55,7 +55,7 @@
                 "largo": 50,
                 "rebajo": 10
             },
-            "availability": 190
+            "availability": 99
         },
         "images": [
             "../images/image1.jpg",

@@ -1,3 +1,120 @@
+/* ======================================== */
+/* ========= NAVEGAR POR IMAGENES ========= */
+/* ======================================== */
+
+.main-image-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#main-product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.thumbnail-image {
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  /* transition: transform 0.3s; */
+  border: 2px solid transparent;
+  transition: border 0.2s ease-in-out;
+}
+
+.thumbnail-image.active {
+  border: 2px solid grey;  /* Highlight color (you can change this) */
+}
+
+.thumbnail-image:hover {
+  transform: scale(1.1);
+}
+
+.nav-container {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.nav-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 0%;
+  font-size: 40px;
+  transition: background-color 0.3s;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prev-button {
+left: 10px;
+}
+
+.next-button {
+right: 10px;
+}
+
+.nav-button:hover {
+background-color: rgba(0, 0, 0, 0.8);
+}
+
+.nav-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.prev-button {
+  position: absolute;
+  left: 10px;
+}
+
+.next-button {
+  position: absolute;
+  right: 10px;
+}
+
+#fullscreen-close-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 50px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  padding: 5px 10px;
+  z-index: 2000; /* Make sure it's on top of everything */
+  display: none; /* Hidden by default */
+}
+
+#fullscreen-close-button:hover {
+  background-color: rgba(0, 0, 0, 0.9); /* Darken on hover */
+}
+
+/* ======================================== */
+/* ========= CANTIDAD DE METROS =========== */
+/* ======================================== */
+
 /* Container for the entire quantity selector */
 .quantity-selector {
   display: flex;
@@ -69,9 +186,15 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .quantity-alert {
   margin-bottom: 10px;
+  
+}
+
+.quantity-alert p{
   font-size: 14px;
   color: black;
+  margin-top: 6px;
 }
+
 .quantity-alert .icon {
   margin-right: 8px;
   font-size: 18px; /* Adjust size as needed */

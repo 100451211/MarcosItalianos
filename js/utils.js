@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize the first image as active
         heroImages[currentIndex].classList.add('active'); // Set first image visible
     } else {
-        console.warn('No images found!');
+        console.log('No hero-images element found!');
     }
 });
 
@@ -101,16 +101,22 @@ if (heroImages.length > 0){
 
 // Ajuste color barra de navegación en scroll
 window.addEventListener('scroll', function() {
-    const header = document.querySelector('header'); // Select the header element
-    const heroSection = document.querySelector('.hero'); // Select the hero section or the top section
-    const heroHeight = heroSection.offsetHeight; // Get the height of the hero section
+    const header = document.querySelector('header');
+    const top_menu = document.querySelector('.top-menu');
     
-    if (window.scrollY > heroHeight) {
-        header.style.backgroundColor = 'white'; // Change the header background to white
+    if (top_menu) {
+        const heroHeight = top_menu.offsetHeight;
+        
+        if (window.scrollY > heroHeight) {
+            header.style.backgroundColor = 'white';
+        } else {
+            header.style.backgroundColor = 'transparent';
+        }
     } else {
-        header.style.backgroundColor = 'transparent'; // Reset header background when not scrolling over an image
+        console.log("No hero element found!");
     }
 });
+
 
 
 /* ================================================== */

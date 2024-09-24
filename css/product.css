@@ -1,0 +1,78 @@
+/* Container for the entire quantity selector */
+.quantity-selector {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Label styling */
+.quantity-selector label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Container for the controls (buttons and input) */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 150px; /* Adjust the width as needed */
+}
+
+/* Input field styling */
+.quantity-controls input[type="number"] {
+  width: 60px; /* Adjust to make it wider or narrower */
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: textfield; /* Remove spin buttons on some browsers */
+}
+
+/* Styling for buttons */
+.quantity-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 18px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover and active states for buttons */
+.quantity-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.quantity-btn:active {
+  background-color: #d0d0d0;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Remove arrows from number input for webkit-based browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-alert {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: black;
+}
+.quantity-alert .icon {
+  margin-right: 8px;
+  font-size: 18px; /* Adjust size as needed */
+}

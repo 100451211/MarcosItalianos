@@ -1,5 +1,6 @@
 function loadCategory(category) {
-    fetch(`../data/${category}.json`)
+    url= `../data/products/${category}.json`
+    fetch(url)
         .then(response => response.json())
         .then(products => {
             const productGrid = document.getElementsByClassName('product-grid')[0];

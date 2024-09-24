@@ -26,6 +26,10 @@ header {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+.hero{
+    height: 100px;
+}
+
 .top-menu {
     display: flex;
     justify-content: space-between;

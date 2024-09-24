@@ -6,11 +6,9 @@ function capitalizeFirstLetter(string) {
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   let searchTerm = params.get('query') || '';
-  console.log('Raw searchTerm from URL:', searchTerm);
 
   // Input sanitization: remove any unwanted characters
   searchTerm = searchTerm.replace(/[^a-zA-Z0-9\-]/g, '').toLowerCase();
-  console.log('Sanitized searchTerm:', searchTerm);
 
   if (!searchTerm) {
     alert('Por favor, ingrese un término de búsqueda.');
@@ -35,15 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     <span style="text-decoration: none; color: inherit;">${searchTerm}</span>
     </a>
   `;
-
-  // ... Rest of your existing code for fetching and displaying results ...
   
   // List of data files to fetch
   const dataFiles = [
-    'data/colores.json',
-    'data/clasico.json',
-    'data/natural.json',
-    'data/moderno.json'
+    'data/products/colores.json',
+    'data/products/clasico.json',
+    'data/products/moderno.json'
   ];
 
   // Fetch and process all data files
@@ -129,8 +124,6 @@ function fetchData(filePath) {
       resultsContainer.style.display = 'none';
       noResultsContainer.style.display = 'block';
       
-      console.log("searchTerm:",searchTerm);
-  
       // Display the no results image and search term
       noResultsContainer.innerHTML = `
         <div class="no-results-container">

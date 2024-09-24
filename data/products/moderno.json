@@ -1,12 +1,15 @@
 [
     {
         
-        "id": "6006-40",
-        "name": "6006-40",
-        "price": {
-            "madrid": "",
-            "other": ""
+        "id": "4913252",
+        "name": "4913252",
+        "supplier_prices":{
+            "madrid": 3.047,
+            "other": 2.047
         },
+        "max_meters": 150,
+        "min_meters": 6,
+        "jump": 6,
         "description": "Este es un marco de alta calidad con acabado moderno y elegante.",
         "details": {
             "material": "Madera moderno",
@@ -15,7 +18,7 @@
                 "largo": 50,
                 "rebajo": 10
             },
-            "availability": 3
+            "availability": 7
         },
         "images": [
             "../images/salvadori/moderno/6006-40.jpg",
@@ -24,12 +27,26 @@
     },
     {
         
-        "id": "6006-41",
-        "name": "6006-41",
-        "price": {
-            "madrid": "",
-            "other": ""
+        "id": "4933252",
+        "name": "4913252",
+        "supplier_prices": {
+            "200m": 
+            {
+                "madrid": 4.427,
+                "other": 3.427
+            },
+            "100m": {
+                "madrid": 4.427,
+                "other": 3.427
+            },
+            "30m": {
+                "madrid": 4.427,
+                "other": 3.427
+            }
         },
+        "max_meters": "",
+        "min_meters": 0,
+        "jump": 1,
         "description": "Este es un marco de alta calidad con acabado moderno y elegante.",
         "details": {
             "material": "Madera moderno",
@@ -38,7 +55,7 @@
                 "largo": 50,
                 "rebajo": 10
             },
-            "availability": 3
+            "availability": 190
         },
         "images": [
             "../images/image1.jpg",

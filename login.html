@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURIDAL S.L.</title>
+    <title>Inicio de sesión - AURIDAL S.L.</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/product.css">    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
 </head>
 <body>
@@ -107,40 +107,13 @@
     <main>
         <!-- Title and Breadcrumb -->
         <section class="product-title">
-            <h1 id="product-name">Producto</h1>
-            <p>
-                <a href="../index.html" style="text-decoration: none; color: inherit;">
-                    <!-- Home SVG icon -->
-                    <a href="../index.html" style="text-decoration: none; color: inherit;">
-                        <svg href="../index.html" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 .134l6.571 5.428c.326.27.429.745.245 1.12a.857.857 0 0 1-.794.48H12.86v5.527a.857.857 0 0 1-.857.857h-1.715a.857.857 0 0 1-.857-.857V9.429H6.571v3.857a.857.857 0 0 1-.857.857H4a.857.857 0 0 1-.857-.857V7.163H2.128a.857.857 0 0 1-.794-.48.857.857 0 0 1 .245-1.12L8 .134z"/>
-                        </svg>
-                    </a>
-                </a>
-                &gt; Producto &gt;
-                <a href="#" style="text-decoration: none; color: inherit;" id="breadcrumb-category">Categoría</a>
-                &gt; <span id="breadcrumb-product">Producto</span>
-            </p>
-        </section>
-
-        <!-- Product Details Section -->
-        <section class="product-details" id="product-details">
-            <div class="product-image-container">
-                <div class="product-image-carousel">
-                    <img src="images/hero-image.png" alt="Producto Imagen" id="main-product-image">
-                    <div class="thumbnail-container">
-                        <!-- Thumbnails will be dynamically inserted here -->
-                    </div>
-                </div>
+            <h1 id="product-name">Inicio de sesión</h1>
+            <div id="login-section">
+                <h3>Login</h3>
+                <input type="text" id="username" placeholder="Username" />
+                <input type="password" id="password" placeholder="Password" />
+                <button id="login-btn">Login</button>
             </div>
-    
-            <div class="product-info">
-                <h2 id="product-name">Nombre del Producto</h2>
-                <!-- Ensure the product-description exists -->
-                <p id="product-description">Descripción del producto.</p>
-                <!-- Product details will be dynamically inserted here -->
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->
@@ -157,7 +130,6 @@
 
     <script src="/js/utils.js"></script>
     <script src="/js/product-details.js"></script>
-    <script src="/js/cart.js"></script>
     <script>
         // Load the product details when the page is ready
         loadProduct();

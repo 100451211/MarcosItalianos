@@ -14,6 +14,7 @@ function loadProduct() {
             const product = products.find(p => p.id === productId);
             if (product) {
                 displayProduct(product, category);
+                loadSimilarProducts(productId, category, products); // Load similar products
             } else {
                 document.getElementById('product-details').innerText = 'Producto no encontrado.';
             }
@@ -187,6 +188,26 @@ function displayProduct(product, category) {
     
     document.querySelector('.product-info').innerHTML += productDetails;
 
+    // Add navigation buttons
+    const navigationButtonsHtml = `
+        <div class="nav-container">
+            <button class="nav-button prev-button" onclick="showPreviousImage()">&#8249;</button>
+            <button class="nav-button next-button" onclick="showNextImage()">&#8250;</button>
+        </div>
+    `;
+    
+    document.querySelector('.image-container').insertAdjacentHTML('beforeend', navigationButtonsHtml);
+
+
+    const productCare = `
+        <div>
+            <p>${product.cuidado}</p>
+        </div>
+    `;
+
+    document.querySelector('.product-care').innerHTML += productCare;
+
+
     /* ======================================== */
     /* ========= CANTIDAD DE METROS =========== */
     /* ======================================== */
@@ -281,6 +302,126 @@ function displayProduct(product, category) {
         }
     });   
 
+}
+
+function loadSimilarProducts(productId, category, products) {
+    const similarProductsSection = document.querySelector('.similar-products');
+
+    // Filter out the current product from the list of products
+    const similarProducts = products.filter(product => product.id !== productId);
+
+    if (similarProducts.length === 0) {
+        similarProductsSection.innerText = 'No hay productos similares disponibles.';
+        return;
+    }
+
+    // Create the carousel container
+    const carouselWrapper = document.createElement('div');
+    carouselWrapper.classList.add('carousel-wrapper');
+
+    const carouselContainer = document.createElement('div');
+    carouselContainer.classList.add('carousel-container');
+
+    similarProducts.forEach(product => {
+        const productDiv = document.createElement('div');
+        productDiv.classList.add('product-item');
+
+        // Add product content (image, name)
+        productDiv.innerHTML = `
+            <img src="${product.images[0]}" alt="${product.name}">
+            <h3>${product.name}</h3>
+        `;
+
+        // Make the entire div clickable
+        productDiv.addEventListener('click', () => {
+            window.location.href = `product.html?category=${category}&id=${product.id}`;
+        });
+
+        carouselContainer.appendChild(productDiv);
+    });
+
+    carouselWrapper.appendChild(carouselContainer);
+    similarProductsSection.appendChild(carouselWrapper);
+
+    // Add navigation arrows
+    const prevArrow = document.createElement('button');
+    prevArrow.classList.add('carousel-prev');
+    prevArrow.innerHTML = '&#8249;';
+    similarProductsSection.appendChild(prevArrow);
+
+    const nextArrow = document.createElement('button');
+    nextArrow.classList.add('carousel-next');
+    nextArrow.innerHTML = '&#8250;';
+    similarProductsSection.appendChild(nextArrow);
+
+    // Add functionality to move the carousel
+    let position = 0;
+    const itemsToShow = 4;
+    const itemsToScroll = 2;
+    const itemWidth = 100 / itemsToShow; // Percentage width for each item
+
+    // Set dynamic styles for the carousel
+    const productItems = document.querySelectorAll('.product-item');
+    productItems.forEach(item => {
+        item.style.width = `${itemWidth}%`;
+    });
+
+    const totalItems = productItems.length;
+    const maxPosition = Math.ceil(totalItems / itemsToScroll) * itemsToScroll - itemsToShow;
+
+    // Handle "next" arrow click
+    nextArrow.addEventListener('click', () => {
+        if (position < maxPosition) {
+            position += itemsToScroll;
+            moveCarousel();
+        }
+    });
+
+    // Handle "prev" arrow click
+    prevArrow.addEventListener('click', () => {
+        if (position > 0) {
+            position -= itemsToScroll;
+            moveCarousel();
+        }
+    });
+
+    // Function to move the carousel
+    function moveCarousel() {
+        carouselContainer.style.transform = `translateX(-${(position * itemWidth)}%)`;
+    }
+
+    // Add touch/swipe support for mobile devices
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carouselContainer.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    carouselContainer.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const swipeDistance = touchStartX - touchEndX;
+
+        if (swipeDistance > 50) { // Swipe left
+            if (position < maxPosition) {
+                position += itemsToScroll;
+                moveCarousel();
+            }
+        } else if (swipeDistance < -50) { // Swipe right
+            if (position > 0) {
+                position -= itemsToScroll;
+                moveCarousel();
+            }
+        }
+    }
+}
+
+function redirectToProductPage(productId, category) {
+    window.location.href = `product.html?category=${category}&id=${productId}`;
 }
 
 

@@ -19,6 +19,20 @@
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
+.button—previous{
+  left: 10px;
+  margin-left: 3px;
+  font-size: xx-large;
+}
+
+.button--next {
+  border: #d0d0d0;
+  background-color: transparent;
+  right: 10px;
+  margin-right: 3px;
+  font-size: xx-large;
+}
+
 .thumbnail-container {
   display: flex;
   justify-content: center;
@@ -198,4 +212,86 @@ input[type="number"]::-webkit-outer-spin-button {
 .quantity-alert .icon {
   margin-right: 8px;
   font-size: 18px; /* Adjust size as needed */
+}
+
+
+/* Cuidado del producto */
+.product-care{
+  display: block; /* Use flexbox to align images and product info side by side */
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100;
+}
+
+.product-care p{
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+/* Productos similares */
+.similar-products{
+  display: block; /* Use flexbox to align images and product info side by side */
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100;
+}
+
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-wrapper .product-item {
+  flex-shrink: 0;
+  width: calc(25% - 20px); /* 4 items per row with space */
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
+  border-radius: 5px; /* Optional: rounded corners */
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease;
+  will-change: transform;
+}
+
+.carousel-wrapper .carousel-prev, .carousel-wrapper .carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1;
+  padding: 10px;
+}
+
+.carousel-prev {
+  left: 0;
+}
+
+.carousel-next {
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .product-item {
+      padding: 5px;
+  }
 }

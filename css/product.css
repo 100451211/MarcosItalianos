@@ -67,44 +67,28 @@
   transform: translateY(-50%);
 }
 
-.nav-button {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px 10px;
+.prev-button {
+  transition: opacity 0.3s, color 0.3s, border 0.3s; /* Smooth transition for visibility */
+  background-color: transparent;
+  border: white;
+  position: absolute;
+  left: 10px;
   cursor: pointer;
   border-radius: 0%;
   font-size: 40px;
-  transition: background-color 0.3s;
-  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-}
-
-.prev-button {
-left: 10px;
 }
 
 .next-button {
-right: 10px;
-}
-
-.nav-button:hover {
-background-color: rgba(0, 0, 0, 0.8);
-}
-
-.nav-button:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-.prev-button {
-  position: absolute;
-  left: 10px;
-}
-
-.next-button {
+  transition: opacity 0.3s, color 0.3s, border 0.3s; /* Smooth transition for visibility */
+  border: white;
+  background-color: transparent;
   position: absolute;
   right: 10px;
+  cursor: pointer;
+  border-radius: 0%;
+  font-size: 40px;
+  top: 50%;
 }
 
 #fullscreen-close-button {
@@ -247,20 +231,16 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .carousel-wrapper {
   position: relative;
-  overflow: hidden;
   width: 100%;
+  overflow: hidden;
+  padding: 0 50px; /* Add padding to the sides to create space for the arrows */
 }
 
-.carousel-wrapper .product-item {
-  flex-shrink: 0;
-  width: calc(25% - 20px); /* 4 items per row with space */
-  box-sizing: border-box;
-  padding: 10px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
-  border-radius: 5px; /* Optional: rounded corners */
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
+.carousel-inner-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .carousel-container {
@@ -269,25 +249,37 @@ input[type="number"]::-webkit-outer-spin-button {
   will-change: transform;
 }
 
-.carousel-wrapper .carousel-prev, .carousel-wrapper .carousel-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 1;
+.product-item {
+  flex: 0 0 auto;
+  text-align: center;
   padding: 10px;
+  box-sizing: border-box;
+}
+
+.carousel-prev, .carousel-next {
+  position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5); /* Ensure visibility */
+    color: black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10; /* Ensure it’s on top of other elements */
+    font-size: 36px;
+    display: block; /* Ensure the button is visible */
 }
 
 .carousel-prev {
-  left: 0;
+  left: -40px; /* Move it further to the left, outside the image */
 }
 
 .carousel-next {
-  right: 0;
+  right: -40px; /* Move it further to the right, outside the image */
+}
+
+.carousel-prev:hover, .carousel-next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 @media (max-width: 768px) {

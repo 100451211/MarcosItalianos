@@ -151,8 +151,8 @@ function displayProduct(product, category) {
         // Add navigation buttons
         const navigationButtonsHtml = `
             <div class="nav-container">
-                <button class="nav-button prev-button" id="prev-button">&#8249;</button>
-                <button class="nav-button next-button" id="next-button">&#8250;</button>
+                <button class="prev-button" id="prev-button">&#8249;</button>
+                <button class="next-button" id="next-button">&#8250;</button>
             </div>
         `;
         
@@ -186,17 +186,7 @@ function displayProduct(product, category) {
         <a href="../login.html"><button class="button-add-to-cart">Añadir al Carrito</button></a>
     `;
     
-    document.querySelector('.product-info').innerHTML += productDetails;
-
-    // Add navigation buttons
-    const navigationButtonsHtml = `
-        <div class="nav-container">
-            <button class="nav-button prev-button" onclick="showPreviousImage()">&#8249;</button>
-            <button class="nav-button next-button" onclick="showNextImage()">&#8250;</button>
-        </div>
-    `;
-    
-    document.querySelector('.image-container').insertAdjacentHTML('beforeend', navigationButtonsHtml);
+    document.querySelector('.product-info').innerHTML += productDetails;    
 
 
     const productCare = `
@@ -303,7 +293,6 @@ function displayProduct(product, category) {
     });   
 
 }
-
 function loadSimilarProducts(productId, category, products) {
     const similarProductsSection = document.querySelector('.similar-products');
 
@@ -315,9 +304,12 @@ function loadSimilarProducts(productId, category, products) {
         return;
     }
 
-    // Create the carousel container
+    // Create the carousel wrapper
     const carouselWrapper = document.createElement('div');
     carouselWrapper.classList.add('carousel-wrapper');
+
+    const carouselInnerWrapper = document.createElement('div');
+    carouselInnerWrapper.classList.add('carousel-inner-wrapper'); // For positioning arrows inside
 
     const carouselContainer = document.createElement('div');
     carouselContainer.classList.add('carousel-container');
@@ -340,19 +332,20 @@ function loadSimilarProducts(productId, category, products) {
         carouselContainer.appendChild(productDiv);
     });
 
-    carouselWrapper.appendChild(carouselContainer);
+    carouselInnerWrapper.appendChild(carouselContainer);
+    carouselWrapper.appendChild(carouselInnerWrapper);
     similarProductsSection.appendChild(carouselWrapper);
 
     // Add navigation arrows
     const prevArrow = document.createElement('button');
     prevArrow.classList.add('carousel-prev');
     prevArrow.innerHTML = '&#8249;';
-    similarProductsSection.appendChild(prevArrow);
+    carouselInnerWrapper.appendChild(prevArrow); // Append inside the carousel-inner-wrapper
 
     const nextArrow = document.createElement('button');
     nextArrow.classList.add('carousel-next');
     nextArrow.innerHTML = '&#8250;';
-    similarProductsSection.appendChild(nextArrow);
+    carouselInnerWrapper.appendChild(nextArrow); // Append inside the carousel-inner-wrapper
 
     // Add functionality to move the carousel
     let position = 0;

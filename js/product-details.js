@@ -29,7 +29,7 @@ function displayProduct(product, category) {
 
     // Update the breadcrumb navigation
     document.getElementById('breadcrumb-category').textContent = capitalizeFirstLetter(category);
-    document.getElementById('breadcrumb-category').href = `../categories/${category}.html`;
+    document.getElementById('breadcrumb-category').href = `../producto/${category}.html`;
     document.getElementById('breadcrumb-product').textContent = product.name;
 
     // Update the product name and description
@@ -184,11 +184,10 @@ function displayProduct(product, category) {
                 </div>
             </div>
         </ul>
-        <a href="../login.html"><button class="button-add-to-cart">Añadir al Carrito</button></a>
+        <a href="../login.html"><button id="addToCartButton" class="button-add-to-cart"> Añadir al Carrito</button></a>
     `;
     
-    document.querySelector('.product-info').innerHTML += productDetails;    
-
+    document.querySelector('.product-info').innerHTML += productDetails;
 
     const productCare = `
         <div>
@@ -197,6 +196,19 @@ function displayProduct(product, category) {
     `;
 
     document.querySelector('.product-care').innerHTML += productCare;
+
+    const addToCart = document.getElementById('addToCartButton');
+    if (addToCart){
+        addToCart.addEventListener('click', function() {
+            // Store the current URL in localStorage
+            localStorage.setItem('redirectAfterLogin', window.location.href);
+        
+            // Redirect to login page
+            window.location.href = 'login.html';
+        });
+    }else{
+        console.log("No add-to-cart id found!");
+    }
 
 
     /* ======================================== */
@@ -450,5 +462,48 @@ function redirectToProductPage(productId, category) {
 }
 
 
+// Check if user is authenticated
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+function checkIfUserLoggedIn() {
+    return fetch('/auth/check-auth')
+      .then(response => response.json())
+      .then(data => data.authenticated)
+      .catch(error => {
+        console.error('Error checking authentication:', error);
+        return false;  // Default to not logged in if there's an error
+      });
+  }
+
+function updatePrice() {
+    const category = getQueryParam('category');
+    const productId = getQueryParam('id');
+
+    // Fetch product data (example, adjust to match your JSON structure)
+    fetch(`/data/products/${category}.json`)
+        .then(response => response.json())
+        .then(products => {
+        const product = products.find(p => p.id === productId);
+        if (product) {
+            // Update the price section after checking if the user is logged in
+            checkIfUserLoggedIn().then(isLoggedIn => {
+            if (isLoggedIn) {
+                document.getElementById('priceMessage').textContent = `Precio: ${product.supplier_prices.madrid}`;
+            } else {
+                document.getElementById('priceMessage').textContent = 'Inicia sesión para ver los precios.';
+            }
+            });
+        }
+        })
+        .catch(error => console.error('Error fetching product data:', error));
+}
+
+// Call the updatePrice function on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updatePrice();  // Call updatePrice when the page is fully loaded
+});
 
 

@@ -5,58 +5,61 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { hash } = require('crypto');
 
 const app = express();
 const secretKey = 'yourSecretKey'; // Change this to a secure key
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../'))); // Serve static files (HTML, CSS, JS)
+const url = path.join(__dirname, '../');
+console.log("app.js:", url);
+app.use(express.static(url));  // Serve static files (HTML, CSS, JS)
 
-// Login Route
-app.post('/auth/login', (req, res) => {
-    const { username, password } = req.body;
-    console.log('Username:', username);  // Log username for debugging
-
-    const url = path.join(__dirname, 'data/users/users.json');
-    console.log("login-URL:", url);
-  
-    fs.readFile(url, 'utf-8', (err, data) => {
-        if (err) {
-            console.error('Error reading users.json:', err);
-            return res.status(500).json({ message: 'Internal Server Error' });
-        }
-        console.log('Successfully read users.json');
-        const users = JSON.parse(data);
-
-        // Find the user by username
-        const user = users.find(u => u.username === username);
-
-        if (!user) {
-            console.log('User not found');
-            return res.status(401).json({ message: 'Invalid username or password' });
-        }
-
-        console.log('User found:', user);
-
-        // Compare the provided password with the stored hashed password
-        const isPasswordValid = bcrypt.compareSync(password, user.password);
-        console.log('Password valid:', isPasswordValid);  // Log password validation result
-
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid username or password' });
-        }
-
-        // If password is correct, generate a JWT token
-        const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
-
-        // Set the token as a cookie
-        res.cookie('token', token, { httpOnly: true });
-        res.json({ message: 'Login successful' });
-    });
+app.use((req, res, next) => {
+    console.log('Request URL:', req.url);  // Log every request URL
+    next();
 });
-  
-  
+
+app.get('/login.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+app.post('/auth/login', (req, res) => {
+  const { username, password } = req.body;
+  console.log('Login attempt for:', username);
+
+  // Fix fs.readFile - Ensure you pass a callback function
+  fs.readFile(path.join(__dirname, '../data/users/users.json'), 'utf-8', (err, data) => {
+    if (err) {
+      console.error('Error reading users.json:', err);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+    try {
+      const users = JSON.parse(data); // Parse JSON safely
+      const user = users.find(u => u.username === username);
+
+      if (!user) {
+        console.log('User not found');
+        return res.status(401).json({ message: 'Invalid username!' });
+      }
+
+      const isPasswordValid = bcrypt.compareSync(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: 'Invalid password!'});
+      }
+
+      const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
+      res.cookie('token', token, { httpOnly: true });
+      res.json({ message: 'Sesion iniciada correctamente!' });
+    } catch (parseError) {
+      console.error('Error parsing JSON:', parseError);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+});
+
   
 
 // Check authentication

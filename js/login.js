@@ -1,11 +1,9 @@
 document.getElementById('loginForm').addEventListener('submit', function(event) {
   event.preventDefault();
-  
-  console.log('Form submitted');  // Add this to check if the event is firing
-  
+
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
-  
+
   fetch('/auth/login', {
     method: 'POST',
     headers: {
@@ -15,16 +13,23 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
   })
   .then(response => response.json())
   .then(data => {
-    console.log('Response from server:', data);  // Log the response for debugging
-    if (data.message === 'Sesión iniciada correctamente.') {
-      window.location.href = 'product.html';  // Redirect to the product page
+    if (data.message ===  'Sesion iniciada correctamente!') {
+      // Check if there's a stored URL to redirect to after login
+      const redirectUrl = localStorage.getItem('redirectAfterLogin');
+      if (redirectUrl) {
+        localStorage.removeItem('redirectAfterLogin');  // Remove the item after using it
+        window.location.href = redirectUrl;  // Redirect back to the original product page
+      } else {
+        window.location.href = 'product.html';  // Fallback if no redirect URL is found
+      }
     } else {
-      document.getElementById('error-message').textContent = 'Usuario o contraseña incorrecta. Inténtelo de nuevo.';
+      document.getElementById('error-message').textContent = 'Usuario o contraseña inválida. Por favor, inténtelo de nuevo.';
     }
   })
   .catch(error => {
     console.error('Error:', error);
   });
 });
+
 
   

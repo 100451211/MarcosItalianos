@@ -173,6 +173,7 @@ function displayProduct(product, category) {
             <li><strong>Ancho:</strong> ${product.details.dimensions.ancho} cm</li>
             <li><strong>Largo:</strong> ${product.details.dimensions.largo} cm</li>
             <li><strong>Rebajo:</strong> ${product.details.dimensions.rebajo} cm</li>
+            <li id="priceMessage"><strong>Precio:</strong> Inicia sesión para visualizar precios.</li>
             <div class="quantity-selector">
                 <label for="quantity">Metros:</label>
                 <div id="quantity-alert" class="quantity-alert"></div>

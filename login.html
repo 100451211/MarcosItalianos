@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de sesión - AURIDAL S.L.</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/images/favicon.webp">
 </head>
@@ -108,12 +109,20 @@
         <!-- Title and Breadcrumb -->
         <section class="product-title">
             <h1 id="product-name">Inicio de sesión</h1>
-            <div id="login-section">
-                <h3>Login</h3>
-                <input type="text" id="username" placeholder="Username" />
-                <input type="password" id="password" placeholder="Password" />
-                <button id="login-btn">Login</button>
+            <div class="login-container">
+                <form id="loginForm">
+                  <h2>Inicia sesión</h2>
+                  <label for="username">Usuario</label>
+                  <input type="text" id="username" name="username" required>
+                  
+                  <label for="password">Contraseña</label>
+                  <input type="password" id="password" name="password" required>
+                  
+                  <button type="submit">Enviar</button>
+                  <p id="error-message" class="error"></p>
+                </form>
             </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -129,10 +138,7 @@
     </footer>
 
     <script src="/js/utils.js"></script>
-    <script src="/js/product-details.js"></script>
-    <script>
-        // Load the product details when the page is ready
-        loadProduct();
-    </script>
+    <script src="/js/login.js"></script>
+    
 </body>
 </html>

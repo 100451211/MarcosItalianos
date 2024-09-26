@@ -163,6 +163,21 @@
     <script>
         // Load the product details when the page is ready
         loadProduct();
+
+        // Check if user is authenticated
+        fetch('/auth/check-auth')
+            .then(response => response.json())
+            .then(data => {
+            if (data.authenticated) {
+                document.querySelectorAll('.price').forEach((el) => {
+                el.textContent = 'Price: $100';  // Show price if authenticated
+                });
+            } else {
+                document.getElementById('priceMessage').textContent = 'Inicia sesión para visualizar precios.';
+            }
+            })
+            .catch(error => console.error('Error:', error));
+
     </script>
 
 

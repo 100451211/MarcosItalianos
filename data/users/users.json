@@ -2,15 +2,13 @@
     {
         
         "id": "1",
-        "privelege": "",
-        "user": "giaauriemma",
-        "password": "passwordTest1!"
+        "username": "giaauriemma",
+        "password": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36Z1Fwo9Y6tyfNI8IcK9J8."
     },
     {
         
         "id": "2",
-        "privelege": "",
-        "user": "martapia",
-        "password": "passwordTest1!"
+        "username": "martapia",
+        "password": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36Z1Fwo9Y6tyfNI8IcK9J8."
     }
 ]

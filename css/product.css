@@ -19,20 +19,6 @@
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
-.button—previous{
-  left: 10px;
-  margin-left: 3px;
-  font-size: xx-large;
-}
-
-.button--next {
-  border: #d0d0d0;
-  background-color: transparent;
-  right: 10px;
-  margin-right: 3px;
-  font-size: xx-large;
-}
-
 .thumbnail-container {
   display: flex;
   justify-content: center;
@@ -232,15 +218,15 @@ input[type="number"]::-webkit-outer-spin-button {
 .carousel-wrapper {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  padding: 0 50px; /* Add padding to the sides to create space for the arrows */
+  padding: 0 30px; /* Add padding to the sides to create space for the arrows */
 }
 
 .carousel-inner-wrapper {
+  width:100%;
+  position: relative;
+  overflow: hidden; /* Apply overflow to hide the extra items */
   display: flex;
   align-items: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .carousel-container {
@@ -258,32 +244,32 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .carousel-prev, .carousel-next {
   position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5); /* Ensure visibility */
-    color: black;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 10; /* Ensure it’s on top of other elements */
-    font-size: 36px;
-    display: block; /* Ensure the button is visible */
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10; /* Ensure it’s on top of other elements */
+  font-size: 48px;
+  display: none; /* Hidden by default */
 }
 
 .carousel-prev {
-  left: -40px; /* Move it further to the left, outside the image */
+  left: 0; /* Align to the left of the container */
 }
 
 .carousel-next {
-  right: -40px; /* Move it further to the right, outside the image */
+  right: 0; /* Align to the right of the container */
 }
 
 .carousel-prev:hover, .carousel-next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  color: #333; /* Darken on hover for better visibility */
 }
 
 @media (max-width: 768px) {
   .product-item {
-      padding: 5px;
+    padding: 5px;
   }
 }

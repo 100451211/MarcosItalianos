@@ -293,6 +293,7 @@ function displayProduct(product, category) {
     });   
 
 }
+
 function loadSimilarProducts(productId, category, products) {
     const similarProductsSection = document.querySelector('.similar-products');
 
@@ -340,12 +341,13 @@ function loadSimilarProducts(productId, category, products) {
     const prevArrow = document.createElement('button');
     prevArrow.classList.add('carousel-prev');
     prevArrow.innerHTML = '&#8249;';
-    carouselInnerWrapper.appendChild(prevArrow); // Append inside the carousel-inner-wrapper
 
     const nextArrow = document.createElement('button');
     nextArrow.classList.add('carousel-next');
     nextArrow.innerHTML = '&#8250;';
-    carouselInnerWrapper.appendChild(nextArrow); // Append inside the carousel-inner-wrapper
+
+    carouselWrapper.appendChild(prevArrow); // Add arrows outside carouselInnerWrapper
+    carouselWrapper.appendChild(nextArrow); 
 
     // Add functionality to move the carousel
     let position = 0;
@@ -360,27 +362,38 @@ function loadSimilarProducts(productId, category, products) {
     });
 
     const totalItems = productItems.length;
-    const maxPosition = Math.ceil(totalItems / itemsToScroll) * itemsToScroll - itemsToShow;
+    const maxPosition = Math.max(0, Math.ceil((totalItems - itemsToShow) / itemsToScroll));
+
+    function updateArrowVisibility() {
+        // Hide left arrow if we're at the first position
+        prevArrow.style.display = (position === 0) ? 'none' : 'block';
+        // Hide right arrow if we're at the last position
+        nextArrow.style.display = (position >= maxPosition) ? 'none' : 'block';
+    }
+
+    updateArrowVisibility(); // Initial update
 
     // Handle "next" arrow click
     nextArrow.addEventListener('click', () => {
         if (position < maxPosition) {
-            position += itemsToScroll;
+            position += 1;
             moveCarousel();
+            updateArrowVisibility();
         }
     });
 
     // Handle "prev" arrow click
     prevArrow.addEventListener('click', () => {
         if (position > 0) {
-            position -= itemsToScroll;
+            position -= 1;
             moveCarousel();
+            updateArrowVisibility();
         }
     });
 
     // Function to move the carousel
     function moveCarousel() {
-        carouselContainer.style.transform = `translateX(-${(position * itemWidth)}%)`;
+        carouselContainer.style.transform = `translateX(-${(position * itemWidth * itemsToScroll)}%)`;
     }
 
     // Add touch/swipe support for mobile devices
@@ -401,17 +414,35 @@ function loadSimilarProducts(productId, category, products) {
 
         if (swipeDistance > 50) { // Swipe left
             if (position < maxPosition) {
-                position += itemsToScroll;
+                position += 1;
                 moveCarousel();
+                updateArrowVisibility();
             }
         } else if (swipeDistance < -50) { // Swipe right
             if (position > 0) {
-                position -= itemsToScroll;
+                position -= 1;
                 moveCarousel();
+                updateArrowVisibility();
             }
         }
     }
+
+    // Conditionally show arrows based on the number of items
+    if (totalItems <= 4) {
+        // If 4 or fewer items, hide both arrows
+        prevArrow.style.display = 'none';
+        nextArrow.style.display = 'none';
+    } else if (totalItems === 5) {
+        // If exactly 5 items, show only the right arrow initially
+        prevArrow.style.display = 'none';
+        nextArrow.style.display = 'block';
+    } else {
+        // For more than 5 items, start with both arrows enabled
+        prevArrow.style.display = 'none';
+        nextArrow.style.display = 'block';
+    }
 }
+
 
 function redirectToProductPage(productId, category) {
     window.location.href = `product.html?category=${category}&id=${productId}`;

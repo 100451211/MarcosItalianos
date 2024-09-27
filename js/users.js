@@ -47,7 +47,7 @@ oAuth2Client.setCredentials({
 });
 
 // Function to send email using OAuth2
-async function sendEmailToUser(username, email, password) {
+async function sendEmailToUser(name, surname, username, email, password) {
     try {
         const accessToken = await oAuth2Client.getAccessToken();
 
@@ -66,8 +66,8 @@ async function sendEmailToUser(username, email, password) {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
-            subject: 'Your New Account Details',
-            text: `Hello ${username},\nYour account has been created.\nYour password is: ${password}\nPlease change it after logging in.`,
+            subject: 'Bienvenid@ a AURIDAL S.L!',
+            text: `Hola ${name,surname},\nTu cuenta ha sido creada, aquí tienes tus datos.\n\tUsuario: ${username}.\n\tContraseña: ${password}\n`,
         };
 
         const result = await transporter.sendMail(mailOptions);
@@ -123,7 +123,7 @@ async function createUser(firstName, surname, email) {
     saveUserData(userData); // Save user data to the database (e.g., users.json)
 
     // Send the plain-text password to the user's email
-    await sendEmailToUser(userData.username, email, password);
+    await sendEmailToUser(usernData.name, userData.surname, userData.username, email, password);
     console.log(`User created: ${userData.username}`);
     console.log(`Plain password sent to user: ${password}`);
 }

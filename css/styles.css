@@ -1133,3 +1133,18 @@ table tr:nth-child(even) {
 .cart-count.hidden {
     display: none;
 }  
+
+.remove-item {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.remove-item svg {
+    color:grey;
+    transition: fill 0.3s ease;
+}
+
+.remove-item svg:hover {
+   color: black;
+}

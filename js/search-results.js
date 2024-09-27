@@ -1,14 +1,10 @@
-// // Function to capitalize the first letter
-// function capitalizeFirstLetter(string) {
-//   return string.charAt(0).toUpperCase() + string.slice(1);
-// }
-
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   let searchTerm = params.get('query') || '';
 
   // Input sanitization: remove any unwanted characters
   searchTerm = searchTerm.replace(/[^a-zA-Z0-9\-]/g, '').toLowerCase();
+  console.log("searchTerm:", searchTerm);
 
   if (!searchTerm) {
     alert('Por favor, ingrese un término de búsqueda.');
@@ -47,13 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
       // Combine all products into a single array
       const allProducts = [].concat(...allDataArrays);
 
-      // Filter products based on the search term matching a whole component of the product ID
       const filteredProducts = allProducts.filter(product => {
         const id = product.id.toLowerCase();
-        // Split the product ID into components based on non-alphanumeric characters
-        const components = id.split(/[^a-zA-Z0-9]+/);
-        // Check if any component exactly matches the search term
-        return components.includes(searchTerm);
+        console.log("search-id:", id);
+      
+        // Check if the product ID contains the search term, allowing partial matches like '318-3'
+        if (id.includes(searchTerm)) {
+          console.log("Matched ID:", id);
+          return true;
+        }
+        
+        return false;
       });
 
       // Display the results
@@ -109,6 +109,7 @@ function fetchData(filePath) {
   
   // Function to redirect to the product page
   function redirectToProduct(productId, category) {
+    console.log(`Redirecting to Product ID: ${productId}, Category: ${category}`);
     window.location.href = `product.html?id=${encodeURIComponent(productId)}&category=${encodeURIComponent(category)}`;
   }
   

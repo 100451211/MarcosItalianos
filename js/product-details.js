@@ -1,12 +1,16 @@
 function loadProduct() {
     const urlParams = new URLSearchParams(window.location.search);
-    const category = urlParams.get('category');
+    // const category = urlParams.get('category');
+    const cat = urlParams.get('category');
     const productId = urlParams.get('id');
+
+    const category =  cat.replace("products/", "");
 
     if (!category || !productId) {
         document.getElementById('product-details').innerText = 'Producto no encontrado.';
         return;
     }
+
 
     fetch(`../data/products/${category}.json`)
         .then(response => response.json())

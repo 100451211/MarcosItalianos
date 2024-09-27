@@ -76,20 +76,30 @@ app.post('/auth/login', (req, res) => {
 
 // Check authentication
 app.get('/auth/check-auth', (req, res) => {
-    const { username, password } = req.body;
-    console.log('Login attempt:', username);  // Log the username for debugging
-    const token = req.cookies.token;
+  const token = req.cookies.token;
 
-    if (!token) {
-        return res.json({ authenticated: false });
-    }
+  if (!token) {
+      // No token, user is not authenticated
+      return res.json({ authenticated: false });
+  }
 
-    try {
-        jwt.verify(token, secretKey);
-        res.json({ authenticated: true });
-    } catch (error) {
-        res.json({ authenticated: false });
-    }
+  try {
+      // Verify the token using the secret key
+      jwt.verify(token, secretKey);
+      // If token is valid, the user is authenticated
+      return res.json({ authenticated: true });
+  } catch (error) {
+      // Token verification failed, handle it
+      console.error('JWT verification failed:', error);
+      return res.json({ authenticated: false });
+  }
+});
+
+// Sign-out route to clear the token cookie
+app.post('/auth/sign-out', (req, res) => {
+  // Clear the token from cookies
+  res.clearCookie('token'); // Clear the JWT cookie
+  res.json({ message: 'Signed out successfully' });
 });
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));

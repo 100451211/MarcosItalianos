@@ -231,3 +231,86 @@ document.addEventListener('DOMContentLoaded', function() {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+// ========================================== //
+// ======== AÑADIR AL CARRITO =============== //
+// ========================================== //
+
+// Function to update the cart count indicator
+function updateCartCount() {
+    const cartCountElement = document.getElementById('cart-count');
+    const totalUniqueItems = cart.length;  // Number of different products in the cart
+
+    if (totalUniqueItems > 0) {
+        cartCountElement.textContent = totalUniqueItems;
+        cartCountElement.classList.remove('hidden');  // Show the cart count
+    } else {
+        cartCountElement.classList.add('hidden');  // Hide the cart count if empty
+    }
+}
+
+// Function to remove an item from the cart
+function removeFromCart(index) {
+    cart.splice(index, 1);  // Remove item at the specified index
+    localStorage.setItem('cart', JSON.stringify(cart));  // Save updated cart to localStorage
+    updateCartDisplay();  // Update the cart display
+    updateCartCount();    // Update the cart count
+}
+
+// Function to toggle cart sidebar visibility
+function toggleCart() {
+    const cartSidebar = document.getElementById('cart-sidebar');
+    cartSidebar.classList.toggle('active');  // Toggle the 'active' class
+}
+
+// Close the cart sidebar when the close button is clicked
+document.querySelector('.close-cart').addEventListener('click', function() {
+    const cartSidebar = document.getElementById('cart-sidebar');
+    cartSidebar.classList.remove('active');  // Remove the 'active' class to hide the sidebar
+});
+
+// Function to proceed to checkout
+function checkout() {
+    if (cart.length === 0) {
+        alert('Your cart is empty.');
+    } else {
+        // Implement checkout logic
+        alert('Proceeding to checkout...');
+    }
+}
+
+// Utility function to get URL query parameters
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// Call updatePrice and set up the cart on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updatePrice();
+    updateCartDisplay();  // Load and display cart items if any
+    updateCartCount();    // Update cart count on page load
+    checkIfUserLoggedIn();  // Check if the user is logged in when the page loads
+    
+});
+
+// Function to log the user out
+function signOut() {
+    // Send a POST request to the backend to clear the token
+    fetch('/auth/sign-out', {
+        method: 'POST',
+        credentials: 'include'  // Include cookies in the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);  // Handle the response, e.g., log the success message
+    })
+    .catch(error => {
+        console.error('Error during sign-out:', error);
+    });
+}
+
+// // Trigger the signOut function when the window is closed or reloaded
+// window.addEventListener('beforeunload', function () {
+//     signOut();  // Call the sign-out function
+// });

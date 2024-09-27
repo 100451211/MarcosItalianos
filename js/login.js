@@ -20,7 +20,8 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         localStorage.removeItem('redirectAfterLogin');  // Remove the item after using it
         window.location.href = redirectUrl;  // Redirect back to the original product page
       } else {
-        window.location.href = 'product.html';  // Fallback if no redirect URL is found
+        console.log("no redirectUrl");
+        // window.location.href = 'product.html';  // Fallback if no redirect URL is found
       }
     } else {
       document.getElementById('error-message').textContent = 'Usuario o contraseña inválida. Por favor, inténtelo de nuevo.';

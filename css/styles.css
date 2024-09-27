@@ -1023,3 +1023,113 @@ table tr:nth-child(even) {
 }
 
 
+
+/* Carrito de la cesta */
+/* Cart Sidebar Container */
+.hidden {
+    display: none;
+}
+  
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Hidden initially by positioning it off-screen */
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+  }
+  
+  /* Show cart when it's toggled */
+  .cart-sidebar.active {
+    right: 0; /* Slide in when active */
+  }
+  
+  /* Cart Header with Close Button */
+  .cart-header {
+    padding: 20px;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cart-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .cart-header .close-cart {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  /* Cart Items List */
+  .cart-items {
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .cart-item p {
+    margin: 0;
+  }
+  
+  /* Cart Footer with Checkout Button */
+  .cart-footer {
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+  }
+  
+  .checkout-button {
+    width: 100%;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  
+  .checkout-button:hover {
+    background-color: #0056b3;
+  }
+  
+
+.cart-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+.cart-count.hidden {
+    display: none;
+}  

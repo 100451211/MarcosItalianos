@@ -4,6 +4,11 @@ const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const fs = require('fs');
 
+// Function to remove accents from a string
+function removeAccents(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");  // Normalize and remove accents
+}
+
 // Function to generate a random 15-character password
 function generateRandomPassword(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
@@ -12,6 +17,22 @@ function generateRandomPassword(length) {
         password += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return password;
+}
+
+// Function to generate a unique username (removing accents and appending random number if necessary)
+function generateUniqueUsername(firstName, surname, users) {
+    let baseUsername = `${removeAccents(firstName)}.${removeAccents(surname)}`.toLowerCase();
+    let username = baseUsername;
+
+    // Add random numbers if username already exists
+    let isUsernameTaken = users.some(user => user.username === username);
+    while (isUsernameTaken) {
+        const randomNumber = Math.floor(Math.random() * 10000);  // Generate random number between 0 and 9999
+        username = `${baseUsername}${randomNumber}`;
+        isUsernameTaken = users.some(user => user.username === username);
+    }
+
+    return username;
 }
 
 // OAuth2 setup for sending emails via Gmail
@@ -76,12 +97,26 @@ async function createUser(firstName, surname, email) {
     const password = generateRandomPassword(15); // Generate the plain-text password
     const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
 
+    // Load existing users from users.json
+    const filePath = './data/users/users.json';
+    let users = [];
+
+    if (fs.existsSync(filePath)) {
+        const fileData = fs.readFileSync(filePath, 'utf-8');
+        users = JSON.parse(fileData);
+    }
+
+
+    // Generate a unique username (removing accents and checking for duplicates)
+    const username = generateUniqueUsername(firstName, surname, users);
+
+
     // Store the user data (including hashed password)
     const userData = {
         name: firstName,
         surname: surname,
         email: email,
-        username: `${firstName}.${surname}`.toLowerCase(),
+        username: username,
         password: hashedPassword, // Only store the hashed password
     };
 

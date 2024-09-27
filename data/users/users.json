@@ -1,14 +1,9 @@
 [
-    {
-        
-        "id": "1",
-        "username": "giaauriemma",
-        "password": "$2a$10$7dQK59C3NAnPU516LBa/IOqTCRIzpkN6YkYMPvOUiP6xU0nlzb9z2"
-    },
-    {
-        
-        "id": "2",
-        "username": "martapia",
-        "password": "$2a$10$7dQK59C3NAnPU516LBa/IOqTCRIzpkN6YkYMPvOUiP6xU0nlzb9z2"
-    }
+  {
+    "name": "María",
+    "surname": "Tapia",
+    "email": "mariatapiacosta@gmail.com",
+    "username": "maría.tapia",
+    "password": "$2a$10$EcNyfg7jxV989xUAdOPcuOAS4U/TkLR72QaEsgEEZfI6QmyU5Y2sG"
+  }
 ]

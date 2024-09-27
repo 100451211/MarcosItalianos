@@ -5,6 +5,7 @@ function loadProduct() {
     const productId = urlParams.get('id');
 
     const category =  cat.replace("products/", "");
+    console.log("URL error, fixed. Loading products/"+ category+"/ file");
 
     if (!category || !productId) {
         document.getElementById('product-details').innerText = 'Producto no encontrado.';
@@ -497,7 +498,7 @@ function updatePrice() {
             if (isLoggedIn) {
                 document.getElementById('priceMessage').textContent = `Precio: ${product.supplier_prices.madrid}`;
             } else {
-                document.getElementById('priceMessage').textContent = 'Inicia sesión para ver los precios.';
+                document.getElementById('priceMessage').textContent = 'Precio: Inicia sesión para ver los precios.';
             }
             });
         }

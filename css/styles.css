@@ -181,6 +181,10 @@ nav ul {
     color: #f1f1f1;
 }
 
+.side-menu .profile-side{
+    justify-content: center;
+}
+
 /* Dropdown for Side Menu */
 .side-menu .dropdown-content {
     display: none;

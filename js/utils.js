@@ -6,6 +6,7 @@ const logo = document.querySelector('.logo');
 const menuLinks = document.querySelectorAll('.menu a');
 const dropdownIcons = document.querySelectorAll('.menu svg path');
 const searchIcon = document.querySelector('#searchButton svg');
+const profileSvg = document.querySelector("#profileButton svg");
 let currentIndex = 0;
 let transitioning = false;
 
@@ -65,6 +66,9 @@ function changeHeroBackground() {
 
     // Update menu icon color too
     menuSvg.setAttribute('stroke', textColor); // Change the color of the SVG icon
+
+    // Update menu icon color too
+    profileSvg.setAttribute('stroke', textColor); // Change the color of the SVG icon
 
     // Wait for the transition to finish before allowing the next one
     setTimeout(() => {
@@ -201,6 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sideMenu = document.getElementById('sideMenu');
     const closeBtn = document.getElementById('closeBtn');
     const logo = document.querySelector('.logo'); // Select the logo outside the side menu
+    const profileSvg = document.querySelector("#profileButton svg");
 
     // Ensure the menuIcon exists
     if (menuIcon) {
@@ -210,6 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
             sideMenu.style.width = '290px'; // Show the side menu
             menuIcon.style.display = 'none'; // Hide the menu icon
             logo.style.display = 'none'; // Hide the logo in the main header
+            profileSvg.style.display = 'none'; // Hide the logo in the main header
         });
     }
 
@@ -220,6 +226,8 @@ document.addEventListener('DOMContentLoaded', function() {
             sideMenu.style.width = '0'; // Hide the side menu
             menuIcon.style.display = 'inline-block'; // Show the menu icon again
             logo.style.display = 'block'; // Show the logo in the main header again
+            profileSvg.style.display = 'block'; // Hide the logo in the main header
+            searchSvg.style.display = 'block'; // Hide the logo in the main header
         });
     }
 });
@@ -230,6 +238,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// ========================================== //
+// ======== INICIAR SESION / PERFIL ========= //
+// ========================================== //
+
+const profileBtn = document.getElementById('profileButton')
+if (profileBtn){
+    profileBtn.addEventListener('click', function(event) {
+        console.log("profileBtn clicked!");
+        event.preventDefault(); // Prevent default link behavior
+        
+        // Check if the user is logged in
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        console.log(localStorage);
+    
+        if (isLoggedIn === 'true') {
+            // Redirect to profile page
+            window.location.href = 'profile.html';
+        } else {
+            // Store the current URL to redirect after login
+            localStorage.setItem('redirectAfterLogin', window.location.href);
+            // Redirect to login page
+            window.location.href = 'login.html';
+        }
+    });
 }
 
 // ========================================== //
@@ -309,8 +343,3 @@ function signOut() {
         console.error('Error during sign-out:', error);
     });
 }
-
-// // Trigger the signOut function when the window is closed or reloaded
-// window.addEventListener('beforeunload', function () {
-//     signOut();  // Call the sign-out function
-// });

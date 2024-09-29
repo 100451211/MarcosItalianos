@@ -14,6 +14,10 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
   .then(response => response.json())
   .then(data => {
     if (data.message ===  'Sesion iniciada correctamente!') {
+      // Store login status in localStorage
+      localStorage.setItem('isLoggedIn', 'true');
+      console.log("isLoggedIn: TRUE", localStorage.isLoggedIn);
+
       // Check if there's a stored URL to redirect to after login
       const redirectUrl = localStorage.getItem('redirectAfterLogin');
       if (redirectUrl) {
@@ -32,6 +36,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
   });
 });
 
-
-
-  
+function logoutUser() {
+  localStorage.removeItem('isLoggedIn'); // Remove the login status
+  window.location.href = 'index.html'; // Redirect to the home page or login page
+}

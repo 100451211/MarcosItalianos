@@ -47,7 +47,7 @@ oAuth2Client.setCredentials({
 });
 
 // Function to send email using OAuth2
-async function sendEmailToUser(name, surname, username, email, password) {
+async function sendEmailToUser(userData) {
     try {
         const accessToken = await oAuth2Client.getAccessToken();
 
@@ -65,13 +65,21 @@ async function sendEmailToUser(name, surname, username, email, password) {
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
-            to: email,
+            to: userData.email,
             subject: 'Bienvenid@ a AURIDAL S.L!',
-            text: `Hola ${name,surname},\nTu cuenta ha sido creada, aquí tienes tus datos.\n\tUsuario: ${username}.\n\tContraseña: ${password}\n`,
+            text: `Hola ${userData.name} ${userData.surname},\nTu cuenta ha sido creada, aquí tienes tus datos:\n\tUsuario: ${userData.username} \n\tContraseña: ${userData.password}\n`,
         };
 
         const result = await transporter.sendMail(mailOptions);
-        console.log(`Email sent to ${email}: ${result.response}`);
+        console.log(`Email sent to ${userData.email}`);
+
+        // Dictionary clean up
+        delete userData.password;
+        userData.password = userData.hashedpassword
+        delete userData.hashedpassword
+
+        // Save user data to the database (e.g., users.json)
+        saveUserData(userData); 
     } catch (error) {
         console.error('Error sending email:', error);
     }
@@ -110,22 +118,19 @@ async function createUser(firstName, surname, email) {
     // Generate a unique username (removing accents and checking for duplicates)
     const username = generateUniqueUsername(firstName, surname, users);
 
-
     // Store the user data (including hashed password)
     const userData = {
         name: firstName,
         surname: surname,
         email: email,
         username: username,
-        password: hashedPassword, // Only store the hashed password
+        password: password,
+        hashedpassword: hashedPassword, // Only store the hashed password
     };
-
-    saveUserData(userData); // Save user data to the database (e.g., users.json)
+    console.log(`User and password created for ${userData.username}. Now sending email...`);
 
     // Send the plain-text password to the user's email
-    await sendEmailToUser(userData.name, userData.surname, userData.username, email, password);
-    console.log(`User created: ${userData.username}`);
-    console.log(`Plain password sent to user: ${password}`);
+    await sendEmailToUser(userData);
 }
 
 // Example usage

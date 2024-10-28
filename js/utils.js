@@ -19,7 +19,6 @@ const colorSchemes = [
 
 // Function to change hero background and colors
 function changeHeroBackground() {
-    console.log("changeHeroBackground images:", heroImages.length);
     // Remove previous flag to prevent multiple transitions
     if (transitioning) return;
     transitioning = true; // Set flag to prevent double transitions
@@ -120,7 +119,6 @@ window.addEventListener('scroll', function() {
         console.log("No hero element found!");
     }
 });
-
 
 
 /* ================================================== */
@@ -244,27 +242,84 @@ function capitalizeFirstLetter(string) {
 // ======== INICIAR SESION / PERFIL ========= //
 // ========================================== //
 
-const profileBtn = document.getElementById('profileButton')
-if (profileBtn){
-    profileBtn.addEventListener('click', function(event) {
-        console.log("profileBtn clicked!");
-        event.preventDefault(); // Prevent default link behavior
-        
-        // Check if the user is logged in
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        console.log(localStorage);
-    
-        if (isLoggedIn === 'true') {
-            // Redirect to profile page
-            window.location.href = 'profile.html';
-        } else {
-            // Store the current URL to redirect after login
-            localStorage.setItem('redirectAfterLogin', window.location.href);
-            // Redirect to login page
-            window.location.href = 'login.html';
-        }
-    });
+// Function to check if the user is authenticated
+async function checkAuthStatus() {
+    try {
+        const response = await fetch('/auth/check-auth');
+        const data = await response.json();
+        console.log("check/auth - Authenticated:", data.authenticated);
+        return data.authenticated;
+    } catch (error) {
+        console.error('Error checking authentication:', error);
+        return false;
+    }
 }
+
+// Function to update the dropdown menu based on authentication status
+async function updateUserDropdown() {
+    const isAuthenticated = await checkAuthStatus();
+    console.log("update - isAuthenticated:", isAuthenticated);
+    const userDropdown = document.getElementById('userDropdown');
+    userDropdown.innerHTML = ''; // Clear previous dropdown content
+
+    if (isAuthenticated) {
+        // If authenticated, show "Perfil" and "Cerrar sesión"
+        const profileLink = document.createElement('a');
+        profileLink.href = '#';
+        profileLink.textContent = 'Perfil';
+        profileLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = 'profile.html'; // Redirect to profile page
+        });
+
+        const logoutLink = document.createElement('a');
+        logoutLink.href = '#';
+        logoutLink.textContent = 'Cerrar sesión';
+        logoutLink.addEventListener('click', async (event) => {
+            event.preventDefault();
+            await fetch('/auth/sign-out', { method: 'POST' });
+            window.location.href = 'login.html'; // Redirect to login after logout
+        });
+
+        userDropdown.appendChild(profileLink);
+        userDropdown.appendChild(logoutLink);
+    } else {
+        // If not authenticated, show "Inicia sesión"
+        const loginLink = document.createElement('a');
+        loginLink.href = 'login.html';
+        loginLink.textContent = 'Inicia sesión';
+        userDropdown.appendChild(loginLink);
+    }
+}
+// Initialize the dropdown when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuthStatus();
+    updateUserDropdown(); // Call function to set dropdown based on auth status
+});
+
+// const profileBtn = document.getElementById('profileButton')
+// if (profileBtn){
+//     profileBtn.addEventListener('click', function(event) {
+//         console.log("profileBtn clicked!");
+//         event.preventDefault(); // Prevent default link behavior
+        
+//         // Check if the user is logged in
+//         const isLoggedIn = localStorage.getItem('isLoggedIn');
+//         console.log(localStorage);
+    
+//         if (isLoggedIn === 'true') {
+//             // Redirect to profile page
+//             window.location.href = 'profile.html';
+//         } else {
+//             // Store the current URL to redirect after login
+//             localStorage.setItem('redirectAfterLogin', window.location.href);
+//             // Redirect to login page
+//             window.location.href = 'login.html';
+//         }
+//     });
+// }
+
+
 
 // ========================================== //
 // ======== AÑADIR AL CARRITO =============== //

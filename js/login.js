@@ -11,30 +11,38 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     },
     body: JSON.stringify({ username, password })
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Invalid username or password');
+    }
+    return response.json();
+  })
   .then(data => {
-    if (data.message ===  'Sesion iniciada correctamente!') {
-      // Store login status in localStorage
-      localStorage.setItem('isLoggedIn', 'true');
-      console.log("isLoggedIn: TRUE", localStorage.isLoggedIn);
-
-      // Check if there's a stored URL to redirect to after login
+    if (data.message === 'Login successful') {
+      // Check for a stored redirect URL
       const redirectUrl = localStorage.getItem('redirectAfterLogin');
+
+      // Redirect and clear the stored URL if it exists
       if (redirectUrl) {
-        localStorage.removeItem('redirectAfterLogin');  // Remove the item after using it
-        window.location.href = redirectUrl;  // Redirect back to the original product page
+        localStorage.removeItem('redirectAfterLogin');
+        window.location.href = redirectUrl;
       } else {
-        console.log("no redirectUrl");
-        // window.location.href = 'product.html';  // Fallback if no redirect URL is found
+        // Fallback redirect if no redirect URL is found
+        window.location.href = 'index.html';  // Change this to your desired default page
       }
     } else {
-      document.getElementById('error-message').textContent = 'Usuario o contraseña inválida. Por favor, inténtelo de nuevo.';
+      // Display an error message on the page
+      document.getElementById('loginError').textContent = 'Usuario o contraseña inválida. Por favor, inténtelo de nuevo.';
+      document.getElementById('loginError').style.display = 'block';
     }
   })
   .catch(error => {
     console.error('Error:', error);
+    document.getElementById('loginError').textContent = 'Usuario o contraseña inválida. Por favor, inténtelo de nuevo.';
+    document.getElementById('loginError').style.display = 'block';
   });
 });
+
 
 function logoutUser() {
   localStorage.removeItem('isLoggedIn'); // Remove the login status

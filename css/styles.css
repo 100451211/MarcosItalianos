@@ -75,7 +75,6 @@ nav ul {
 
 .menu a {
     text-decoration: none;
-    font-size: 1.2rem;
     color: black;
     font-weight: bold;
     transition: color 0.5s ease;
@@ -120,6 +119,12 @@ nav ul {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+#user-icon {
+    position: relative;
+    display: inline-block;
+    min-width:70px;
 }
 
 /* Side Menu */

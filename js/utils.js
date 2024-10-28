@@ -290,6 +290,19 @@ async function updateUserDropdown() {
         loginLink.textContent = 'Inicia sesión';
         userDropdown.appendChild(loginLink);
     }
+
+    // Update the side menu based on authentication status
+    const sideMenuAuthLink = document.getElementById('sideMenuAuthLink');
+
+    if (isAuthenticated) {
+        // Change to "Perfil" if authenticated
+        sideMenuAuthLink.textContent = 'Perfil';
+        sideMenuAuthLink.href = 'profile.html'; // Redirect to profile page
+    } else {
+        // Change back to "Inicia sesión" if not authenticated
+        sideMenuAuthLink.textContent = 'Inicia sesión';
+        sideMenuAuthLink.href = 'login.html'; // Redirect to login page
+    }
 }
 // Initialize the dropdown when the page loads
 document.addEventListener('DOMContentLoaded', () => {

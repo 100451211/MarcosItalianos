@@ -20,70 +20,94 @@
                     <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
             </div>
-            <div class="logo">
-                <a href="../index.html">AURIDAL S.L.</a>
-            </div>
-            <ul class="menu">
-                <li><a href="../index.html">Inicio</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
-                        Nuestra empresa
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
-                            <path fill="black" d="M7 10l5 5 5-5z"/>
+            <a href="../index.html">
+                <div class="logo">AURIDAL S.L.</div> 
+            </a>
+            <div class="menu-container">
+                <ul class="menu">
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+                            Nuestra empresa
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="black" d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="../nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
+                            <a href="../nuestraEmpresa/quienesSomos.html">¿Quiénes somos?</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+                            Producto
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="black" d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="../producto/colores.html">Colores</a>
+                            <a href="../producto/clasico.html">Clásico</a>
+                            <a href="../producto/natural.html">Natural</a>
+                            <a href="../producto/moderno.html">Moderno</a>
+                        </div>
+                    </li>
+                    <li><a href="../pie/contacto.html">Contacto</a></li>
+                    <li id="userIcon" class="dropdown">
+                        <a href="#" id="profileButton">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+                                <path d="M12 14c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z"/>
+                            </svg>
+                        </a>
+                        <div  id="userDropdown" class="dropdown-content">
+                            <a href="../login.html">Inicia sesión</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." id="searchInput" class="hidden">
+                    <button id="searchButton">
+                        <!-- Inline SVG for the search icon -->
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
-                    </a>
-                    <div class="dropdown-content">
-                        <a href="../nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
-                        <a href="../nuestraEmpresa/queOfrecemos.html">¿Quiénes somos?</a>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
-                        Producto
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12">
-                            <path fill="black" d="M7 10l5 5 5-5z"/>
-                        </svg>
-                    </a>
-                    <div class="dropdown-content">
-                        <a href="colores.html">Colores</a>
-                        <a href="clasico.html">Clásico</a>
-                        <a href="natural.html">Natural</a>
-                        <a href="moderno.html">Moderno</a>
-                    </div>
-                </li>
-                <li><a href="../pie/contacto.html">Contacto</a></li>
-            </ul>
-            <div class="search-container">
-                <input type="text" placeholder="Search..." id="searchInput" class="hidden">
-                <button id="searchButton">
-                    <!-- Inline SVG for the search icon -->
-                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </button>
+                    </button>
+                </div>
+                
             </div>
         </nav>
     </header>
 
     <!-- Side Navigation Menu for Mobile (hidden by default) -->
     <div id="sideMenu" class="side-menu">
-        <div class="sideMenuHeader">
-            <div class="logo" style="color:white;padding:20px;">AURIDAL S.L.</div>
+        <div class="side-menu-header">
+            <a href="../index.html">
+                <div class="logo">AURIDAL S.L.</div> 
+            </a>
             <a href="#" class="closebtn" id="closeBtn">&times;</a>
         </div>
-        <ul><a href="../index.html">Inicio</a></ul>
         <ul class="dropdown">
-          <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+            <a href="../login.html" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+                    <path d="M12 14c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z"/>
+                </svg>
+                Inicia sesión
+            </a>
+        </ul>
+        <ul class="dropdown">
+            <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
               Nuestra empresa
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path fill="white" d="M7 10l5 5 5-5z"/>
-            </svg>
-          </a>
-          <div class="dropdown-content">
-              <a href="../nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
-              <a href="../nuestraEmpresa/quienesSomos.html">¿Quiénes somos?</a>
-          </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="white" d="M7 10l5 5 5-5z"/>
+                </svg>
+            </a>
+            <div class="dropdown-content">
+                <a href="../nuestraEmpresa/queOfrecemos.html">¿Qué ofrecemos?</a>
+                <a href="../nuestraEmpresa/quienesSomos.html">¿Quiénes somos?</a>
+            </div>
         </ul>
         <ul class="dropdown">
             <a href="#" class="dropbtn" role="link" tabindex="0" aria-expanded="false" aria-haspopup="true">
@@ -93,13 +117,15 @@
                 </svg>
             </a>
             <div class="dropdown-content">
-                <a href="colores.html">Colores</a>
-                <a href="clasico.html">Clásico</a>
-                <a href="natural.html">Natural</a>
-                <a href="moderno.html">Moderno</a>
+                <a href="../producto/colores.html">Colores</a>
+                <a href="../producto/clasico.html">Clásico</a>
+                <a href="../producto/natural.html">Natural</a>
+                <a href="../producto/moderno.html">Moderno</a>
             </div>
         </ul>
-      <ul><a href="../pie/contacto.html">Contacto</a></ul>
+        <ul>
+            <a href="../pie/contacto.html">Contacto</a>
+        </ul>
     </div>
     
     <!-- Main content -->

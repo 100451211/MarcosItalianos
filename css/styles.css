@@ -216,7 +216,6 @@ nav ul {
 
 /* Adjust the dropdown arrow */
 .side-menu .dropbtn svg {
-    margin-left: 10px;
     transition: transform 0.3s ease;
 }
 

@@ -123,7 +123,7 @@ async function createUser(firstName, surname, email) {
     saveUserData(userData); // Save user data to the database (e.g., users.json)
 
     // Send the plain-text password to the user's email
-    await sendEmailToUser(usernData.name, userData.surname, userData.username, email, password);
+    await sendEmailToUser(userData.name, userData.surname, userData.username, email, password);
     console.log(`User created: ${userData.username}`);
     console.log(`Plain password sent to user: ${password}`);
 }

@@ -53,6 +53,12 @@
                         </div>
                     </li>
                     <li><a href="pie/contacto.html">Contacto</a></li>
+                    <li class="cart-icon-container">
+                        <a href="cart.html" class="cart-icon-link">
+                            <span class="cart-icon">🛒</span>
+                            <span id="cart-count" class="cart-count">0</span>
+                        </a>
+                    </li>
                     <li id="userIcon" class="dropdown">
                         <a href="#" id="profileButton">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -65,6 +71,7 @@
                         </div>
                     </li>
                 </ul>
+                
                 <div class="search-container">
                     <input type="text" placeholder="Search..." id="searchInput" class="hidden">
                     <button id="searchButton">
@@ -126,6 +133,20 @@
         <ul>
             <a href="pie/contacto.html">Contacto</a>
         </ul>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-sidebar-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" onclick="toggleCartSidebar()">✖</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <!-- Cart items will be dynamically loaded here -->
+        </div>
+        <div class="cart-sidebar-footer">
+            <button class="checkout-button">Proceder al Pago</button>
+        </div>
     </div>
 
     <!-- Main content -->

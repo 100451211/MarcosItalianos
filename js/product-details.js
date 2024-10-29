@@ -1,17 +1,12 @@
 function loadProduct() {
     const urlParams = new URLSearchParams(window.location.search);
-    const cat = urlParams.get('category');
+    const category = urlParams.get('category');
     const productId = urlParams.get('id');
-    console.log("loadProduct category:", cat);
-
-    const category =  cat.replace("products/", "");
-    console.log("URL error, fixed. Loading products/"+ category+"/ file");
-
+  
     if (!category || !productId) {
         document.getElementById('product-details').innerText = 'Producto no encontrado.';
         return;
     }
-
 
     fetch(`../data/products/${category}.json`)
         .then(response => response.json())
@@ -193,7 +188,7 @@ function displayProduct(product, category) {
                 </div>
             </div>
         </ul>
-        <a><button id="addToCartButton" class="button-add-to-cart" onclick="addToCart()"> Añadir al Carrito</button></a>
+        <a><button id="addToCartButton" class="button-add-to-cart"> Añadir al Carrito</button></a>
     `;
     
     document.querySelector('.product-info').innerHTML += productDetails;
@@ -208,14 +203,51 @@ function displayProduct(product, category) {
 
     const addToCart = document.getElementById('addToCartButton');
     if (addToCart){
-        addToCart.addEventListener('click', function() {
+        addToCart.addEventListener('click', async function() {
+            const isAuthenticated = await checkAuthStatus();
+    
+            if (!isAuthenticated) {
+                alert("Por favor, inicia sesión para añadir artículos al carrito.");
+                window.location.href = '../login.html';
+                return;
+            }
             // Store the current URL in localStorage
             localStorage.setItem('redirectAfterLogin', window.location.href);
-        
-            // Redirect to login page
-            window.location.href = '../login.html';
+
+            // Retrieve and validate the quantity from quantityInput
+            const quantity = parseInt(quantityInput.value);
+            const productId = product.id;
+
+            if (isNaN(quantity) || quantity < minMeters || quantity > maxMeters || quantity > availableMeters) {
+                showAlert("Por favor, selecciona una cantidad válida antes de añadir al carrito.", '⚠️');
+                return;
+            }
+
+            // Proceed to add the item to the cart after passing validation
+            fetch('/cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId, quantity }),
+                credentials: 'include'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert("Artículo añadido al carrito.");
+                } else {
+                    console.error("Error adding to cart:", data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            })
         });
-    }else{
+    } else{
         console.log("No add-to-cart id found!");
     }
 
@@ -313,8 +345,8 @@ function displayProduct(product, category) {
             clearAlert();
         }
     });   
-
 }
+
 
 function loadSimilarProducts(productId, category, products) {
     const similarProductsSection = document.querySelector('.similar-products');

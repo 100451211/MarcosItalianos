@@ -20,6 +20,9 @@ const url = path.join(__dirname, '../');
 console.log("app.js:", url);
 app.use(express.static(url));  // Serve static files (HTML, CSS, JS)
 
+const userCarts = {}; // This will store each user's cart as an array of items
+
+
 
 app.post('/auth/login', (req, res) => {
   const { username, password } = req.body;
@@ -95,5 +98,50 @@ app.post('/auth/sign-out', (req, res) => {
   res.clearCookie('token', { httpOnly: true, sameSite: 'Strict' }); // Clear the token cookie
   res.json({ message: 'Signed out successfully' });
 });
+
+// ========================================== //
+// =========== AÑADIR AL CARRITO ============ //
+// ========================================== //
+
+function addProductToUserCart(userId, productId, quantity) {
+  // Ensure the user has a cart initialized
+  if (!userCarts[userId]) {
+      userCarts[userId] = [];
+  }
+
+  // Check if the product is already in the cart
+  const existingCartItem = userCarts[userId].find(item => item.productId === productId);
+
+  if (existingCartItem) {
+      // If the product is already in the cart, increase the quantity
+      existingCartItem.quantity += quantity;
+  } else {
+      // If not, add a new item to the cart
+      userCarts[userId].push({ productId, quantity });
+  }
+
+  return { success: true };
+}
+
+// Add to cart endpoint
+app.post('/cart/add', verifyToken, (req, res) => {
+  console.log("Received add-to-cart request", req.body);
+  const { productId, quantity } = req.body;
+  const userId = req.user.id;
+
+  try {
+    addProductToUserCart(userId, productId, quantity);
+    res.json({ success: true });
+  } catch (error) {
+      console.error("Error adding to cart:", error);
+      res.status(500).json({ success: false, message: 'Failed to add to cart' });
+  }
+});
+
+app.get('/cart/view', verifyToken, (req, res) => {
+  const userId = req.user.id;
+  const cart = userCarts[userId] || [];
+  res.json({ cart });
+})
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));

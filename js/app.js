@@ -150,16 +150,13 @@ async function fetchProductDetails(productId) {
           const data = fs.readFileSync(filePath, 'utf-8');
           const products = JSON.parse(data);
 
-          // Log products for the current category
-          console.log(`Searching in category: ${category}, Products:`, products);
-
           // Search for the product by ID
           const product = products.find(p => p.id === productId);
           if (product) {
-              console.log(`Product found in category ${category}:`, product);
               return {
                   productId: product.id,
                   imageUrl: product.images[0] || `../images/products/${product.id}.jpg`,  // Default image URL logic
+                  price: product.supplier_prices.madrid  // Include the price in the product details
               };
           }
       } catch (error) {
@@ -188,6 +185,7 @@ app.get('/cart/view', verifyToken, async (req, res) => {
         return {
             ...item,
             imageUrl: product ? product.imageUrl : '/path/to/default-image.png',  // Use default image if not found
+            price: product ? product.price : '0.00'  // Use default price if not found
         };
     }));
 

@@ -420,6 +420,7 @@ async function viewCart() {
         if (data.cart.length === 0) {
             cartItemsContainer.innerHTML = "<p>Tu carrito está vacío.</p>";
             document.getElementById('cart-count').textContent = '0';
+            document.getElementById('total-amount').textContent = "€0.00";  // Set total to zero if cart is empty
             return;
         }
 
@@ -428,17 +429,33 @@ async function viewCart() {
         console.log("cart length ::", distinctItemCount);
         document.getElementById('cart-count').textContent = data.cart.length;
 
+        // Log each item to inspect its structure
+        data.cart.forEach((item, index) => {
+            console.log(`Item ${index + 1}:`, item);  // Output the entire item object
+            console.log("Product ID:", item.productId);
+            console.log("Quantity:", item.quantity);
+            console.log("Image URL:", item.imageUrl);
+            console.log("Price:", item.price);
+        });
+
+        // Calculate total amount
+        const totalAmount = data.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        console.log("Total amount:", totalAmount);
+
         // Render cart items with image and delete icon
         cartItemsContainer.innerHTML = data.cart.map(item => `
             <div class="cart-item" data-product-id="${item.productId}">
                 <img src="${item.imageUrl}" alt="Producto" class="cart-item-image" />
                 <div class="cart-item-details">
                     <p><strong>Producto:</strong> ${item.productId}</p>
-                    <p><strong>Cantidad:</strong> ${item.quantity}</p>
+                    <p><strong>Cantidad:</strong> ${item.quantity}m</p>
                 </div>
                 <button class="remove-item-btn" onclick="removeItemFromCart('${item.productId}')">🗑️</button>
             </div>
         `).join('');
+
+         // Display total amount in the sidebar
+         document.getElementById('total-amount').textContent = `${totalAmount.toFixed(2)}€`;
 
     } catch (error) {
         console.error("Error fetching cart:", error);

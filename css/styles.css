@@ -337,6 +337,49 @@ nav ul {
     color: #555;
 }
 
+/* Cart */
+/* Cart Icon */
+.cart-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* Cart Side Panel */
+.cart-panel {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Initially hidden off-screen */
+    width: 300px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease;
+    z-index: 999;
+}
+
+.cart-panel.open {
+    right: 0; /* Slide in when open */
+}
+
+.cart-header, .cart-footer {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-header h2 {
+    margin: 0;
+}
+
+.cart-items {
+    padding: 20px;
+    max-height: calc(100% - 120px); /* Adjust based on header/footer height */
+    overflow-y: auto;
+}
+
+
 /* Sección principal */
 /* Hero Section */
 .hero {

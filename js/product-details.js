@@ -1,8 +1,8 @@
 function loadProduct() {
     const urlParams = new URLSearchParams(window.location.search);
-    // const category = urlParams.get('category');
     const cat = urlParams.get('category');
     const productId = urlParams.get('id');
+    console.log("loadProduct category:", cat);
 
     const category =  cat.replace("products/", "");
     console.log("URL error, fixed. Loading products/"+ category+"/ file");
@@ -25,6 +25,10 @@ function loadProduct() {
             }
         })
         .catch(error => console.error('Error loading product:', error));
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 
@@ -209,7 +213,7 @@ function displayProduct(product, category) {
             localStorage.setItem('redirectAfterLogin', window.location.href);
         
             // Redirect to login page
-            window.location.href = 'login.html';
+            window.location.href = '../login.html';
         });
     }else{
         console.log("No add-to-cart id found!");
@@ -465,6 +469,29 @@ function redirectToProductPage(productId, category) {
     window.location.href = `product.html?category=${category}&id=${productId}`;
 }
 
+// Function to check if the user is authenticated
+async function checkAuthStatus() {
+    try {
+        const response = await fetch('/auth/check-auth', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'  // Include cookies in the request
+        });
+           
+        const data = await response.json();
+        return data.authenticated;
+    } catch (error) {
+        console.error('Error checking authentication:', error);
+        return false;
+    }
+}
+
+// Utility function to get URL query parameters
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
 // Update the price based on user login status
 async function updatePrice() {
     const category = getQueryParam('category');
@@ -472,7 +499,7 @@ async function updatePrice() {
 
     try {
         // Fetch product data
-        const response = await fetch(`/data/products/${category}.json`);
+        const response = await fetch(`../data/products/${category}.json`);
         const products = await response.json();
         const product = products.find(p => p.id === productId);
 
@@ -491,101 +518,8 @@ async function updatePrice() {
     }
 }
 
-// Define the cart array
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-// Function to check if the user is authenticated
-async function checkAuthStatus() {
-    try {
-        const response = await fetch('/auth/check-auth');
-        const data = await response.json();
-        return data.authenticated;
-    } catch (error) {
-        console.error('Error checking authentication:', error);
-        return false;
-    }
-}
+document.addEventListener('DOMContentLoaded', () => {
+    updatePrice();
+});
 
 
-// Function to add the product to the cart
-function addToCart() {
-    if (!checkIfUserLoggedIn) {
-        // If the user is not logged in, store the current URL and redirect to the login page
-        localStorage.setItem('redirectAfterLogin', window.location.href);
-        return;
-    }
-
-    // User is logged in, proceed to add the product to the cart
-    const category = getQueryParam('category');
-    const productId = getQueryParam('id');
-    const quantityInput = document.getElementById('quantity');  // Get quantity input field
-    const quantity = parseInt(quantityInput.value);  // Parse the selected quantity
-
-    if (isNaN(quantity) || quantity < 1) {
-        alert('Por favor, seleccione una cantidad válida.');
-        return;
-    }
-
-    try {
-        // Fetch product data
-        fetch(`/data/products/${category}.json`)
-            .then(response => response.json())
-            .then(products => {
-                const product = products.find(p => p.id === productId);
-
-                if (product) {
-                    const cartItem = {
-                        id: productId,
-                        name: product.name,
-                        price: product.supplier_prices.madrid,
-                        quantity: quantity  // Use the selected quantity
-                    };
-
-                    // Check if item is already in the cart
-                    const existingItemIndex = cart.findIndex(item => item.id === productId);
-                    if (existingItemIndex > -1) {
-                        // Update the quantity if the item is already in the cart
-                        cart[existingItemIndex].quantity += quantity;
-                    } else {
-                        // Add new item to the cart
-                        cart.push(cartItem);
-                    }
-
-                    // Save the updated cart in localStorage
-                    localStorage.setItem('cart', JSON.stringify(cart));
-
-                    // Update the cart display
-                    updateCartDisplay();
-
-                    // Update the cart count indicator
-                    updateCartCount();
-                }
-            })
-            .catch(error => console.error('Error añadiendo el producto al carrito:', error));
-    } catch (error) {
-        console.error('Error añadiendo el producto al carrito:', error);
-    }
-}
-
-
-// Function to update the cart display in the sidebar
-function updateCartDisplay() {
-    const cartItemsElement = document.getElementById('cart-items');
-    if (cart.length === 0) {
-        cartItemsElement.innerHTML = '<p>Tu carrito está vacío.</p>';
-    } else {
-        cartItemsElement.innerHTML = cart.map((item, index) => `
-            <div class="cart-item">
-                <div class="cart-item-info">
-                    <p><strong>${item.name}</strong></p>
-                    <p>${item.quantity}m x €${item.price}</p>
-                </div>
-                <div class="cart-item-total">
-                    <p>€${(item.price * item.quantity).toFixed(2)}</p>
-                </div>
-                <!-- Delete button to remove the item from the cart -->
-                <button class="remove-item" onclick="removeFromCart(${index})">&times;</button>
-            </div>
-        `).join('');
-    }
-}

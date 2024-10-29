@@ -229,14 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-/* ================================================== */
-/* ================================================== */
-/* ================================================== */
 
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 // ========================================== //
 // ======== INICIAR SESION / PERFIL ========= //
@@ -245,7 +238,11 @@ function capitalizeFirstLetter(string) {
 // Function to check if the user is authenticated
 async function checkAuthStatus() {
     try {
-        const response = await fetch('/auth/check-auth');
+        const response = await fetch('/auth/check-auth', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'  // Include cookies in the request
+        });
         const data = await response.json();
         console.log("check/auth - Authenticated:", data.authenticated);
         return data.authenticated;
@@ -311,110 +308,53 @@ async function updateUserDropdown() {
         sideMenuAuthLink.href = 'login.html'; // Redirect to login page
     }
 }
+
 // Initialize the dropdown when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    checkAuthStatus();
-    updateUserDropdown(); // Call function to set dropdown based on auth status
+document.addEventListener('DOMContentLoaded', async() => {
+    // Call function to set dropdown based on auth status
+    updateUserDropdown(); 
+
+    
+    // const location = await getUserLocation();
+    // if (location) {
+    //     // Display location or use it in further functions
+    //     console.log(`Latitude: ${location.latitude}, Longitude: ${location.longitude}`);
+    // } else {
+    //     console.log("Could not retrieve location.");
+    // }
+    
 });
 
-// const profileBtn = document.getElementById('profileButton')
-// if (profileBtn){
-//     profileBtn.addEventListener('click', function(event) {
-//         console.log("profileBtn clicked!");
-//         event.preventDefault(); // Prevent default link behavior
-        
-//         // Check if the user is logged in
-//         const isLoggedIn = localStorage.getItem('isLoggedIn');
-//         console.log(localStorage);
-    
-//         if (isLoggedIn === 'true') {
-//             // Redirect to profile page
-//             window.location.href = 'profile.html';
+/* ======================================== */
+/* ============ LOCALIZACIÓN ============== */
+/* ======================================== */
+
+// // Function to get the user's location
+// async function getUserLocation() {
+//     return new Promise((resolve, reject) => {
+//         if (navigator.geolocation) {
+//             navigator.geolocation.getCurrentPosition(
+//                 (position) => {
+//                     const location = {
+//                         latitude: position.coords.latitude,
+//                         longitude: position.coords.longitude
+//                     };
+//                     console.log('User location:', location); // Log location for testing
+//                     resolve(location);
+//                 },
+//                 (error) => {
+//                     console.error('Error getting location:', error);
+//                     resolve(null); // Resolve as null if location can't be accessed
+//                 }
+//             );
 //         } else {
-//             // Store the current URL to redirect after login
-//             localStorage.setItem('redirectAfterLogin', window.location.href);
-//             // Redirect to login page
-//             window.location.href = 'login.html';
+//             console.error('Geolocation is not supported by this browser.');
+//             resolve(null);
 //         }
 //     });
 // }
 
 
-
 // ========================================== //
 // ======== AÑADIR AL CARRITO =============== //
 // ========================================== //
-
-// Function to update the cart count indicator
-function updateCartCount() {
-    const cartCountElement = document.getElementById('cart-count');
-    const totalUniqueItems = cart.length;  // Number of different products in the cart
-
-    if (totalUniqueItems > 0) {
-        cartCountElement.textContent = totalUniqueItems;
-        cartCountElement.classList.remove('hidden');  // Show the cart count
-    } else {
-        cartCountElement.classList.add('hidden');  // Hide the cart count if empty
-    }
-}
-
-// Function to remove an item from the cart
-function removeFromCart(index) {
-    cart.splice(index, 1);  // Remove item at the specified index
-    localStorage.setItem('cart', JSON.stringify(cart));  // Save updated cart to localStorage
-    updateCartDisplay();  // Update the cart display
-    updateCartCount();    // Update the cart count
-}
-
-// Function to toggle cart sidebar visibility
-function toggleCart() {
-    const cartSidebar = document.getElementById('cart-sidebar');
-    cartSidebar.classList.toggle('active');  // Toggle the 'active' class
-}
-
-// Close the cart sidebar when the close button is clicked
-document.querySelector('.close-cart').addEventListener('click', function() {
-    const cartSidebar = document.getElementById('cart-sidebar');
-    cartSidebar.classList.remove('active');  // Remove the 'active' class to hide the sidebar
-});
-
-// Function to proceed to checkout
-function checkout() {
-    if (cart.length === 0) {
-        alert('Your cart is empty.');
-    } else {
-        // Implement checkout logic
-        alert('Proceeding to checkout...');
-    }
-}
-
-// Utility function to get URL query parameters
-function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
-
-// Call updatePrice and set up the cart on page load
-document.addEventListener('DOMContentLoaded', function() {
-    updatePrice();
-    updateCartDisplay();  // Load and display cart items if any
-    updateCartCount();    // Update cart count on page load
-    checkIfUserLoggedIn();  // Check if the user is logged in when the page loads
-    
-});
-
-// Function to log the user out
-function signOut() {
-    // Send a POST request to the backend to clear the token
-    fetch('/auth/sign-out', {
-        method: 'POST',
-        credentials: 'include'  // Include cookies in the request
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.message);  // Handle the response, e.g., log the success message
-    })
-    .catch(error => {
-        console.error('Error during sign-out:', error);
-    });
-}

@@ -178,7 +178,7 @@ function displayProduct(product, category) {
             <li><strong>Ancho:</strong> ${product.details.dimensions.ancho} cm</li>
             <li><strong>Largo:</strong> ${product.details.dimensions.largo} cm</li>
             <li><strong>Rebajo:</strong> ${product.details.dimensions.rebajo} cm</li>
-            <li id="priceMessage"><strong>Precio:</strong> Inicia sesión para visualizar precios.</li>
+            <li id="priceMessage"><strong>Precio:</strong> <a href="../login.html" style="color:blue;">Inicia sesión</a> para visualizar precios.</li>
             <div class="quantity-selector">
                 <label for="quantity">Metros:</label>
                 <div id="quantity-alert" class="quantity-alert"></div>
@@ -477,45 +477,31 @@ async function updatePrice() {
         const product = products.find(p => p.id === productId);
 
         if (product) {
-            const isLoggedIn = await checkIfUserLoggedIn();
+            const isLoggedIn = await checkAuthStatus();
             const priceMessage = document.getElementById('priceMessage');
 
             if (isLoggedIn) {
-                priceMessage.textContent = `Precio: ${product.supplier_prices.madrid}€`;
+                priceMessage.innerHTML = `<strong>Precio:</strong> ${product.supplier_prices.madrid}€`;
             } else {
-                priceMessage.textContent = 'Precio: Inicia sesión para ver los precios.';
+                priceMessage.innerHTML = '<strong>Precio:</strong> <a href="../login.html" style="color:blue;">Inicia sesión</a> para visualizar precios.';
             }
         }
     } catch (error) {
         console.error('Error fetching product data:', error);
     }
 }
+
 // Define the cart array
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Function to check if the user is logged in
-async function checkIfUserLoggedIn() {
-    const authIcons = document.getElementById('authIcons');  // Get the icons container
-
+// Function to check if the user is authenticated
+async function checkAuthStatus() {
     try {
         const response = await fetch('/auth/check-auth');
         const data = await response.json();
-
-        if (data.authenticated) {
-            // User is authenticated, show the profile and cart icons
-            authIcons.classList.remove('hidden');
-            console.log('User is authenticated');
-            return true;
-        } else {
-            // User is not authenticated, hide the profile and cart icons
-            authIcons.classList.add('hidden');
-            console.log('User is not authenticated');
-            return false;
-        }
+        return data.authenticated;
     } catch (error) {
         console.error('Error checking authentication:', error);
-        // In case of an error, assume user is not authenticated and hide the icons
-        authIcons.classList.add('hidden');
         return false;
     }
 }

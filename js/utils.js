@@ -278,7 +278,14 @@ async function updateUserDropdown() {
         logoutLink.addEventListener('click', async (event) => {
             event.preventDefault();
             await fetch('/auth/sign-out', { method: 'POST' });
-            window.location.href = 'login.html'; // Redirect to login after logout
+            // Redirect to the stored URL or a default page if none is found
+            const redirectUrl = localStorage.getItem('redirectAfterLogout');
+            if (redirectUrl) {
+                localStorage.removeItem('redirectAfterLogout'); // Clean up the storage
+                window.location.href = redirectUrl; // Redirect to the previous page
+            } else {
+                window.location.href = '../index.html'; // Fallback if no URL is found
+            }
         });
 
         userDropdown.appendChild(profileLink);
@@ -286,7 +293,7 @@ async function updateUserDropdown() {
     } else {
         // If not authenticated, show "Inicia sesión"
         const loginLink = document.createElement('a');
-        loginLink.href = 'login.html';
+        loginLink.href = '../login.html';
         loginLink.textContent = 'Inicia sesión';
         userDropdown.appendChild(loginLink);
     }

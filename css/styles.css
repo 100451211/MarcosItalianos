@@ -1082,6 +1082,7 @@ table tr:nth-child(even) {
 
 /* Carrito de la cesta */
 /* Cart Sidebar Styling */
+/* Cart Sidebar Styling */
 .cart-sidebar {
     position: fixed;
     top: 0;
@@ -1119,19 +1120,50 @@ table tr:nth-child(even) {
 }
 
 .cart-icon-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    margin-left: 10px; /* Adjust based on your layout */
+    vertical-align: middle; /* Align with other icons */
+}
+
+.cart-icon {
+    font-size: 20px; /* Adjust size to match other icons */
 }
 
 .cart-count {
     background-color: red;
     color: white;
     border-radius: 50%;
-    padding: 2px 8px;
-    font-size: 14px;
+    padding: 2px 6px;
+    font-size: 12px;
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: -5px;
+    right: -5px;
 }
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.cart-item-details {
+    flex: 1;
+}
+
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 16px;
+}
+

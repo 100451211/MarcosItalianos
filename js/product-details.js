@@ -223,6 +223,19 @@ function displayProduct(product, category) {
                 return;
             }
 
+            // Function to show the cart icon
+            function showCartIcon() {
+                // Check if the cart icon is already present
+                if (!document.querySelector('.cart-icon-container')) {
+                    // Add the cart icon to a specific part of the header
+                    const header = document.querySelector('.menu-container'); // Adjust selector to target where you want the icon
+                    header.insertAdjacentHTML('beforeend', cartIconHTML);
+                }
+
+                // Update the cart count
+                updateCartCount();
+            }
+
             // Proceed to add the item to the cart after passing validation
             fetch('/cart/add', {
                 method: 'POST',
@@ -239,6 +252,8 @@ function displayProduct(product, category) {
             .then(data => {
                 if (data.success) {
                     alert("Artículo añadido al carrito.");
+                    // Show cart icon and update cart count
+                    showCartIcon();
                 } else {
                     console.error("Error adding to cart:", data.message);
                 }

@@ -325,6 +325,131 @@ document.addEventListener('DOMContentLoaded', async() => {
     
 });
 
+// ========================================== //
+// ======== AÑADIR AL CARRITO =============== //
+// ========================================== //
+
+// Cart icon HTML template
+const cartIconHTML = `
+    <li class="cart-icon-container">
+        <a href="#" class="cart-icon-link" onclick="toggleCartSidebar()">
+            <span class="cart-icon">🛒
+                <span id="cart-count" class="cart-count">0</span>
+            </span>
+        </a>
+    </li>
+`;
+
+async function updateCartCount() {
+    try {
+        const response = await fetch('cart/view', {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const itemCount = data.cart.reduce((total, item) => total + item.quantity, 0);
+
+        // Update the cart count badge
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            cartCountElement.textContent = itemCount;
+        }
+    } catch (error) {
+        console.error("Error fetching cart count:", error);
+    }
+}
+
+
+
+
+function toggleCartSidebar() {
+    const cartSidebar = document.getElementById('cart-sidebar');
+    cartSidebar.classList.toggle('open');
+
+    // Call viewCart to update items in the sidebar when it opens
+    if (cartSidebar.classList.contains('open')) {
+        viewCart();
+    }
+}
+
+async function removeItemFromCart(productId) {
+    try {
+        const response = await fetch('/cart/remove', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId }),
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        if (data.success) {
+            // Update the cart view after successful deletion
+            viewCart();
+        } else {
+            console.error("Error removing item from cart:", data.message);
+        }
+    } catch (error) {
+        console.error("Error removing item from cart:", error);
+    }
+}
+
+async function viewCart() {
+    try {
+        const response = await fetch('/cart/view', {
+            method: 'GET',
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const cartItemsContainer = document.getElementById('cart-items');
+
+        // If the cart is empty
+        if (data.cart.length === 0) {
+            cartItemsContainer.innerHTML = "<p>Tu carrito está vacío.</p>";
+            document.getElementById('cart-count').textContent = '0';
+            return;
+        }
+
+        // Update cart count to show the number of distinct products
+        const distinctItemCount = data.cart.length;  // Number of unique products in the cart
+        console.log("cart length ::", distinctItemCount);
+        document.getElementById('cart-count').textContent = data.cart.length;
+
+        // Render cart items with image and delete icon
+        cartItemsContainer.innerHTML = data.cart.map(item => `
+            <div class="cart-item" data-product-id="${item.productId}">
+                <img src="${item.imageUrl}" alt="Producto" class="cart-item-image" />
+                <div class="cart-item-details">
+                    <p><strong>Producto:</strong> ${item.productId}</p>
+                    <p><strong>Cantidad:</strong> ${item.quantity}</p>
+                </div>
+                <button class="remove-item-btn" onclick="removeItemFromCart('${item.productId}')">🗑️</button>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error("Error fetching cart:", error);
+    }
+}
+
+
+
+
+
+
 /* ======================================== */
 /* ============ LOCALIZACIÓN ============== */
 /* ======================================== */
@@ -355,6 +480,4 @@ document.addEventListener('DOMContentLoaded', async() => {
 // }
 
 
-// ========================================== //
-// ======== AÑADIR AL CARRITO =============== //
-// ========================================== //
+

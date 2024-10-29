@@ -340,9 +340,92 @@ const cartIconHTML = `
     </li>
 `;
 
-async function updateCartCount() {
+// Global function to add items to the cart
+async function globalAddToCart(productId, quantity) {
     try {
-        const response = await fetch('cart/view', {
+        // Check if user is authenticated
+        const isAuthenticated = await checkAuthStatus();
+        if (!isAuthenticated) {
+            alert("Por favor, inicia sesión para añadir artículos al carrito.");
+            window.location.href = '../login.html';
+            return;
+        }
+
+        // Proceed to add the item to the cart
+        const response = await fetch('/cart/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId, quantity }),
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+            console.log("Artículo añadido al carrito.");
+            checkCartStatus();  // Update the cart status globally
+        } else {
+            console.error("Error adding to cart:", data.message);
+        }
+    } catch (error) {
+        console.error("Error adding item to cart:", error);
+    }
+}
+
+
+// Function to show the cart icon
+function showCartIcon() {
+    // Check if the cart icon is already present
+    if (!document.querySelector('.cart-icon-container')) {
+        // Add the cart icon to a specific part of the header
+        const header = document.querySelector('.menu-container'); // Adjust selector to target where you want the icon
+        header.insertAdjacentHTML('beforeend', cartIconHTML);
+    }
+
+    // Update the cart count
+    updateCartCount();
+}
+
+// Hide the cart icon if the cart is empty
+function hideCartIcon() {
+    const cartIconContainer = document.querySelector('.cart-icon-container');
+    if (cartIconContainer) {
+        cartIconContainer.remove();
+    }
+}
+
+// async function updateCartCount() {
+//     try {
+//         const response = await fetch('cart/view', {
+//             method: 'GET',
+//             credentials: 'include'
+//         });
+
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+
+//         const data = await response.json();
+//         const itemCount = data.cart.reduce((total, item) => total + item.quantity, 0);
+
+//         // Update the cart count badge
+//         const cartCountElement = document.getElementById('cart-count');
+//         if (cartCountElement) {
+//             cartCountElement.textContent = itemCount;
+//         }
+//     } catch (error) {
+//         console.error("Error fetching cart count:", error);
+//     }
+// }
+
+// Check if there are items in the cart and update the icon visibility accordingly
+async function checkCartStatus() {
+    try {
+        const response = await fetch('/cart/view', {
             method: 'GET',
             credentials: 'include'
         });
@@ -352,19 +435,28 @@ async function updateCartCount() {
         }
 
         const data = await response.json();
-        const itemCount = data.cart.reduce((total, item) => total + item.quantity, 0);
+        const itemCount = data.cart.length; // Get number of distinct items in the cart
 
-        // Update the cart count badge
-        const cartCountElement = document.getElementById('cart-count');
-        if (cartCountElement) {
-            cartCountElement.textContent = itemCount;
+        // Show or hide cart icon based on whether there are items in the cart
+        if (itemCount > 0) {
+            showCartIcon();
+            updateCartCount(itemCount); // Update cart count badge
+        } else {
+            hideCartIcon();  // Hide cart icon if the cart is empty
         }
     } catch (error) {
-        console.error("Error fetching cart count:", error);
+        console.error("Error fetching cart status:", error);
+        hideCartIcon();  // Hide icon if there's an error (e.g., unauthenticated user)
     }
 }
 
-
+// Function to update the cart count badge
+function updateCartCount(count) {
+    const cartCountElement = document.getElementById('cart-count');
+    if (cartCountElement) {
+        cartCountElement.textContent = count;
+    }
+}
 
 
 function toggleCartSidebar() {
@@ -447,8 +539,8 @@ async function viewCart() {
             <div class="cart-item" data-product-id="${item.productId}">
                 <img src="${item.imageUrl}" alt="Producto" class="cart-item-image" />
                 <div class="cart-item-details">
-                    <p><strong>Producto:</strong> ${item.productId}</p>
-                    <p><strong>Cantidad:</strong> ${item.quantity}m</p>
+                    <p><strong>${item.productId}</strong> </p>
+                    <p>${item.quantity}m</p>
                 </div>
                 <button class="remove-item-btn" onclick="removeItemFromCart('${item.productId}')">🗑️</button>
             </div>
@@ -462,6 +554,7 @@ async function viewCart() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', checkCartStatus);
 
 
 

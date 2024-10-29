@@ -127,6 +127,21 @@
             <a href="../pie/contacto.html">Contacto</a>
         </ul>
     </div>
+        
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-sidebar-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" onclick="toggleCartSidebar()">✖</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <!-- Cart items will be dynamically loaded here -->
+        </div>
+        <div class="cart-sidebar-footer">
+            <p><strong>Total:</strong> <span id="total-amount">0.00€</span></p>
+            <button class="checkout-button">Proceder al Pago</button>
+        </div>
+    </div>
     
     <!-- Main content -->
     <main>

@@ -202,18 +202,8 @@ function displayProduct(product, category) {
     document.querySelector('.product-care').innerHTML += productCare;
 
     const addToCart = document.getElementById('addToCartButton');
-    if (addToCart){
-        addToCart.addEventListener('click', async function() {
-            const isAuthenticated = await checkAuthStatus();
-    
-            if (!isAuthenticated) {
-                alert("Por favor, inicia sesión para añadir artículos al carrito.");
-                window.location.href = '../login.html';
-                return;
-            }
-            // Store the current URL in localStorage
-            localStorage.setItem('redirectAfterLogin', window.location.href);
-
+    if (addToCart) {
+        addToCart.addEventListener('click', function() {
             // Retrieve and validate the quantity from quantityInput
             const quantity = parseInt(quantityInput.value);
             const productId = product.id;
@@ -223,48 +213,13 @@ function displayProduct(product, category) {
                 return;
             }
 
-            // Function to show the cart icon
-            function showCartIcon() {
-                // Check if the cart icon is already present
-                if (!document.querySelector('.cart-icon-container')) {
-                    // Add the cart icon to a specific part of the header
-                    const header = document.querySelector('.menu-container'); // Adjust selector to target where you want the icon
-                    header.insertAdjacentHTML('beforeend', cartIconHTML);
-                }
-
-                // Update the cart count
-                updateCartCount();
-            }
-
-            // Proceed to add the item to the cart after passing validation
-            fetch('/cart/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ productId, quantity }),
-                credentials: 'include'
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert("Artículo añadido al carrito.");
-                    // Show cart icon and update cart count
-                    showCartIcon();
-                } else {
-                    console.error("Error adding to cart:", data.message);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            })
+            // Call globalAddToCart to handle adding the item globally
+            globalAddToCart(productId, quantity);
         });
-    } else{
+    } else {
         console.log("No add-to-cart id found!");
     }
+
 
 
     /* ======================================== */

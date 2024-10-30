@@ -171,29 +171,34 @@ async function fetchProductDetails(productId) {
 
 
 app.get('/cart/view', verifyToken, async (req, res) => {
-  const userId = req.user.id;
-  try {
-    const userCart = userCarts[userId] || [];
+  if (req.user) {
+    const userId = req.user.id;
+    try {
+        const userCart = userCarts[userId] || [];
 
-    // Fetch product details including image URL
-    const cartWithImages = await Promise.all(userCart.map(async item => {
-        const product = await fetchProductDetails(item.productId);
-        if (!product) {
-            console.warn(`Product details not found for product ID: ${item.productId}`);
-        }
+        // Fetch product details including image URL
+        const cartWithImages = await Promise.all(userCart.map(async item => {
+            const product = await fetchProductDetails(item.productId);
+            if (!product) {
+                console.warn(`Product details not found for product ID: ${item.productId}`);
+            }
 
-        return {
-            ...item,
-            imageUrl: product ? product.imageUrl : '/path/to/default-image.png',  // Use default image if not found
-            price: product ? product.price : '0.00'  // Use default price if not found
-        };
-    }));
+            return {
+                ...item,
+                imageUrl: product ? product.imageUrl : '/path/to/default-image.png',  // Use default image if not found
+                price: product ? product.price : '0.00'  // Use default price if not found
+            };
+        }));
 
-    res.json({ cart: cartWithImages });
-  } catch (error) {
-      console.error("Error fetching cart with images:", error);
-      res.status(500).json({ success: false, message: 'Failed to fetch cart' });
-  }
+        res.json({ cart: cartWithImages });
+      } catch (error) {
+          console.error("Error fetching cart with images:", error);
+          res.status(500).json({ success: false, message: 'Failed to fetch cart' });
+      }
+    } else {
+      console.warn(`Unauthenticated user attempted to view cart.`);
+      res.status(401).json({ success: false, message: 'Unauthenticated user attempted to view cart.' });
+    }
 });
 
 app.post('/cart/remove', verifyToken, (req, res) => {
@@ -211,6 +216,42 @@ app.post('/cart/remove', verifyToken, (req, res) => {
       res.status(400).json({ success: false, message: 'Cart not found' });
   }
 });
+
+// ========================================== //
+// ============= DATOS USUARIOS ============= //
+// ========================================== //
+
+// Load user details endpoint
+app.get('/api/get-user', verifyToken, (req, res) => {
+  if (!req.isAuthenticated) {
+    return res.status(401).json({ message: 'Usuario no autenticado.' });
+  }
+
+  const userId = req.user.username;  // Assuming `username` is unique and used as the file name
+  const userFilePath = path.join(__dirname, '../data/users', `${userId}.json`);
+
+  // Check if user file exists
+  if (!fs.existsSync(userFilePath)) {
+    return res.status(404).json({ message: 'Usuario no encontrado.' });
+  }
+
+  // Read user data
+  fs.readFile(userFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading user file:', err);
+      return res.status(500).json({ message: 'Error al leer los datos del usuario.' });
+    }
+
+    try {
+      const user = JSON.parse(data);
+      res.json(user);
+    } catch (parseError) {
+      console.error('Error parsing user data:', parseError);
+      res.status(500).json({ message: 'Error al procesar los datos del usuario.' });
+    }
+  });
+});
+
 
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));

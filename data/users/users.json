@@ -4,20 +4,21 @@
     "surname": "Tapia",
     "email": "mariatapiacosta@gmail.com",
     "username": "maria.tapia",
-    "password": "$2a$10$vLwMj.NaZkTx978G5.m/w.zRwW8faAtlLNHOz8BET3CHxTQ3ubPMu"
+    "password": "$2a$10$vLwMj.NaZkTx978G5.m/w.zRwW8faAtlLNHOz8BET3CHxTQ3ubPMu",
+    "phone":"",
+    "location": "",
+    "language": "",
+    "profilePicture": ""
   },
   {
-    "name": "María",
-    "surname": "Tapia",
+    "name": "Javier",
+    "surname": "García",
     "email": "mariatapiacosta@gmail.com",
-    "username": "maria.tapia9860",
-    "password": "$2a$10$84juF1lMg.WlWp2Ij8TX3ekqbdydmIGcYU4VudDe3loPgCbriVRqK"
-  },
-  {
-    "name": "María",
-    "surname": "Tapia",
-    "email": "mariatapiacosta@gmail.com",
-    "username": "maria.tapia6319",
-    "password": "$2a$10$ih8gkHyoL0ReKiVJhzv17.8m7SzEhegbNzIosiCdF.UcHFa2YE/cq"
+    "username": "javier.garcia",
+    "password": "$2a$10$S7jFkwawhGzqJnz7fZvG/el4tkE4.5fhtOpANZsePel6MvNKCnm7K",
+    "phone":"",
+    "location": "",
+    "language": "",
+    "profilePicture": ""
   }
 ]

@@ -398,30 +398,6 @@ function hideCartIcon() {
     }
 }
 
-// async function updateCartCount() {
-//     try {
-//         const response = await fetch('cart/view', {
-//             method: 'GET',
-//             credentials: 'include'
-//         });
-
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! Status: ${response.status}`);
-//         }
-
-//         const data = await response.json();
-//         const itemCount = data.cart.reduce((total, item) => total + item.quantity, 0);
-
-//         // Update the cart count badge
-//         const cartCountElement = document.getElementById('cart-count');
-//         if (cartCountElement) {
-//             cartCountElement.textContent = itemCount;
-//         }
-//     } catch (error) {
-//         console.error("Error fetching cart count:", error);
-//     }
-// }
-
 // Check if there are items in the cart and update the icon visibility accordingly
 async function checkCartStatus() {
     try {

@@ -134,4 +134,4 @@ async function createUser(firstName, surname, email) {
 }
 
 // Example usage
-createUser('María', 'Tapia', 'mariatapiacosta@gmail.com');
+createUser('Javier', 'García Santa María', 'mariatapiacosta@gmail.com');

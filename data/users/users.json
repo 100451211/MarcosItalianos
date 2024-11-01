@@ -1,13 +1,18 @@
 [
   {
-    "name": "Javier",
-    "surname": "García",
+    "name": "María",
+    "surname": "Tapia",
     "email": "mariatapiacosta@gmail.com",
-    "username": "javier.garcia",
-    "password": "$2a$10$S7jFkwawhGzqJnz7fZvG/el4tkE4.5fhtOpANZsePel6MvNKCnm7K",
+    "username": "maria.tapia",
     "phone": "",
-    "location": "",
-    "language": "",
-    "profilePicture": ""
+    "language": "es",
+    "profilePicture": "./images/user/Foto_YO.JPG",
+    "street": "",
+    "street_num": "",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "cif": "",
+    "password": "$2a$10$0dC0U91PvtSqo2MA9bYVwuec9Xu6.0ddi84hI2iSkD.HQ.8MEE.f."
   }
 ]

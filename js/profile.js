@@ -1,16 +1,16 @@
 // Function to open the pop-up with a message and an optional redirect
-function showPopup(message, redirect = null) {
+function showPopup(message, redirect = null, duration = 1500) { // Duration in milliseconds
   const popup = document.getElementById('popup');
   document.getElementById('popup-message').textContent = message;
   popup.style.display = 'block';
 
-  const closeButton = popup.querySelector('button');
-  closeButton.onclick = () => {
+  // Close the pop-up automatically after the specified duration
+  setTimeout(() => {
     closePopup();
     if (redirect) {
       window.location.href = redirect;
     }
-  };
+  }, duration);
 }
 
 // Function to close the pop-up
@@ -18,24 +18,75 @@ function closePopup() {
   document.getElementById('popup').style.display = 'none';
 }
 
+// ========================================== //
+// ============== CARGAR DATOS ============== //
+// ========================================== //
+// Fetch user data from the backend
+async function loadUserData() {
+  try {
+    const response = await fetch('/api/get-user', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // Include cookies for authentication
+    });
+
+    const userData = await response.json();
+
+    if (response.ok) {
+      // Populate fields with user data
+      populateUserFields(userData);
+    } else {
+      console.error('Failed to load user data:', userData.message);
+      showPopup(userData.message || 'Error al cargar los datos de usuario.');
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    showPopup('Error al cargar los datos de usuario.');
+  }
+}
+
+// Populate fields with user data or default values
+function populateUserFields(userData) {
+  document.getElementById('name').value = userData.name + userData.surname || 'Nombre Apellido';
+  document.getElementById('email').value = userData.email || 'nombre@example.com';
+  document.getElementById('phone').value = userData.phone || '';
+  document.getElementById('language').value = userData.language || 'es';
+  
+  const profilePicture = document.getElementById('profilePicture');
+  profilePicture.src = userData.profilePicture || '../images/default-profile.png';
+  profilePicture.alt = "Imagen de Perfil";
+  
+  document.getElementById('street').value = userData.street || '';
+  document.getElementById('street_num').value = userData.street_num || '';
+  document.getElementById('postal_code').value = userData.postal_code || '';
+  document.getElementById('city').value = userData.city || '';
+  document.getElementById('country').value = userData.country || '';
+  document.getElementById('CIF').value = userData.cif || '';
+}
+
+// Load user data on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadUserData();
+});
+
+
 
 // ========================================== //
-// =========== CAMBIO CONTRASEÑA =========== //
-// ======================================== //
-
-
-// Modify the API call to use the pop-up for feedback
+// ============= CAMBIO CONTRASEÑA ========== //
+// ========================================== //
 document.getElementById('update-password-btn').addEventListener('click', async () => {
   const currentPassword = document.getElementById('current-password').value;
   const newPassword = document.getElementById('new-password').value;
 
   if (!currentPassword || !newPassword) {
-      showPopup("Rellenar campos obligatorios para el cambio de contraseña.");
+      showPopup("Rellenar campos obligatorios para el cambio de contraseña!");
       return;
   }
 
   try {
-      const response = await fetch('/api/reset-password', {
+      const response = await fetch('/auth/reset-password', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -45,21 +96,30 @@ document.getElementById('update-password-btn').addEventListener('click', async (
       });
 
       const result = await response.json();
-      showPopup(result.message); // Show success or error message in pop-up
+      showPopup(result.message);
+
+      if (result.message === 'Contraseña actual incorrecta.') {
+        // Clear only the current password if the current password was wrong
+        document.getElementById('current-password').value = '';
+      } else if (response.ok) {
+        // Clear both inputs on successful password change
+        document.getElementById('current-password').value = '';
+        document.getElementById('new-password').value = '';
+      }
   } catch (error) {
       showPopup("Error updating password.");
   }
 });
 
-
 // ========================================== //
-// ============= CERRAR SESION ============= //
-// ======================================== //
+// ============== CERRAR SESION ============= //
+// ========================================== //
 document.getElementById('logout-link').addEventListener('click', async (event) => {
   event.preventDefault(); // Prevent default link behavior
+  console.log("logout-link clicked!");
 
   try {
-    const response = await fetch('/api/sign-out', {
+    const response = await fetch('/auth/sign-out', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -85,48 +145,3 @@ document.getElementById('logout-link').addEventListener('click', async (event) =
   }
 });
 
-
-
-
-// profile.js
-document.addEventListener('DOMContentLoaded', () => {
-  
-    // Function to handle updating profile details
-    const saveChangesButton = document.querySelector('.user-details button');
-    saveChangesButton.addEventListener('click', () => {
-      const address = document.querySelector('#address').value;
-      alert(`Profile updated with address: ${address}`);
-      // Here you would make an API call to save the address
-      // e.g., saveProfileDetails({ address });
-    });
-  
-    
-  
-  
-    // Function to handle saving preferences
-    const savePreferencesButton = document.querySelector('.preferences button');
-    savePreferencesButton.addEventListener('click', () => {
-      const newsletter = document.querySelector('input[name="newsletter"]').checked;
-      const notifications = document.querySelector('input[name="notifications"]').checked;
-      const language = document.querySelector('#language').value;
-  
-      alert(`Preferences saved: Newsletter (${newsletter}), Notifications (${notifications}), Language (${language})`);
-      // API call to save preferences
-      // e.g., savePreferences({ newsletter, notifications, language });
-    });
-  
-    // Function to handle viewing order details
-    const orderDetailsButtons = document.querySelectorAll('.order-history button');
-    orderDetailsButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const orderId = button.closest('tr').getAttribute('data-order-id');
-        alert(`Viewing details for Order ID: ${orderId}`);
-        // API call to fetch order details
-        // e.g., fetchOrderDetails(orderId);
-      });
-    });
-  
-    // Function to handle logout
-    
-  });
-  

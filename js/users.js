@@ -67,7 +67,7 @@ async function sendEmailToUser(userData) {
             from: process.env.EMAIL_USER,
             to: userData.email,
             subject: 'Bienvenid@ a AURIDAL S.L!',
-            text: `Hola ${userData.name} ${userData.surname},\nTu cuenta ha sido creada, aquí tienes tus datos:\n\tUsuario: ${userData.username} \n\tContraseña: ${userData.password}\n`,
+            text: `Hola ${userData.name} ${userData.surname},\nTu cuenta ha sido creada, aquí tienes tus datos:\n\tUsuario: ${userData.username} \n\tContraseña:${userData.password}\n`,
         };
 
         const result = await transporter.sendMail(mailOptions);
@@ -126,8 +126,17 @@ async function createUser(firstName, surname, email) {
         username: username,
         password: password,
         hashedpassword: hashedPassword, // Only store the hashed password
+        phone: "",
+        language: "",
+        profilePicture: "",
+        street: "",
+        street_num: "",
+        postal_code: "",
+        city: "",
+        country: "",
+        cif:"",
     };
-    console.log(`User and password created for ${userData.username}. Now sending email...`);
+    console.log(`User and password created for ${userData.username}::${userData.password}. Now sending email...`);
 
     // Send the plain-text password to the user's email
     await sendEmailToUser(userData);

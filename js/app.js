@@ -8,23 +8,21 @@ const path = require('path');
 const cors = require('cors');
 require('dotenv').config();;
 
-
-
-
 const app = express();
 const secretKey = process.env.SECRET_KEY
 
 app.use(cors());
-app.use(bodyParser.json());
-// app.use(express.json()); // This should be at the top, before your routes
 app.use(cookieParser());
-
+app.use(bodyParser.json());
 
 const url = path.join(__dirname, '../');
 app.use(express.static(url));  // Serve static files (HTML, CSS, JS)
 
 const userCarts = {}; // This will store each user's cart as an array of items
 
+// ========================================== //
+// ============= INICIO SESIÓN ============== //
+// ========================================== //
 
 app.post('/auth/login', (req, res) => {
   const { username, password } = req.body;
@@ -64,6 +62,10 @@ app.post('/auth/login', (req, res) => {
   });
 });
 
+// ========================================== //
+// ============= AUTENTICACIÓN ============== //
+// ========================================== //
+
 
 // Token verification middleware
 function verifyToken(req, res, next) {
@@ -96,6 +98,10 @@ app.get('/auth/check-auth', verifyToken, (req, res) => {
   }
 });
 
+// ========================================== //
+// ============= CERRAR SESIÓN ============== //
+// ========================================== //
+
 app.post('/auth/sign-out', verifyToken, (req, res) => {
   try {
       // Check if the token exists in cookies before attempting to clear it
@@ -107,11 +113,50 @@ app.post('/auth/sign-out', verifyToken, (req, res) => {
       res.clearCookie('token', { httpOnly: true, sameSite: 'Strict' });
 
       // Send a success message if logout is successful
-      res.json({ message: 'Sesión cerrada correctamente.' });
+      res.json({ message: 'Cerrando sesión...' });
   } catch (error) {
       console.error('Error during sign-out:', error);
       res.status(500).json({ message: 'Ha habido un problema al cerrar la sesión. Inténtalo de nuevo más tarde.' });
   }
+});
+
+// ========================================== //
+// ============= DATOS USUARIOS ============= //
+// ========================================== //
+
+// Load user details endpoint
+app.get('/api/get-user', verifyToken, (req, res) => {
+  if (!req.isAuthenticated) {
+    return res.status(401).json({ message: 'Usuario no autenticado.' });
+  }
+
+  const username = req.user.username; // Username from token verification
+
+  // Read the entire users.json file
+  fs.readFile(path.join(__dirname, '../data/users/users.json'), 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading users file:', err);
+      return res.status(500).json({ message: 'Error al leer los datos de usuarios.' });
+    }
+
+    try {
+      // Parse the JSON data
+      const users = JSON.parse(data);
+
+      // Find the user with the specified username
+      const user = users.find(user => user.username === username);
+      
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado.' });
+      }
+
+      // Respond with user data if found
+      res.json(user);
+    } catch (parseError) {
+      console.error('Error parsing users data:', parseError);
+      res.status(500).json({ message: 'Error al procesar los datos de usuarios.' });
+    }
+  });
 });
 
 
@@ -234,45 +279,6 @@ app.post('/cart/remove', verifyToken, (req, res) => {
   }
 });
 
-// ========================================== //
-// ============= DATOS USUARIOS ============= //
-// ========================================== //
-
-// Load user details endpoint
-app.get('/api/get-user', verifyToken, (req, res) => {
-  if (!req.isAuthenticated) {
-    return res.status(401).json({ message: 'Usuario no autenticado.' });
-  }
-
-  const username = req.user.username; // Username from token verification
-
-  // Read the entire users.json file
-  fs.readFile(path.join(__dirname, '../data/users/users.json'), 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading users file:', err);
-      return res.status(500).json({ message: 'Error al leer los datos de usuarios.' });
-    }
-
-    try {
-      // Parse the JSON data
-      const users = JSON.parse(data);
-
-      // Find the user with the specified username
-      const user = users.find(user => user.username === username);
-      
-      if (!user) {
-        return res.status(404).json({ message: 'Usuario no encontrado.' });
-      }
-
-      // Respond with user data if found
-      res.json(user);
-    } catch (parseError) {
-      console.error('Error parsing users data:', parseError);
-      res.status(500).json({ message: 'Error al procesar los datos de usuarios.' });
-    }
-  });
-});
-
 
 // ========================================== //
 // =========== CAMBIO CONTRASEÑA =========== //
@@ -281,7 +287,7 @@ app.get('/api/get-user', verifyToken, (req, res) => {
 const fsP = require('fs').promises;
 const usersFilePath = path.join(__dirname, '../data/users/users.json');
 
-app.post('/api/reset-password', verifyToken, async (req, res) => {
+app.post('/auth/reset-password', verifyToken, async (req, res) => {
   console.log(req.body);
   const { currentPassword, newPassword } = req.body;
   const userId = req.user.id;
@@ -313,9 +319,5 @@ app.post('/api/reset-password', verifyToken, async (req, res) => {
       res.status(500).json({ message: "No se ha podido actualizar tu contraseña..." });
   }
 });
-
-
-
-
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));

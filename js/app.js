@@ -9,11 +9,14 @@ const cors = require('cors');
 require('dotenv').config();;
 
 
+
+
 const app = express();
 const secretKey = process.env.SECRET_KEY
 
 app.use(cors());
 app.use(bodyParser.json());
+// app.use(express.json()); // This should be at the top, before your routes
 app.use(cookieParser());
 
 
@@ -89,14 +92,28 @@ app.get('/auth/check-auth', verifyToken, (req, res) => {
   if (req.isAuthenticated) {
     res.json({ authenticated: true });
   } else {
-    res.json({ authenticated: false, message: 'User not authenticated' });
+    res.json({ authenticated: false, message: 'Usuario no autenticado.' });
   }
 });
 
-app.post('/auth/sign-out', (req, res) => {
-  res.clearCookie('token', { httpOnly: true, sameSite: 'Strict' }); // Clear the token cookie
-  res.json({ message: 'Signed out successfully' });
+app.post('/auth/sign-out', verifyToken, (req, res) => {
+  try {
+      // Check if the token exists in cookies before attempting to clear it
+      if (!req.cookies.token) {
+          return res.status(400).json({ message: 'Usuario no autenticado.' });
+      }
+
+      // Clear the token cookie to log the user out
+      res.clearCookie('token', { httpOnly: true, sameSite: 'Strict' });
+
+      // Send a success message if logout is successful
+      res.json({ message: 'Sesión cerrada correctamente.' });
+  } catch (error) {
+      console.error('Error during sign-out:', error);
+      res.status(500).json({ message: 'Ha habido un problema al cerrar la sesión. Inténtalo de nuevo más tarde.' });
+  }
 });
+
 
 // ========================================== //
 // =========== AÑADIR AL CARRITO ============ //
@@ -227,30 +244,77 @@ app.get('/api/get-user', verifyToken, (req, res) => {
     return res.status(401).json({ message: 'Usuario no autenticado.' });
   }
 
-  const userId = req.user.username;  // Assuming `username` is unique and used as the file name
-  const userFilePath = path.join(__dirname, '../data/users', `${userId}.json`);
+  const username = req.user.username; // Username from token verification
 
-  // Check if user file exists
-  if (!fs.existsSync(userFilePath)) {
-    return res.status(404).json({ message: 'Usuario no encontrado.' });
-  }
-
-  // Read user data
-  fs.readFile(userFilePath, 'utf8', (err, data) => {
+  // Read the entire users.json file
+  fs.readFile(path.join(__dirname, '../data/users/users.json'), 'utf8', (err, data) => {
     if (err) {
-      console.error('Error reading user file:', err);
-      return res.status(500).json({ message: 'Error al leer los datos del usuario.' });
+      console.error('Error reading users file:', err);
+      return res.status(500).json({ message: 'Error al leer los datos de usuarios.' });
     }
 
     try {
-      const user = JSON.parse(data);
+      // Parse the JSON data
+      const users = JSON.parse(data);
+
+      // Find the user with the specified username
+      const user = users.find(user => user.username === username);
+      
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado.' });
+      }
+
+      // Respond with user data if found
       res.json(user);
     } catch (parseError) {
-      console.error('Error parsing user data:', parseError);
-      res.status(500).json({ message: 'Error al procesar los datos del usuario.' });
+      console.error('Error parsing users data:', parseError);
+      res.status(500).json({ message: 'Error al procesar los datos de usuarios.' });
     }
   });
 });
+
+
+// ========================================== //
+// =========== CAMBIO CONTRASEÑA =========== //
+// ======================================== //
+
+const fsP = require('fs').promises;
+const usersFilePath = path.join(__dirname, '../data/users/users.json');
+
+app.post('/api/reset-password', verifyToken, async (req, res) => {
+  console.log(req.body);
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.user.id;
+
+  try {
+      const data = await fsP.readFile(usersFilePath, 'utf-8');
+      const users = JSON.parse(data);
+      const user = users.find(user => user.id === userId);
+
+      if (!user) return res.json({ message: "User not found." });
+
+      if (!user.password || !currentPassword) {
+          console.log("Either current password or stored hashed password is missing.");
+          // return res.json({ message: "Current password is required." });
+      }
+
+      // Use compareSync for synchronous comparison
+      const isMatch = bcrypt.compareSync(currentPassword, user.password);
+      console.log("Password matched ::", isMatch);
+      if (!isMatch) return res.json({ message: "Contraseña actual incorrecta." });
+
+      const hashedNewPassword = bcrypt.hashSync(newPassword, 10); // Use hashSync here as well
+      user.password = hashedNewPassword;
+
+      await fsP.writeFile(usersFilePath, JSON.stringify(users, null, 2));
+      res.json({ message: "Contraseña actualizada correctamente!" });
+  } catch (error) {
+      console.error("Error updating password:", error); 
+      res.status(500).json({ message: "No se ha podido actualizar tu contraseña..." });
+  }
+});
+
+
 
 
 

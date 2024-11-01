@@ -1,22 +1,11 @@
 [
   {
-    "name": "María",
-    "surname": "Tapia",
-    "email": "mariatapiacosta@gmail.com",
-    "username": "maria.tapia",
-    "password": "$2a$10$vLwMj.NaZkTx978G5.m/w.zRwW8faAtlLNHOz8BET3CHxTQ3ubPMu",
-    "phone":"",
-    "location": "",
-    "language": "",
-    "profilePicture": ""
-  },
-  {
     "name": "Javier",
     "surname": "García",
     "email": "mariatapiacosta@gmail.com",
     "username": "javier.garcia",
     "password": "$2a$10$S7jFkwawhGzqJnz7fZvG/el4tkE4.5fhtOpANZsePel6MvNKCnm7K",
-    "phone":"",
+    "phone": "",
     "location": "",
     "language": "",
     "profilePicture": ""

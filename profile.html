@@ -156,7 +156,7 @@
                 <li><a href="#">Perfil</a></li>
                 <li><a href="#">Configuración</a></li>
                 <li><a href="#">Pedidos</a></li>
-                <li><a href="#">Cerrar Sesión</a></li>
+                <li><a href="#"  id="logout-link">Cerrar Sesión</a></li>
                 <!-- Add additional menu options as needed -->
             </ul>
         </aside>
@@ -207,9 +207,14 @@
                 <label for="new-password">Nueva Contraseña</label>
                 <input type="password" id="new-password">
                 
-                <button>Actualizar Contraseña</button>
+                <button id="update-password-btn">Actualizar Contraseña</button>
             </div>
         </section>
+        <!-- Pop-Up Notification -->
+        <div id="popup" class="popup">
+            <span id="popup-message"></span>
+            <button onclick="closePopup()">OK</button>
+        </div>
     </main>
 
 

@@ -19,15 +19,17 @@ function generateRandomPassword(length) {
     return password;
 }
 
-// Function to generate a unique username (removing accents and appending random number if necessary)
+// Function to generate a unique username (handling multiple surnames)
 function generateUniqueUsername(firstName, surname, users) {
-    let baseUsername = `${removeAccents(firstName)}.${removeAccents(surname)}`.toLowerCase();
+    // Remove accents and join all surnames with a period (e.g., "cobos.de.castro")
+    let baseUsername = `${removeAccents(firstName)}.${removeAccents(surname.replace(/\s+/g, '.'))}`.toLowerCase();
+    baseUsername = baseUsername.replace(/[^a-z0-9.]/gi, ''); // Remove any non-alphanumeric characters except periods
     let username = baseUsername;
 
     // Add random numbers if username already exists
     let isUsernameTaken = users.some(user => user.username === username);
     while (isUsernameTaken) {
-        const randomNumber = Math.floor(Math.random() * 10000);  // Generate random number between 0 and 9999
+        const randomNumber = Math.floor(Math.random() * 10000); // Generate a random number between 0 and 9999
         username = `${baseUsername}${randomNumber}`;
         isUsernameTaken = users.some(user => user.username === username);
     }
@@ -101,7 +103,7 @@ function saveUserData(userData) {
 }
 
 // Main function to create a user
-async function createUser(firstName, surname, email) {
+async function createUser(userData) {
     const password = generateRandomPassword(15); // Generate the plain-text password
     const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
 
@@ -114,33 +116,40 @@ async function createUser(firstName, surname, email) {
         users = JSON.parse(fileData);
     }
 
-
     // Generate a unique username (removing accents and checking for duplicates)
-    const username = generateUniqueUsername(firstName, surname, users);
+    const username = generateUniqueUsername(userData.name, userData.surname, users);
 
-    // Store the user data (including hashed password)
-    const userData = {
-        name: firstName,
-        surname: surname,
-        email: email,
+    // Add generated fields to the existing userData
+    userData = {
+        ...userData, // Copy existing user data
         username: username,
-        password: password,
+        password: password, // Include the plain-text password for email purposes only
         hashedpassword: hashedPassword, // Only store the hashed password
-        phone: "",
-        language: "",
-        profilePicture: "",
-        street: "",
-        street_num: "",
-        postal_code: "",
-        city: "",
-        country: "",
-        cif:"",
     };
+
     console.log(`User and password created for ${userData.username}::${userData.password}. Now sending email...`);
 
     // Send the plain-text password to the user's email
     await sendEmailToUser(userData);
 }
 
+
 // Example usage
-createUser('María', 'Tapia', 'mariatapiacosta@gmail.com');
+const userData = {
+    name: "Celia",
+    surname: "Cobos De Castro",
+    email: "mariatapiacosta@gmail.com",
+    username: "",
+    password: "",
+    phone: "",
+    language: "",
+    profilePicture: "",
+    street: "Calle de Manuela Silvela",
+    street_num: "",
+    postal_code: "47014",
+    city: "Valladolid",
+    country: "ESPAÑA",
+    cif:"71174737H",
+};
+
+createUser(userData)

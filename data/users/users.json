@@ -1,18 +1,18 @@
 [
   {
-    "name": "María",
-    "surname": "Tapia",
+    "name": "Celia",
+    "surname": "Cobos De Castro",
     "email": "mariatapiacosta@gmail.com",
-    "username": "maria.tapia",
+    "username": "celia.cobos.de.castro",
     "phone": "",
-    "language": "es",
-    "profilePicture": "./images/user/Foto_YO.JPG",
-    "street": "",
+    "language": "",
+    "profilePicture": "",
+    "street": "Calle de Manuela Silvela",
     "street_num": "",
-    "postal_code": "",
-    "city": "",
-    "country": "",
-    "cif": "",
-    "password": "$2a$10$0dC0U91PvtSqo2MA9bYVwuec9Xu6.0ddi84hI2iSkD.HQ.8MEE.f."
+    "postal_code": "47014",
+    "city": "Valladolid",
+    "country": "ESPAÑA",
+    "cif": "71174737H",
+    "password": "$2a$10$walt5nU6zOcGPxMqwkhHXe9p2MV0yGrbS9zZy8uNgq24u.dCKNX86"
   }
 ]

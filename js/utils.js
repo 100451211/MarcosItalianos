@@ -313,15 +313,6 @@ async function updateUserDropdown() {
 document.addEventListener('DOMContentLoaded', async() => {
     // Call function to set dropdown based on auth status
     updateUserDropdown(); 
-
-    
-    // const location = await getUserLocation();
-    // if (location) {
-    //     // Display location or use it in further functions
-    //     console.log(`Latitude: ${location.latitude}, Longitude: ${location.longitude}`);
-    // } else {
-    //     console.log("Could not retrieve location.");
-    // }
     
 });
 
@@ -497,15 +488,6 @@ async function viewCart() {
         console.log("cart length ::", distinctItemCount);
         document.getElementById('cart-count').textContent = data.cart.length;
 
-        // Log each item to inspect its structure
-        data.cart.forEach((item, index) => {
-            console.log(`Item ${index + 1}:`, item);  // Output the entire item object
-            console.log("Product ID:", item.productId);
-            console.log("Quantity:", item.quantity);
-            console.log("Image URL:", item.imageUrl);
-            console.log("Price:", item.price);
-        });
-
         // Calculate total amount
         const totalAmount = data.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         console.log("Total amount:", totalAmount);
@@ -529,6 +511,41 @@ async function viewCart() {
         console.error("Error fetching cart:", error);
     }
 }
+
+async function checkout() {
+    try {
+        // Get cart items data
+        const cartItems = document.querySelectorAll('#cart-items .cart-item');
+        const cart = Array.from(cartItems).map(item => {
+            return {
+                productId: item.dataset.productId,
+                quantity: parseInt(item.querySelector('.quantity').textContent),
+                price: parseFloat(item.querySelector('.price').textContent.replace('€', ''))
+            };
+        });
+
+        if (!cart.length) {
+            alert('Cart is empty.');
+            return;
+        }
+
+        // Send only cart data to the server for processing
+        const paymentResponse = await fetch('/api/proceed-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cart })
+        });
+
+        const result = await paymentResponse.json();
+        alert(result.message);
+    } catch (error) {
+        console.error('Error during checkout:', error);
+        alert('There was an error processing your checkout. Please try again.');
+    }
+}
+
+
+
 
 document.addEventListener('DOMContentLoaded', checkCartStatus);
 

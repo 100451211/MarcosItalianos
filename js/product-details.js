@@ -170,6 +170,9 @@ function displayProduct(product, category) {
         document.getElementById('main-product-image').src = '../images/hero-image.png';  // Set a default image
     }
 
+    // Get the current page URL
+    const currentPageUrl = window.location.pathname + window.location.search;
+
     // Product details section with quantity controls
     const productDetails = `
         <ul>
@@ -177,7 +180,7 @@ function displayProduct(product, category) {
             <li><strong>Ancho:</strong> ${product.details.dimensions.ancho} cm</li>
             <li><strong>Largo:</strong> ${product.details.dimensions.largo} cm</li>
             <li><strong>Rebajo:</strong> ${product.details.dimensions.rebajo} cm</li>
-            <li id="priceMessage"><strong>Precio:</strong> <a href="../login.html" style="color:blue;">Inicia sesión</a> para visualizar precios.</li>
+            <li id="priceMessage"><strong>Precio:</strong> <a id="login-link" style="color:blue;">Inicia sesión</a> para visualizar precios.</li>
             <div class="quantity-selector">
                 <label for="quantity">Metros:</label>
                 <div id="quantity-alert" class="quantity-alert"></div>
@@ -192,6 +195,12 @@ function displayProduct(product, category) {
     `;
     
     document.querySelector('.product-info').innerHTML += productDetails;
+
+    // Set the link for "Inicia sesión" programmatically
+    const loginLink = document.getElementById('login-link');
+    if (loginLink) {
+        loginLink.href = `../login.html?redirectUrl=${encodeURIComponent(currentPageUrl)}`;
+    }
 
     const productCare = `
         <div>
@@ -498,12 +507,14 @@ function getQueryParam(param) {
 async function updatePrice() {
     const category = getQueryParam('category');
     const productId = getQueryParam('id');
+    const currentPageUrl = window.location.pathname + window.location.search;
 
     try {
         // Fetch product data
         const response = await fetch(`../data/products/${category}.json`);
         const products = await response.json();
         const product = products.find(p => p.id === productId);
+        
 
         if (product) {
             const isLoggedIn = await checkAuthStatus();
@@ -512,7 +523,7 @@ async function updatePrice() {
             if (isLoggedIn) {
                 priceMessage.innerHTML = `<strong>Precio:</strong> ${product.supplier_prices.madrid}€`;
             } else {
-                priceMessage.innerHTML = '<strong>Precio:</strong> <a href="../login.html" style="color:blue;">Inicia sesión</a> para visualizar precios.';
+                priceMessage.innerHTML = `<strong>Precio:</strong> <a href="../login.html?redirectUrl=${encodeURIComponent(currentPageUrl)}" style="color:blue;">Inicia sesión</a> para visualizar precios.`;
             }
         }
     } catch (error) {

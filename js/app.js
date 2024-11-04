@@ -26,9 +26,10 @@ const userCarts = {}; // This will store each user's cart as an array of items
 
 app.post('/auth/login', (req, res) => {
   const { username, password } = req.body;
-  console.log('Login attempt for:', username);
 
   const usersFilePath = path.join(__dirname, '../data/users/users.json');
+
+  console.log(req.body);
 
   fs.readFile(usersFilePath, 'utf-8', (err, data) => {
     if (err) {

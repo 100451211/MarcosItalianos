@@ -19,17 +19,17 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
   })
   .then(data => {
     if (data.message === 'Login successful') {
-      // Check for a stored redirect URL
-      const redirectUrl = localStorage.getItem('redirectAfterLogin');
 
-      // Redirect and clear the stored URL if it exists
-      if (redirectUrl) {
-        localStorage.removeItem('redirectAfterLogin');
-        window.location.href = redirectUrl;
-      } else {
-        // Fallback redirect if no redirect URL is found
-        window.location.href = 'index.html';  // Change this to your desired default page
-      }
+    // Check for redirectUrl in the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirectUrl');
+
+    if (redirectUrl) {
+      window.location.href = decodeURIComponent(redirectUrl);
+    } else {
+      console.log('No redirect URL found, redirecting to index.html');
+      window.location.href = '../index.html';
+    }
     } else {
       // Display an error message on the page
       document.getElementById('loginError').textContent = 'Usuario o contraseña inválida. Por favor, inténtelo de nuevo.';
@@ -46,5 +46,5 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
 function logoutUser() {
   localStorage.removeItem('isLoggedIn'); // Remove the login status
-  window.location.href = 'index.html'; // Redirect to the home page or login page
+  window.location.href = '../index.html'; // Redirect to the home page or login page
 }

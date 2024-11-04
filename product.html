@@ -196,17 +196,20 @@
         </section>
     </main>
 
-   <!-- Cart Sidebar (initially hidden) -->
-    <div id="cart-sidebar" class="cart-sidebar hidden">
-        <div class="cart-header">
-            <h3>Your Cart</h3>
-            <button class="close-cart">&times;</button>
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-sidebar-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" onclick="toggleCartSidebar()">✖</button>
         </div>
-        <div id="cart-items" class="cart-items"></div>
-        <div class="cart-footer">
-            <button class="checkout-button" onclick="checkout()">Proceed to Checkout</button>
+        <div id="cart-items" class="cart-items">
+            <!-- Cart items will be dynamically loaded here -->
         </div>
-    </div>
+        <div class="cart-sidebar-footer">
+            <p><strong>Total:</strong> <span id="total-amount">0.00€</span></p>
+            <button class="checkout-button" id="checkout">Proceder al Pago</button>
+        </div>
+    </div>  
 
     <script src="/js/utils.js"></script>
     <script src="/js/product-details.js"></script>

@@ -1082,7 +1082,6 @@ table tr:nth-child(even) {
 
 /* Carrito de la cesta */
 /* Cart Sidebar Styling */
-/* Cart Sidebar Styling */
 .cart-sidebar {
     position: fixed;
     top: 0;
@@ -1117,6 +1116,10 @@ table tr:nth-child(even) {
     padding: 16px;
     border-top: 1px solid #ccc;
     text-align: center;
+}
+
+.checkout-button{
+    background-color: #d32f2f;
 }
 
 .cart-icon-container {

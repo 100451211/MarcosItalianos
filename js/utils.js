@@ -498,7 +498,7 @@ async function viewCart() {
                 <img src="${item.imageUrl}" alt="Producto" class="cart-item-image" />
                 <div class="cart-item-details">
                     <p><strong>${item.productId}</strong> </p>
-                    <p>${item.quantity}m</p>
+                    <p id="cart-item-quantity">${item.quantity}m</p>
                 </div>
                 <button class="remove-item-btn" onclick="removeItemFromCart('${item.productId}')">🗑️</button>
             </div>
@@ -512,24 +512,34 @@ async function viewCart() {
     }
 }
 
-async function checkout() {
+document.getElementsByClassName('checkout-button')[0].addEventListener('click', async function () {
+    console.log("Checkout clicked");
+
     try {
-        // Get cart items data
+        // Select all cart items
         const cartItems = document.querySelectorAll('#cart-items .cart-item');
+        console.log('Cart items NodeList:', cartItems);
+
+        // Extract product ID and quantity
         const cart = Array.from(cartItems).map(item => {
+            const detailsElement = item.querySelector('.cart-item-details');
+            let quantityText = detailsElement ? detailsElement.textContent.match(/(\d+)m/) : null;
+            const quantity = quantityText ? parseInt(quantityText[1], 10) : 0;
+
             return {
-                productId: item.dataset.productId,
-                quantity: parseInt(item.querySelector('.quantity').textContent),
-                price: parseFloat(item.querySelector('.price').textContent.replace('€', ''))
+                productId: item.dataset.productId || 'N/A',
+                quantity: isNaN(quantity) ? 0 : quantity
             };
         });
+
+        console.log('Processed cart data (IDs and quantities only):', JSON.stringify(cart, null, 2));
 
         if (!cart.length) {
             alert('Cart is empty.');
             return;
         }
 
-        // Send only cart data to the server for processing
+        // Send cart data to the server for processing
         const paymentResponse = await fetch('/api/proceed-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -537,50 +547,20 @@ async function checkout() {
         });
 
         const result = await paymentResponse.json();
-        alert(result.message);
+
+        if (paymentResponse.ok) {
+            alert(result.message);
+        } else {
+            console.error('Server error:', result.message);
+            alert('Error during checkout: ' + result.message);
+        }
     } catch (error) {
         console.error('Error during checkout:', error);
         alert('There was an error processing your checkout. Please try again.');
     }
-}
+});
 
 
 
 
 document.addEventListener('DOMContentLoaded', checkCartStatus);
-
-
-
-
-
-/* ======================================== */
-/* ============ LOCALIZACIÓN ============== */
-/* ======================================== */
-
-// // Function to get the user's location
-// async function getUserLocation() {
-//     return new Promise((resolve, reject) => {
-//         if (navigator.geolocation) {
-//             navigator.geolocation.getCurrentPosition(
-//                 (position) => {
-//                     const location = {
-//                         latitude: position.coords.latitude,
-//                         longitude: position.coords.longitude
-//                     };
-//                     console.log('User location:', location); // Log location for testing
-//                     resolve(location);
-//                 },
-//                 (error) => {
-//                     console.error('Error getting location:', error);
-//                     resolve(null); // Resolve as null if location can't be accessed
-//                 }
-//             );
-//         } else {
-//             console.error('Geolocation is not supported by this browser.');
-//             resolve(null);
-//         }
-//     });
-// }
-
-
-

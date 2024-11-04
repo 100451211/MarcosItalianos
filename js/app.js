@@ -254,7 +254,6 @@ app.get('/cart/view', verifyToken, async (req, res) => {
         }));
 
         res.json({ cart: cartWithImages });
-        console.log("cartWithImages", cartWithImages);
       } catch (error) {
           console.error("Error fetching cart with images:", error);
           res.status(500).json({ success: false, message: 'Failed to fetch cart' });
@@ -284,7 +283,6 @@ app.post('/cart/remove', verifyToken, (req, res) => {
 const { generateInvoicePDF, sendInvoiceEmail } = require('./invoice');
 
 app.post('/api/proceed-payment', verifyToken, async (req, res) => {
-  // Ensure the user is authenticated
   if (!req.isAuthenticated) {
       return res.status(401).json({ message: 'Usuario no autenticado.' });
   }
@@ -299,7 +297,7 @@ app.post('/api/proceed-payment', verifyToken, async (req, res) => {
 
       // Load user data from users.json
       const usersFilePath = path.join(__dirname, '../data/users/users.json');
-      fs.readFile(usersFilePath, 'utf8', (err, data) => {
+      fs.readFile(usersFilePath, 'utf8', async (err, data) => {
           if (err) {
               console.error('Error reading users file:', err);
               return res.status(500).json({ message: 'Error al leer los datos de usuarios.' });
@@ -313,8 +311,24 @@ app.post('/api/proceed-payment', verifyToken, async (req, res) => {
                   return res.status(404).json({ message: 'Usuario no encontrado.' });
               }
 
+              // Enhance cart data with product details
+              const detailedCart = [];
+              for (const item of cart) {
+                  const productDetails = await fetchProductDetails(item.productId);
+                  if (productDetails) {
+                      detailedCart.push({
+                          productId: productDetails.productId,
+                          imageUrl: productDetails.imageUrl,
+                          quantity: item.quantity,
+                          price: productDetails.price
+                      });
+                  } else {
+                      console.warn(`Product ID ${item.productId} not found.`);
+                  }
+              }
+
               // Generate the invoice PDF
-              generateInvoicePDF(user, cart, Date.now())
+              generateInvoicePDF(user, detailedCart, Date.now())
                   .then(async (filePath) => {
                       // Send the invoice email to the user and yourself
                       await sendInvoiceEmail(user, filePath);
@@ -334,6 +348,59 @@ app.post('/api/proceed-payment', verifyToken, async (req, res) => {
       res.status(500).json({ message: 'Error al procesar el pago.' });
   }
 });
+
+
+// app.post('/api/proceed-payment', verifyToken, async (req, res) => {
+//   // Ensure the user is authenticated
+//   if (!req.isAuthenticated) {
+//       return res.status(401).json({ message: 'Usuario no autenticado.' });
+//   }
+
+//   try {
+//       const cart = req.body.cart;
+//       const username = req.user.username; // Get the username from the verified token
+
+//       if (!cart.length) {
+//           return res.status(400).json({ message: 'Datos carrito faltantes.' });
+//       }
+
+//       // Load user data from users.json
+//       const usersFilePath = path.join(__dirname, '../data/users/users.json');
+//       fs.readFile(usersFilePath, 'utf8', (err, data) => {
+//           if (err) {
+//               console.error('Error reading users file:', err);
+//               return res.status(500).json({ message: 'Error al leer los datos de usuarios.' });
+//           }
+
+//           try {
+//               const users = JSON.parse(data);
+//               const user = users.find(user => user.username === username);
+
+//               if (!user) {
+//                   return res.status(404).json({ message: 'Usuario no encontrado.' });
+//               }
+
+//               // Generate the invoice PDF
+//               generateInvoicePDF(user, cart, Date.now())
+//                   .then(async (filePath) => {
+//                       // Send the invoice email to the user and yourself
+//                       await sendInvoiceEmail(user, filePath);
+//                       res.status(200).json({ message: 'Factura generada y enviada correctamente.' });
+//                   })
+//                   .catch(err => {
+//                       console.error('Error generating invoice:', err);
+//                       res.status(500).json({ message: 'Error al generar la factura.' });
+//                   });
+//           } catch (parseError) {
+//               console.error('Error parsing users data:', parseError);
+//               return res.status(500).json({ message: 'Error al procesar los datos de usuarios.' });
+//           }
+//       });
+//   } catch (error) {
+//       console.error('Error processing payment:', error);
+//       res.status(500).json({ message: 'Error al procesar el pago.' });
+//   }
+// });
 
 
 

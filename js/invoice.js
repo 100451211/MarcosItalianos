@@ -12,33 +12,32 @@ function generateInvoicePDF(user, cart, invoiceNumber) {
 
         doc.pipe(writeStream);
 
-        // Header
-        doc.fontSize(20).text('Factura', { align: 'center' });
-        doc.fontSize(10).text(`Número: ${invoiceNumber}`, 50, 60);
-        doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 50, 75);
+        // Header with custom style
+        doc
+            .fontSize(24)
+            .font('Helvetica-Bold')
+            .fillColor('#000080')
+            .text('Factura', { align: 'left' });
 
-        // Company Details
-        doc.text('AURIDAL S.L.', 400, 60, { align: 'right' });
-        doc.text('Avda. de Madrid, 25-Nave C8', 400, 75, { align: 'right' });
-        doc.text('28500 Arganda del Rey (MADRID)', 400, 90, { align: 'right' });
-        doc.text('B-84603646', 400, 105, { align: 'right' });
+        // Company details
+        doc
+            .fontSize(10)
+            .fillColor('gray')
+            .font('Helvetica-Bold')
+            .text('AURIDAL, S.L.\nAvda. de Madrid, 25-Nave C8\n28500 Arganda del Rey (MADRID)\nB-84603646', { align: 'right' });
 
-        // User Details
-        doc.moveDown(2);
-        doc.text(`Cliente: ${user.name} ${user.surname}`, 50, 130);
-        doc.text(`Domicilio: ${user.street}, ${user.street_num || 's/n'}`, 50, 145);
-        doc.text(`Ciudad: ${user.postal_code} ${user.city}`, 50, 160);
-        doc.text(`NIF/CIF: ${user.cif}`, 50, 175);
+        // Invoice number and date
+        printTitleAndValue(doc, 'Número: ', invoiceNumber.toString(), 30, 90);
+        printTitleAndValue(doc, 'Fecha: ', new Date().toLocaleDateString(), 30, 110);
 
-        // Prepare Table
-        const table = {
-            headers: ['Concepto', 'Descripción', 'Unidades', 'Precio Un.', 'Subtotal', '% IVA', 'Total'],
-            rows: [],
-        };
+        // User details
+        printTitleAndValue(doc, 'Cliente: ', `${user.name} ${user.surname}`, 30, 140);
+        printTitleAndValue(doc, 'Domicilio: ', `${user.street}, ${user.street_num || 's/n'}`, 30, 155);
+        printTitleAndValue(doc, 'Ciudad: ', `${user.postal_code} ${user.city}`, 30, 170);
+        printTitleAndValue(doc, 'NIF/CIF: ', user.cif, 30, 185);
 
-        let subtotal = 0;
-
-        cart.forEach((item) => {
+        // Prepare product table
+        const tableRows = cart.map((item) => {
             const [concepto, descripcion] = item.productId.split('-');
             const quantity = item.quantity;
             const price = item.price;
@@ -46,9 +45,7 @@ function generateInvoicePDF(user, cart, invoiceNumber) {
             const iva = 0.21 * itemSubtotal;
             const total = itemSubtotal + iva;
 
-            subtotal += itemSubtotal;
-
-            table.rows.push([
+            return [
                 concepto,
                 descripcion,
                 quantity,
@@ -56,27 +53,65 @@ function generateInvoicePDF(user, cart, invoiceNumber) {
                 `${itemSubtotal.toFixed(2)} €`,
                 '21%',
                 `${total.toFixed(2)} €`
-            ]);
+            ];
         });
 
-        doc.moveDown(2);
-
-        // Render Table (using doc.text() for manual drawing if necessary)
-        doc.table(table, {
-            prepareHeader: () => doc.fontSize(10).font('Helvetica-Bold'),
-            prepareRow: (row, i) => doc.fontSize(10).font('Helvetica'),
-            columnsSize: [50, 80, 60, 70, 70, 50, 70]
-        });
-
-        // Summary Section
-        doc.moveDown();
+        // Add summary rows for totals
+        let subtotal = tableRows.reduce((sum, row) => sum + parseFloat(row[4]), 0);
         const ivaTotal = subtotal * 0.21;
         const totalAmount = subtotal + ivaTotal;
 
-        doc.text(`Subtotal: ${subtotal.toFixed(2)} €`, { align: 'right' });
-        doc.text(`I.V.A. 21%: ${ivaTotal.toFixed(2)} €`, { align: 'right' });
-        doc.text(`TOTAL: ${totalAmount.toFixed(2)} €`, { align: 'right', fontSize: 12, bold: true });
+        const totalRows = [
+            ['', '', '', '', 'Subtotal', '', `${subtotal.toFixed(2)} €`],
+            ['', '', '', '', 'I.V.A. 21%', '', `${ivaTotal.toFixed(2)} €`],
+            ['', '', '', '', 'TOTAL FACTURA', '', `${totalAmount.toFixed(2)} €`]
+        ];
 
+        const allRows = [...tableRows, ...totalRows];
+
+        // Table style
+        doc.fillColor('gray');
+        doc.table(
+            {
+                headers: ['Concepto', 'Descripción', 'Unidades', 'Precio Un.', 'Subtotal', '% IVA', 'Total'],
+                rows: allRows,
+            },
+            {
+                width: doc.page.width - 60,
+                x: 30,
+                y: 220,
+                columnSpacing: 5,
+                padding: 5,
+                borderColor: '#D3D3D3',
+                headerBorder: ['L', 'T', 'B', 'R'],
+                prepareRow: (row, i) => {
+                    if (i < tableRows.length) {
+                        doc.font('Helvetica-Bold').fillColor('black');
+                    }
+                }
+            }
+        );
+
+        // Footer
+        doc.moveDown(1.5);
+        const footerY = doc.y; // Capture the current y-coordinate for alignment
+
+        // "Cuenta bancaria" column
+        doc
+            .fontSize(10)
+            .fillColor('black')
+            .text('Cuenta bancaria:', 30, footerY)
+            .text('IBAN ES98 0182 7609 4602 0153 0236', 30, footerY + 12, { continued: true });
+
+        // "Correo electrónico" column
+        doc
+            .text('Correo electrónico:', 250, footerY)
+            .text('marcosauridal@gmail.com', 250, footerY + 12, { continued: true });
+
+        // "Teléfono" column
+        doc
+            .text('Teléfono:', 470, footerY)
+            .text('608.364.400 Giacinto', 470, footerY + 12);
         doc.end();
 
         writeStream.on('finish', () => {
@@ -88,6 +123,19 @@ function generateInvoicePDF(user, cart, invoiceNumber) {
         });
     });
 }
+
+// Helper function to print titles and values
+function printTitleAndValue(doc, title, value, x, y) {
+    doc
+        .fontSize(10)
+        .fillColor('gray')
+        .font('Helvetica-Bold')
+        .text(title, x, y, { continued: true });
+    doc
+        .fillColor('#000080')
+        .text(value, { align: 'left' });
+}
+
 
 
 

@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
 }
 
 body {
@@ -1104,8 +1105,8 @@ table tr:nth-child(even) {
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    background-color: #333;
-    color: white;
+    background-color: transparent;
+    color: #333;
 }
 
 .cart-items {
@@ -1119,9 +1120,10 @@ table tr:nth-child(even) {
 }
 
 .checkout-button{
+    margin-top:10px;
     color:white;
     background-color: #28a745;
-    padding: 12px 15px 8px 15px;
+    padding: 8px 15px 8px 15px;
 }
 
 .cart-icon-container {
@@ -1174,8 +1176,9 @@ table tr:nth-child(even) {
 
 .close-cart{
     background-color: transparent;
-    color:white;
+    color:black;
     font-size: 19px;
+    border: none;
 }
 
 /*Pop up Notification */

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // console.log("searchTerm:", searchTerm);
 
   if (!searchTerm) {
-    alert('Por favor, ingrese un término de búsqueda.');
+    showPopup('Error! Ingrese un término de búsqueda válido.');
     window.location.href = '../index.html'; // Redirect to search page
     return;
   }

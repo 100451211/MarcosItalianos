@@ -139,8 +139,6 @@ function toggleSearchBar(event) {
     if (searchInput.classList.contains('visible')) {
         const searchText = searchInput.value.trim();
         if (searchText) {
-            alert("Término a buscar...", searchText)
-            // Perform the search if there's a query, redirecting to the search-results page
             window.location.href = `../search-results.html?query=${encodeURIComponent(searchText)}`;
         } else {
             // Close the search bar if it's open and no search text is entered
@@ -246,16 +244,17 @@ function showPopup(message, redirect = null, duration = 3000) { // Duration in m
     let emoji = '';
     if (message.toLowerCase().includes('error')) {
         emoji = '❌'; // Error emoji
-    } else if (message.toLowerCase().includes('success') || message.toLowerCase().includes('completed')) {
+    } else if (message.toLowerCase().includes('exito') || message.toLowerCase().includes('completed')) {
         emoji = '✅'; // Success emoji
-    } else if (message.toLowerCase().includes('warning')) {
+    } else if (message.toLowerCase().includes('cuidado')) {
         emoji = '⚠️'; // Warning emoji
     } else {
         emoji = 'ℹ️'; // Default info emoji
     }
 
     popupEmoji.textContent = emoji;
-    popupMessage.textContent = message;
+    popupMessage.innerHTML = message.replace(/\n/g, '<br>'); // Replace \n with <br> for line breaks
+    //popupMessage.textContent = message;
     popup.style.display = 'block';
 
     // Add event listener to close button
@@ -300,7 +299,7 @@ async function checkAuthStatus() {
 // Function to update the dropdown menu based on authentication status
 async function updateUserDropdown() {
     const isAuthenticated = await checkAuthStatus();
-    console.log("update - isAuthenticated:", isAuthenticated);
+    console.log("isAuthenticated:", isAuthenticated);
     const userDropdown = document.getElementById('userDropdown');
     userDropdown.innerHTML = ''; // Clear previous dropdown content
 
@@ -382,8 +381,8 @@ async function globalAddToCart(productId, quantity) {
         // Check if user is authenticated
         const isAuthenticated = await checkAuthStatus();
         if (!isAuthenticated) {
-            alert("Por favor, inicia sesión para añadir artículos al carrito.");
-            window.location.href = '../login.html';
+            showPopup("Error!\nInicia sesión para añadir artículos al carrito.");
+            // window.location.href = '../login.html';
             return;
         }
 
@@ -530,12 +529,12 @@ async function viewCart() {
 
         // Update cart count to show the number of distinct products
         const distinctItemCount = data.cart.length;  // Number of unique products in the cart
-        console.log("cart length ::", distinctItemCount);
+        // console.log("cart length ::", distinctItemCount);
         document.getElementById('cart-count').textContent = data.cart.length;
 
         // Calculate total amount
         const totalAmount = data.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        console.log("Total amount:", totalAmount);
+        // console.log("Total amount:", totalAmount);
 
         // Render cart items with image and delete icon
         cartItemsContainer.innerHTML = data.cart.map(item => `
@@ -556,6 +555,7 @@ async function viewCart() {
         console.error("Error fetching cart:", error);
     }
 }
+
 
 document.getElementsByClassName('checkout-button')[0].addEventListener('click', async function () {
     console.log("Checkout clicked");

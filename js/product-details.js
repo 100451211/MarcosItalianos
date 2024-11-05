@@ -191,7 +191,7 @@ function displayProduct(product, category) {
                 </div>
             </div>
         </ul>
-        <a><button id="addToCartButton" class="button-add-to-cart"> Añadir al Carrito</button></a>
+        <a><button id="addToCartButton" class="button-add-to-cart">Añadir al Carrito</button></a>
     `;
     
     document.querySelector('.product-info').innerHTML += productDetails;

@@ -26,10 +26,7 @@ const userCarts = {}; // This will store each user's cart as an array of items
 
 app.post('/auth/login', (req, res) => {
   const { username, password } = req.body;
-
   const usersFilePath = path.join(__dirname, '../data/users/users.json');
-
-  console.log(req.body);
 
   fs.readFile(usersFilePath, 'utf-8', (err, data) => {
     if (err) {
@@ -50,11 +47,11 @@ app.post('/auth/login', (req, res) => {
         return res.status(401).json({ message: 'Invalid password!' });
       }
 
-      // Generate JWT token
+      // Generate JWT token with only the username included
       const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
 
       // Send JWT as an HTTP-only cookie
-      res.cookie('token', token, { httpOnly: true });
+      res.cookie('token', token, { httpOnly: true, sameSite: 'Strict' });
       res.json({ message: 'Login successful' });
     } catch (parseError) {
       console.error('Error parsing JSON:', parseError);
@@ -63,16 +60,9 @@ app.post('/auth/login', (req, res) => {
   });
 });
 
-// ========================================== //
-// ============= AUTENTICACIÓN ============== //
-// ========================================== //
-
-
-// Token verification middleware
 function verifyToken(req, res, next) {
-  const token = req.cookies.token;
+  const token = req.headers['authorization']?.split(' ')[1];
 
-  // If token is missing, mark the user as unauthenticated
   if (!token) {
     req.isAuthenticated = false;
     return next();
@@ -80,11 +70,11 @@ function verifyToken(req, res, next) {
 
   try {
     const verified = jwt.verify(token, secretKey);
-    req.user = verified;
+    req.user = { username: verified.username }; // Set only the username
     req.isAuthenticated = true;
     next();
   } catch (error) {
-    // If token is invalid, mark as unauthenticated but don't block the request
+    console.error("Token verification failed:", error);
     req.isAuthenticated = false;
     next();
   }
@@ -93,7 +83,7 @@ function verifyToken(req, res, next) {
 // Verify user's authentication status
 app.get('/auth/check-auth', verifyToken, (req, res) => {
   if (req.isAuthenticated) {
-    res.json({ authenticated: true });
+    res.json({ authenticated: true, message: 'Usuario autenticado :)' });
   } else {
     res.json({ authenticated: false, message: 'Usuario no autenticado.' });
   }
@@ -111,7 +101,7 @@ app.post('/auth/sign-out', verifyToken, (req, res) => {
       }
 
       // Clear the token cookie to log the user out
-      res.clearCookie('token', { httpOnly: true, sameSite: 'Strict' });
+      res.clearCookie('token', { httpOnly: true, sameSite: 'Strict', path: '/' });
 
       // Send a success message if logout is successful
       res.json({ message: 'Cerrando sesión...' });
@@ -243,6 +233,7 @@ app.get('/cart/view', verifyToken, async (req, res) => {
         const cartWithImages = await Promise.all(userCart.map(async item => {
             const product = await fetchProductDetails(item.productId);
             if (!product) {
+                showPopup("Error!\nProducto no encontrado.");
                 console.warn(`Product details not found for product ID: ${item.productId}`);
             }
 
@@ -260,7 +251,7 @@ app.get('/cart/view', verifyToken, async (req, res) => {
       }
     } else {
       console.warn(`Unauthenticated user attempted to view cart.`);
-      res.status(401).json({ success: false, message: 'Acceso indebido al carrito.' });
+      res.status(401).json({ success: false, message: 'Error!\nAcceso indebido al carrito.' });
     }
 });
 
@@ -276,7 +267,7 @@ app.post('/cart/remove', verifyToken, (req, res) => {
       userCarts[userId] = updatedCart;
       res.json({ success: true });
   } else {
-      res.status(400).json({ success: false, message: 'Cart not found' });
+      res.status(400).json({ success: false, message: 'Error!\nCarrito no encontrado.' });
   }
 });
 
@@ -284,7 +275,7 @@ const { generateInvoicePDF, sendInvoiceEmail } = require('./invoice');
 
 app.post('/api/proceed-payment', verifyToken, async (req, res) => {
   if (!req.isAuthenticated) {
-      return res.status(401).json({ message: 'Usuario no autenticado.' });
+      return res.status(401).json({ message: 'Error! Usuario no autenticado.' });
   }
 
   try {
@@ -332,7 +323,7 @@ app.post('/api/proceed-payment', verifyToken, async (req, res) => {
                   .then(async (filePath) => {
                       // Send the invoice email to the user and yourself
                       await sendInvoiceEmail(user, filePath);
-                      res.status(200).json({ message: 'Factura generada y enviada correctamente.' });
+                      res.status(200).json({ message: 'Exito! \nFactura generada y enviada correctamente.' });
                   })
                   .catch(err => {
                       console.error('Error generating invoice:', err);
@@ -350,60 +341,6 @@ app.post('/api/proceed-payment', verifyToken, async (req, res) => {
 });
 
 
-// app.post('/api/proceed-payment', verifyToken, async (req, res) => {
-//   // Ensure the user is authenticated
-//   if (!req.isAuthenticated) {
-//       return res.status(401).json({ message: 'Usuario no autenticado.' });
-//   }
-
-//   try {
-//       const cart = req.body.cart;
-//       const username = req.user.username; // Get the username from the verified token
-
-//       if (!cart.length) {
-//           return res.status(400).json({ message: 'Datos carrito faltantes.' });
-//       }
-
-//       // Load user data from users.json
-//       const usersFilePath = path.join(__dirname, '../data/users/users.json');
-//       fs.readFile(usersFilePath, 'utf8', (err, data) => {
-//           if (err) {
-//               console.error('Error reading users file:', err);
-//               return res.status(500).json({ message: 'Error al leer los datos de usuarios.' });
-//           }
-
-//           try {
-//               const users = JSON.parse(data);
-//               const user = users.find(user => user.username === username);
-
-//               if (!user) {
-//                   return res.status(404).json({ message: 'Usuario no encontrado.' });
-//               }
-
-//               // Generate the invoice PDF
-//               generateInvoicePDF(user, cart, Date.now())
-//                   .then(async (filePath) => {
-//                       // Send the invoice email to the user and yourself
-//                       await sendInvoiceEmail(user, filePath);
-//                       res.status(200).json({ message: 'Factura generada y enviada correctamente.' });
-//                   })
-//                   .catch(err => {
-//                       console.error('Error generating invoice:', err);
-//                       res.status(500).json({ message: 'Error al generar la factura.' });
-//                   });
-//           } catch (parseError) {
-//               console.error('Error parsing users data:', parseError);
-//               return res.status(500).json({ message: 'Error al procesar los datos de usuarios.' });
-//           }
-//       });
-//   } catch (error) {
-//       console.error('Error processing payment:', error);
-//       res.status(500).json({ message: 'Error al procesar el pago.' });
-//   }
-// });
-
-
-
 // ========================================== //
 // =========== CAMBIO CONTRASEÑA =========== //
 // ======================================== //
@@ -412,36 +349,34 @@ const fsP = require('fs').promises;
 const usersFilePath = path.join(__dirname, '../data/users/users.json');
 
 app.post('/auth/reset-password', verifyToken, async (req, res) => {
-  console.log(req.body);
   const { currentPassword, newPassword } = req.body;
-  const userId = req.user.id;
+  const username = req.user.username; // Extracted from the token
 
   try {
       const data = await fsP.readFile(usersFilePath, 'utf-8');
       const users = JSON.parse(data);
-      const user = users.find(user => user.id === userId);
+      const user = users.find(user => user.username.toLowerCase() === username.toLowerCase());
 
       if (!user) return res.json({ message: "User not found." });
 
       if (!user.password || !currentPassword) {
           console.log("Either current password or stored hashed password is missing.");
-          // return res.json({ message: "Current password is required." });
+          return res.json({ message: "Error! Contraseña actual vacía." });
       }
 
-      // Use compareSync for synchronous comparison
       const isMatch = bcrypt.compareSync(currentPassword, user.password);
-      console.log("Password matched ::", isMatch);
-      if (!isMatch) return res.json({ message: "Contraseña actual incorrecta." });
+      if (!isMatch) return res.json({ message: "Error! Contraseña actual incorrecta." });
 
-      const hashedNewPassword = bcrypt.hashSync(newPassword, 10); // Use hashSync here as well
+      const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
       user.password = hashedNewPassword;
 
       await fsP.writeFile(usersFilePath, JSON.stringify(users, null, 2));
-      res.json({ message: "Contraseña actualizada correctamente!" });
+      res.json({ message: "Exito! Contraseña actualizada correctamente!" });
   } catch (error) {
       console.error("Error updating password:", error); 
-      res.status(500).json({ message: "No se ha podido actualizar tu contraseña..." });
+      res.status(500).json({ message: "Error! No se ha podido actualizar tu contraseña." });
   }
 });
+
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));

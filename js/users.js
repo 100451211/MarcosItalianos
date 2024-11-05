@@ -136,20 +136,20 @@ async function createUser(userData) {
 
 // Example usage
 const userData = {
-    name: "Celia",
-    surname: "Cobos De Castro",
+    name: "María",
+    surname: "Tapia Costa",
     email: "mariatapiacosta@gmail.com",
     username: "",
     password: "",
     phone: "",
     language: "",
     profilePicture: "",
-    street: "Calle de Manuela Silvela",
-    street_num: "",
-    postal_code: "47014",
-    city: "Valladolid",
-    country: "ESPAÑA",
-    cif:"71174737H",
+    street: "Calle de García Muñoz",
+    street_num: "13",
+    postal_code: "28014",
+    city: "Madrid",
+    country: "España",
+    cif:"12345678F",
 };
 
 createUser(userData)

@@ -1,3 +1,5 @@
+const { localservices } = require("googleapis/build/src/apis/localservices");
+
 // Function to open the pop-up with a message and an optional redirect
 function showPopup(message, redirect = null, duration = 1500) { // Duration in milliseconds
   const popup = document.getElementById('popup');
@@ -49,7 +51,7 @@ async function loadUserData() {
 
 // Populate fields with user data or default values
 function populateUserFields(userData) {
-  document.getElementById('name').value = userData.name + userData.surname || 'Nombre Apellido';
+  document.getElementById('name').value = userData.name + ' '+ userData.surname || 'Nombre Apellido';
   document.getElementById('email').value = userData.email || 'nombre@example.com';
   document.getElementById('phone').value = userData.phone || '';
   document.getElementById('language').value = userData.language || 'es';
@@ -76,9 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
 // ========================================== //
 // ============= CAMBIO CONTRASEÑA ========== //
 // ========================================== //
+
 document.getElementById('update-password-btn').addEventListener('click', async () => {
   const currentPassword = document.getElementById('current-password').value;
   const newPassword = document.getElementById('new-password').value;
+
+  // Function to get the value of a specific cookie by name
+  function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return '';
+  }
+
+  // Retrieve the token from cookies
+  const token = getCookie('token');
+  console.log(token, "::token");
 
   if (!currentPassword || !newPassword) {
       showPopup("Rellenar campos obligatorios para el cambio de contraseña!");
@@ -90,26 +105,60 @@ document.getElementById('update-password-btn').addEventListener('click', async (
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer your_jwt_token' // Replace with actual token if used
+              'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ currentPassword, newPassword })
+          body: JSON.stringify({ currentPassword, newPassword }) // Needs userId to identify user in api call
       });
 
       const result = await response.json();
       showPopup(result.message);
 
       if (result.message === 'Contraseña actual incorrecta.') {
-        // Clear only the current password if the current password was wrong
-        document.getElementById('current-password').value = '';
+          document.getElementById('current-password').value = '';
       } else if (response.ok) {
-        // Clear both inputs on successful password change
-        document.getElementById('current-password').value = '';
-        document.getElementById('new-password').value = '';
+          document.getElementById('current-password').value = '';
+          document.getElementById('new-password').value = '';
       }
   } catch (error) {
       showPopup("Error updating password.");
   }
 });
+
+
+// document.getElementById('update-password-btn').addEventListener('click', async () => {
+//   const currentPassword = document.getElementById('current-password').value;
+//   const newPassword = document.getElementById('new-password').value;
+
+//   if (!currentPassword || !newPassword) {
+//       showPopup("Rellenar campos obligatorios para el cambio de contraseña!");
+//       return;
+//   }
+
+//   try {
+//       const response = await fetch('/auth/reset-password', {
+//           method: 'POST',
+//           headers: {
+//               'Content-Type': 'application/json',
+//               'Authorization': 'Bearer your_jwt_token' // Replace with actual token if used
+//           },
+//           body: JSON.stringify({ currentPassword, newPassword })
+//       });
+
+//       const result = await response.json();
+//       showPopup(result.message);
+
+//       if (result.message === 'Contraseña actual incorrecta.') {
+//         // Clear only the current password if the current password was wrong
+//         document.getElementById('current-password').value = '';
+//       } else if (response.ok) {
+//         // Clear both inputs on successful password change
+//         document.getElementById('current-password').value = '';
+//         document.getElementById('new-password').value = '';
+//       }
+//   } catch (error) {
+//       showPopup("Error updating password.");
+//   }
+// });
 
 // ========================================== //
 // ============== CERRAR SESION ============= //

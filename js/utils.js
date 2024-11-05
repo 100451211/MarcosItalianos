@@ -524,7 +524,7 @@ async function viewCart() {
         if (data.cart.length === 0) {
             cartItemsContainer.innerHTML = "<p>Tu carrito está vacío.</p>";
             document.getElementById('cart-count').textContent = '0';
-            document.getElementById('total-amount').textContent = "€0.00";  // Set total to zero if cart is empty
+            document.getElementById('total-amount').textContent = "0.00€";  // Set total to zero if cart is empty
             return;
         }
 
@@ -604,9 +604,5 @@ document.getElementsByClassName('checkout-button')[0].addEventListener('click', 
         showPopup('There was an error processing your checkout. Please try again.');
     }
 });
-
-
-
-
 
 document.addEventListener('DOMContentLoaded', checkCartStatus);

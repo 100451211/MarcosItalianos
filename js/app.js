@@ -256,11 +256,11 @@ app.get('/cart/view', verifyToken, async (req, res) => {
         res.json({ cart: cartWithImages });
       } catch (error) {
           console.error("Error fetching cart with images:", error);
-          res.status(500).json({ success: false, message: 'Failed to fetch cart' });
+          res.status(500).json({ success: false, message: 'Error al recuperar el carrito.' });
       }
     } else {
       console.warn(`Unauthenticated user attempted to view cart.`);
-      res.status(401).json({ success: false, message: 'Unauthenticated user attempted to view cart.' });
+      res.status(401).json({ success: false, message: 'Acceso indebido al carrito.' });
     }
 });
 

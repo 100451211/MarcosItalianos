@@ -232,6 +232,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // ========================================== //
+// ============ POP-UP MESSAGES ============= //
+// ========================================== //
+
+// Function to open the pop-up with a message, an emoji, and an optional redirect
+function showPopup(message, redirect = null, duration = 3000) { // Duration in milliseconds
+    const popup = document.getElementById('popup');
+    const popupMessage = document.getElementById('popup-message');
+    const popupEmoji = document.getElementById('popup-emoji');
+    const popupClose = document.getElementById('popup-close');
+
+    // Determine emoji based on the type of message
+    let emoji = '';
+    if (message.toLowerCase().includes('error')) {
+        emoji = '❌'; // Error emoji
+    } else if (message.toLowerCase().includes('success') || message.toLowerCase().includes('completed')) {
+        emoji = '✅'; // Success emoji
+    } else if (message.toLowerCase().includes('warning')) {
+        emoji = '⚠️'; // Warning emoji
+    } else {
+        emoji = 'ℹ️'; // Default info emoji
+    }
+
+    popupEmoji.textContent = emoji;
+    popupMessage.textContent = message;
+    popup.style.display = 'block';
+
+    // Add event listener to close button
+    popupClose.onclick = closePopup;
+
+
+    // Close the pop-up automatically after the specified duration
+    setTimeout(() => {
+        closePopup();
+        if (redirect) {
+            window.location.href = redirect;
+        }
+    }, duration);
+}
+  
+// Function to close the pop-up
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+}
+
+// ========================================== //
 // ======== INICIAR SESION / PERFIL ========= //
 // ========================================== //
 
@@ -535,7 +580,7 @@ document.getElementsByClassName('checkout-button')[0].addEventListener('click', 
         console.log('Processed cart data (IDs and quantities only):', JSON.stringify(cart, null, 2));
 
         if (!cart.length) {
-            alert('Cart is empty.');
+            showPopup('Cart is empty.');
             return;
         }
 
@@ -549,16 +594,17 @@ document.getElementsByClassName('checkout-button')[0].addEventListener('click', 
         const result = await paymentResponse.json();
 
         if (paymentResponse.ok) {
-            alert(result.message);
+            showPopup(result.message);
         } else {
             console.error('Server error:', result.message);
-            alert('Error during checkout: ' + result.message);
+            showPopup('Error during checkout: ' + result.message);
         }
     } catch (error) {
         console.error('Error during checkout:', error);
-        alert('There was an error processing your checkout. Please try again.');
+        showPopup('There was an error processing your checkout. Please try again.');
     }
 });
+
 
 
 

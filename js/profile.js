@@ -125,41 +125,6 @@ document.getElementById('update-password-btn').addEventListener('click', async (
 });
 
 
-// document.getElementById('update-password-btn').addEventListener('click', async () => {
-//   const currentPassword = document.getElementById('current-password').value;
-//   const newPassword = document.getElementById('new-password').value;
-
-//   if (!currentPassword || !newPassword) {
-//       showPopup("Rellenar campos obligatorios para el cambio de contraseña!");
-//       return;
-//   }
-
-//   try {
-//       const response = await fetch('/auth/reset-password', {
-//           method: 'POST',
-//           headers: {
-//               'Content-Type': 'application/json',
-//               'Authorization': 'Bearer your_jwt_token' // Replace with actual token if used
-//           },
-//           body: JSON.stringify({ currentPassword, newPassword })
-//       });
-
-//       const result = await response.json();
-//       showPopup(result.message);
-
-//       if (result.message === 'Contraseña actual incorrecta.') {
-//         // Clear only the current password if the current password was wrong
-//         document.getElementById('current-password').value = '';
-//       } else if (response.ok) {
-//         // Clear both inputs on successful password change
-//         document.getElementById('current-password').value = '';
-//         document.getElementById('new-password').value = '';
-//       }
-//   } catch (error) {
-//       showPopup("Error updating password.");
-//   }
-// });
-
 // ========================================== //
 // ============== CERRAR SESION ============= //
 // ========================================== //

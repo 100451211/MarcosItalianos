@@ -287,6 +287,7 @@ async function checkAuthStatus() {
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'  // Include cookies in the request
         });
+        console.log("check/auth - Response:", response);
         const data = await response.json();
         console.log("check/auth - Authenticated:", data.authenticated);
         return data.authenticated;
@@ -345,11 +346,11 @@ async function updateUserDropdown() {
     if (isAuthenticated) {
         // Change to "Perfil" if authenticated
         sideMenuAuthLink.textContent = 'Perfil';
-        sideMenuAuthLink.href = 'profile.html'; // Redirect to profile page
+        sideMenuAuthLink.href = '../profile.html'; // Redirect to profile page
     } else {
         // Change back to "Inicia sesión" if not authenticated
         sideMenuAuthLink.textContent = 'Inicia sesión';
-        sideMenuAuthLink.href = 'login.html'; // Redirect to login page
+        sideMenuAuthLink.href = '../login.html'; // Redirect to login page
     }
 }
 
@@ -382,7 +383,6 @@ async function globalAddToCart(productId, quantity) {
         const isAuthenticated = await checkAuthStatus();
         if (!isAuthenticated) {
             showPopup("Error!\nInicia sesión para añadir artículos al carrito.");
-            // window.location.href = '../login.html';
             return;
         }
 
@@ -414,6 +414,7 @@ async function globalAddToCart(productId, quantity) {
 
 // Function to show the cart icon
 function showCartIcon() {
+    console.log("showCartIcon");
     // Check if the cart icon is already present
     if (!document.querySelector('.cart-icon-container')) {
         // Add the cart icon to a specific part of the header
@@ -435,6 +436,7 @@ function hideCartIcon() {
 
 // Check if there are items in the cart and update the icon visibility accordingly
 async function checkCartStatus() {
+    console.log("checkCartStatus");
     try {
         const response = await fetch('/cart/view', {
             method: 'GET',
@@ -447,6 +449,7 @@ async function checkCartStatus() {
 
         const data = await response.json();
         const itemCount = data.cart.length; // Get number of distinct items in the cart
+        console.log('itemCount', itemCount);
 
         // Show or hide cart icon based on whether there are items in the cart
         if (itemCount > 0) {
@@ -463,6 +466,7 @@ async function checkCartStatus() {
 
 // Function to update the cart count badge
 function updateCartCount(count) {
+    console.log("updateCartCount");
     const cartCountElement = document.getElementById('cart-count');
     if (cartCountElement) {
         cartCountElement.textContent = count;
@@ -529,12 +533,10 @@ async function viewCart() {
 
         // Update cart count to show the number of distinct products
         const distinctItemCount = data.cart.length;  // Number of unique products in the cart
-        // console.log("cart length ::", distinctItemCount);
         document.getElementById('cart-count').textContent = data.cart.length;
 
         // Calculate total amount
         const totalAmount = data.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        // console.log("Total amount:", totalAmount);
 
         // Render cart items with image and delete icon
         cartItemsContainer.innerHTML = data.cart.map(item => `
@@ -606,3 +608,8 @@ document.getElementsByClassName('checkout-button')[0].addEventListener('click', 
 });
 
 document.addEventListener('DOMContentLoaded', checkCartStatus);
+
+window.addEventListener('beforeunload', () => {
+    // This will execute when the user closes the tab or navigates away from the page
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  });

@@ -60,8 +60,9 @@ app.post('/auth/login', (req, res) => {
   });
 });
 
+
 function verifyToken(req, res, next) {
-  const token = req.headers['authorization']?.split(' ')[1];
+  const token = req.cookies.token;
 
   if (!token) {
     req.isAuthenticated = false;
@@ -70,8 +71,9 @@ function verifyToken(req, res, next) {
 
   try {
     const verified = jwt.verify(token, secretKey);
-    req.user = { username: verified.username }; // Set only the username
+    req.user = { username: verified.username };
     req.isAuthenticated = true;
+    console.log("Authenticated User:", req.user.username); // Log the username for each request
     next();
   } catch (error) {
     console.error("Token verification failed:", error);
@@ -80,9 +82,32 @@ function verifyToken(req, res, next) {
   }
 }
 
+// function verifyToken(req, res, next) {
+//   const token = req.headers['authorization']?.split(' ')[1];
+
+//   if (!token) {
+//     req.isAuthenticated = false;
+//     return next();
+//   }
+
+//   try {
+//     const verified = jwt.verify(token, secretKey);
+//     req.user = { username: verified.username }; // Set only the username
+//     req.isAuthenticated = true;
+//     next();
+//   } catch (error) {
+//     console.error("Token verification failed:", error);
+//     req.isAuthenticated = false;
+//     next();
+//   }
+// }
+
 // Verify user's authentication status
+
+
 app.get('/auth/check-auth', verifyToken, (req, res) => {
   if (req.isAuthenticated) {
+    // console.log("check/auth - request:", req);
     res.json({ authenticated: true, message: 'Usuario autenticado :)' });
   } else {
     res.json({ authenticated: false, message: 'Usuario no autenticado.' });
@@ -155,38 +180,51 @@ app.get('/api/get-user', verifyToken, (req, res) => {
 // =========== AÑADIR AL CARRITO ============ //
 // ========================================== //
 
-function addProductToUserCart(userId, productId, quantity) {
+function addProductToUserCart(username, productId, quantity) {
+  console.log("Adding product to user cart:", username, productId, quantity);
+  
   // Ensure the user has a cart initialized
-  if (!userCarts[userId]) {
-      userCarts[userId] = [];
+  if (!userCarts[username]) {
+      userCarts[username] = []; // Create a cart array for each user
   }
 
   // Check if the product is already in the cart
-  const existingCartItem = userCarts[userId].find(item => item.productId === productId);
+  const existingCartItem = userCarts[username].find(item => item.productId === productId);
 
   if (existingCartItem) {
       // If the product is already in the cart, increase the quantity
       existingCartItem.quantity += quantity;
   } else {
       // If not, add a new item to the cart
-      userCarts[userId].push({ productId, quantity });
+      userCarts[username].push({ productId, quantity });
   }
 
+  console.log("Updated userCarts after add:", JSON.stringify(userCarts, null, 2)); // Log entire structure
   return { success: true };
 }
 
 // Add to cart endpoint
 app.post('/cart/add', verifyToken, (req, res) => {
-  console.log("Received add-to-cart request", req.body);
-  const { productId, quantity } = req.body;
-  const userId = req.user.id;
+  if (!req.isAuthenticated) {
+    return res.status(401).json({ message: 'User not authenticated' });
+  }
+
+  const username = req.user.username;
+  console.log("Adding items to cart for user:", username);
+
+  const cartItems = Array.isArray(req.body) ? req.body : [req.body];
 
   try {
-    addProductToUserCart(userId, productId, quantity);
-    res.json({ success: true });
+    cartItems.forEach(item => {
+      const { productId, quantity } = item;
+      addProductToUserCart(username, productId, quantity);
+    });
+
+    console.log("Final userCarts structure after /cart/add:", JSON.stringify(userCarts, null, 2));
+    res.json({ success: true, message: 'Products added to cart successfully' });
   } catch (error) {
-      console.error("Error adding to cart:", error);
-      res.status(500).json({ success: false, message: 'Failed to add to cart' });
+    console.error("Error adding to cart:", error);
+    res.status(500).json({ success: false, message: 'Failed to add products to cart' });
   }
 });
 
@@ -222,38 +260,35 @@ async function fetchProductDetails(productId) {
   return null;
 }
 
-
 app.get('/cart/view', verifyToken, async (req, res) => {
-  if (req.user) {
-    const userId = req.user.id;
+  if (req.isAuthenticated) {
+    const username = req.user.username;
+    console.log("Fetching cart for user:", username);
+
+    const userCart = userCarts[username] || []; // Isolate cart by username
+
     try {
-        const userCart = userCarts[userId] || [];
+      const cartWithImages = await Promise.all(userCart.map(async item => {
+        const product = await fetchProductDetails(item.productId);
+        return {
+          ...item,
+          imageUrl: product ? product.imageUrl : '/path/to/default-image.png',
+          price: product ? product.price : '0.00'
+        };
+      }));
 
-        // Fetch product details including image URL
-        const cartWithImages = await Promise.all(userCart.map(async item => {
-            const product = await fetchProductDetails(item.productId);
-            if (!product) {
-                showPopup("Error!\nProducto no encontrado.");
-                console.warn(`Product details not found for product ID: ${item.productId}`);
-            }
-
-            return {
-                ...item,
-                imageUrl: product ? product.imageUrl : '/path/to/default-image.png',  // Use default image if not found
-                price: product ? product.price : '0.00'  // Use default price if not found
-            };
-        }));
-
-        res.json({ cart: cartWithImages });
-      } catch (error) {
-          console.error("Error fetching cart with images:", error);
-          res.status(500).json({ success: false, message: 'Error al recuperar el carrito.' });
-      }
-    } else {
-      console.warn(`Unauthenticated user attempted to view cart.`);
-      res.status(401).json({ success: false, message: 'Error!\nAcceso indebido al carrito.' });
+      console.log("Cart returned for user", username, ":", JSON.stringify(cartWithImages, null, 2));
+      res.json({ cart: cartWithImages });
+    } catch (error) {
+      console.error("Error fetching cart with images:", error);
+      res.status(500).json({ success: false, message: 'Error retrieving cart.' });
     }
+  } else {
+    console.warn("Unauthenticated user attempted to view cart.");
+    res.status(401).json({ success: false, message: 'Access denied to cart.' });
+  }
 });
+
 
 app.post('/cart/remove', verifyToken, (req, res) => {
   console.log("Received remove-cart request", req.body);

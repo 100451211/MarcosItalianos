@@ -181,8 +181,6 @@ app.get('/api/get-user', verifyToken, (req, res) => {
 // ========================================== //
 
 function addProductToUserCart(username, productId, quantity) {
-  console.log("Adding product to user cart:", username, productId, quantity);
-  
   // Ensure the user has a cart initialized
   if (!userCarts[username]) {
       userCarts[username] = []; // Create a cart array for each user
@@ -198,8 +196,6 @@ function addProductToUserCart(username, productId, quantity) {
       // If not, add a new item to the cart
       userCarts[username].push({ productId, quantity });
   }
-
-  console.log("Updated userCarts after add:", JSON.stringify(userCarts, null, 2)); // Log entire structure
   return { success: true };
 }
 

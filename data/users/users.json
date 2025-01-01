@@ -14,21 +14,5 @@
     "country": "ESPAÑA",
     "cif": "71174737H",
     "password": "$2a$10$walt5nU6zOcGPxMqwkhHXe9p2MV0yGrbS9zZy8uNgq24u.dCKNX86"
-  },
-  {
-    "name": "María",
-    "surname": "Tapia Costa",
-    "email": "mariatapiacosta@gmail.com",
-    "username": "maria.tapia.costa",
-    "phone": "",
-    "language": "",
-    "profilePicture": "",
-    "street": "Calle de García Muñoz",
-    "street_num": "13",
-    "postal_code": "28014",
-    "city": "Madrid",
-    "country": "España",
-    "cif": "12345678F",
-    "password": "$2a$10$IdYthNRtf7MAPf41HutVeeClpS4kzTD2l06EzCViK6TRQAi19js/."
   }
 ]

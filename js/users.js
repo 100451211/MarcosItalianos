@@ -144,12 +144,12 @@ const userData = {
     phone: "",
     language: "",
     profilePicture: "",
-    street: "Calle de García Muñoz",
-    street_num: "13",
-    postal_code: "28014",
-    city: "Madrid",
+    street: "Calle de Manuela Silvela",
+    street_num: "1",
+    postal_code: "47014",
+    city: "Pamplona",
     country: "España",
-    cif:"12345678F",
+    cif:"71174737H",
 };
 
 createUser(userData)

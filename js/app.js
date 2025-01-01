@@ -36,6 +36,7 @@ app.post('/auth/login', (req, res) => {
 
     try {
       const users = JSON.parse(data);
+      console.log("Users array:", users); // Inspect the structure of users
       const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
 
       if (!user) {
@@ -82,29 +83,7 @@ function verifyToken(req, res, next) {
   }
 }
 
-// function verifyToken(req, res, next) {
-//   const token = req.headers['authorization']?.split(' ')[1];
-
-//   if (!token) {
-//     req.isAuthenticated = false;
-//     return next();
-//   }
-
-//   try {
-//     const verified = jwt.verify(token, secretKey);
-//     req.user = { username: verified.username }; // Set only the username
-//     req.isAuthenticated = true;
-//     next();
-//   } catch (error) {
-//     console.error("Token verification failed:", error);
-//     req.isAuthenticated = false;
-//     next();
-//   }
-// }
-
 // Verify user's authentication status
-
-
 app.get('/auth/check-auth', verifyToken, (req, res) => {
   if (req.isAuthenticated) {
     // console.log("check/auth - request:", req);
@@ -259,7 +238,7 @@ async function fetchProductDetails(productId) {
 app.get('/cart/view', verifyToken, async (req, res) => {
   if (req.isAuthenticated) {
     const username = req.user.username;
-    console.log("Fetching cart for user:", username);
+    // console.log("Fetching cart for user:", username);
 
     const userCart = userCarts[username] || []; // Isolate cart by username
 
@@ -410,4 +389,4 @@ app.post('/auth/reset-password', verifyToken, async (req, res) => {
 });
 
 
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+app.listen(8000, () => console.log('Server running on http://localhost:8000'));

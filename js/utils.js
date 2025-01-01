@@ -278,6 +278,12 @@ function closePopup() {
 // ========================================== //
 // ======== INICIAR SESION / PERFIL ========= //
 // ========================================== //
+// Helper function to get a specific cookie by name
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
 // Function to check if the user is authenticated
 async function checkAuthStatus() {
@@ -287,9 +293,17 @@ async function checkAuthStatus() {
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'  // Include cookies in the request
         });
+        console.log("Cookies:", document.cookie);
         console.log("check/auth - Response:", response);
         const data = await response.json();
         console.log("check/auth - Authenticated:", data.authenticated);
+
+        const token = getCookie('token');
+        console.log("check/auth - Token:", token);
+            if (token) {
+                const decodedToken = jwt_decode(token);
+                console.log("Authenticated Username:", decodedToken.username);
+            }
         return data.authenticated;
     } catch (error) {
         console.error('Error checking authentication:', error);

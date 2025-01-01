@@ -1,5 +1,3 @@
-const { localservices } = require("googleapis/build/src/apis/localservices");
-
 // Function to open the pop-up with a message and an optional redirect
 function showPopup(message, redirect = null, duration = 1500) { // Duration in milliseconds
   const popup = document.getElementById('popup');
@@ -25,6 +23,7 @@ function closePopup() {
 // ========================================== //
 // Fetch user data from the backend
 async function loadUserData() {
+  console.log('calling GET /api/get-user');
   try {
     const response = await fetch('/api/get-user', {
       method: 'GET',
@@ -35,8 +34,10 @@ async function loadUserData() {
     });
 
     const userData = await response.json();
+    console.log('userData ::', userData);
 
     if (response.ok) {
+      console.log('response.ok');
       // Populate fields with user data
       populateUserFields(userData);
     } else {
@@ -70,6 +71,7 @@ function populateUserFields(userData) {
 
 // Load user data on page load
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('calling loadUserData...');
   loadUserData();
 });
 
@@ -159,3 +161,5 @@ document.getElementById('logout-link').addEventListener('click', async (event) =
   }
 });
 
+
+document.addEventListener('DOMContentLoaded', loadUserData);
